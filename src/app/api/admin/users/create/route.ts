@@ -10,8 +10,9 @@ const createUserSchema = z.object({
   email: z.string().email('Invalid email address'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
   phone: z.string().optional(),
-  role: z.enum(['user', 'admin']).default('user'),
-  status: z.enum(['active', 'banned']).default('active')
+  role: z.enum(['user', 'admin', 'collaborator', 'content-creator']).default('collaborator'),
+  status: z.enum(['active', 'banned', 'pending']).default('pending'),
+  permissions: z.array(z.string()).optional().default([])
 })
 
 export async function POST(request: NextRequest) {
@@ -42,7 +43,8 @@ export async function POST(request: NextRequest) {
     // Create user
     const user = await User.create({
       ...validatedData,
-      password: hashedPassword
+      password: hashedPassword,
+      createdBy: admin.id
     })
     
     // Return user data (without password)
@@ -62,15 +64,16 @@ export async function POST(request: NextRequest) {
       data: userData
     }, { status: 201 })
     
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('User creation error:', error)
     
-    if (error.name === 'ZodError') {
+    if (error instanceof Error && error.name === 'ZodError') {
+      const zodError = error as any
       return NextResponse.json(
         { 
           success: false, 
           message: 'Validation failed',
-          errors: error.errors.map((err: any) => ({
+          errors: zodError.errors.map((err: any) => ({
             field: err.path.join('.'),
             message: err.message
           }))
@@ -79,7 +82,7 @@ export async function POST(request: NextRequest) {
       )
     }
     
-    if (error.code === 11000) {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 11000) {
       return NextResponse.json(
         { success: false, message: 'User with this email already exists' },
         { status: 400 }

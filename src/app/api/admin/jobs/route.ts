@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
+import mongoose from 'mongoose'
 import dbConnect from '@/lib/db/mongodb'
+import User from '@/lib/models/User.model'
 import Job from '@/lib/models/Job.model'
 import { verifyAdminTokenFromRequest } from '@/lib/middleware/adminAuth'
-import { paginationSchema } from '@/lib/utils/validation'
 
 export async function GET(request: NextRequest) {
   try {
@@ -14,6 +15,11 @@ export async function GET(request: NextRequest) {
 
     await dbConnect()
 
+    // Ensure User model is registered
+    if (!mongoose.models.User) {
+      mongoose.model('User', User.schema)
+    }
+
     const { searchParams } = new URL(request.url)
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '10')
@@ -21,6 +27,7 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get('search') || ''
 
     // Build query
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const query: any = {}
     if (status) {
       query.status = status

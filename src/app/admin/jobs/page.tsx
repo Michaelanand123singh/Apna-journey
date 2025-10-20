@@ -23,7 +23,7 @@ interface Job {
   location: string
   jobType: string
   salary: string
-  status: 'pending' | 'active' | 'rejected' | 'expired'
+  status: 'pending' | 'approved' | 'rejected'
   postedBy: {
     name: string
     email: string
@@ -115,14 +115,12 @@ export default function AdminJobsPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active':
+      case 'approved':
         return 'bg-green-100 text-green-800'
       case 'pending':
         return 'bg-yellow-100 text-yellow-800'
       case 'rejected':
         return 'bg-red-100 text-red-800'
-      case 'expired':
-        return 'bg-gray-100 text-gray-800'
       default:
         return 'bg-gray-100 text-gray-800'
     }
@@ -130,14 +128,12 @@ export default function AdminJobsPage() {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'active':
+      case 'approved':
         return CheckCircle
       case 'pending':
         return Clock
       case 'rejected':
         return XCircle
-      case 'expired':
-        return Clock
       default:
         return Clock
     }
@@ -197,9 +193,8 @@ export default function AdminJobsPage() {
             >
               <option value="">All Status</option>
               <option value="pending">Pending</option>
-              <option value="active">Active</option>
+              <option value="approved">Approved</option>
               <option value="rejected">Rejected</option>
-              <option value="expired">Expired</option>
             </select>
           </div>
         </div>
@@ -251,7 +246,7 @@ export default function AdminJobsPage() {
                     {job.status === 'pending' && (
                       <>
                         <button
-                          onClick={() => updateJobStatus(job._id, 'active')}
+                          onClick={() => updateJobStatus(job._id, 'approved')}
                           className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors flex items-center"
                         >
                           <CheckCircle className="w-4 h-4 mr-1" />

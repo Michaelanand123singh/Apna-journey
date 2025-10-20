@@ -15,6 +15,9 @@ import {
   Tag,
   Globe
 } from 'lucide-react'
+import { TableLoader } from '@/components/shared/PageLoader'
+import LoadingButton from '@/components/shared/LoadingButton'
+import { useLoading } from '@/hooks/useLoading'
 
 interface NewsArticle {
   _id: string
@@ -37,6 +40,7 @@ interface NewsArticle {
 
 export default function AdminNewsPage() {
   const router = useRouter()
+  const { isLoading: deletingArticle, withLoading } = useLoading()
   const [articles, setArticles] = useState<NewsArticle[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
@@ -97,25 +101,27 @@ export default function AdminNewsPage() {
       return
     }
 
-    try {
-      const token = localStorage.getItem('adminToken')
-      
-      const response = await fetch(`/api/admin/news/${articleId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
+    await withLoading('deleteArticle', async () => {
+      try {
+        const token = localStorage.getItem('adminToken')
+        
+        const response = await fetch(`/api/admin/news/${articleId}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
 
-      if (response.ok) {
-        const data = await response.json()
-        if (data.success) {
-          fetchArticles() // Refresh the list
+        if (response.ok) {
+          const data = await response.json()
+          if (data.success) {
+            fetchArticles() // Refresh the list
+          }
         }
+      } catch (error) {
+        console.error('Error deleting article:', error)
       }
-    } catch (error) {
-      console.error('Error deleting article:', error)
-    }
+    })
   }
 
   const getStatusColor = (status: string) => {
@@ -149,16 +155,7 @@ export default function AdminNewsPage() {
       <div className="p-6">
         <div className="animate-pulse">
           <div className="h-8 bg-gray-200 rounded w-1/4 mb-6"></div>
-          <div className="space-y-4">
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="bg-white p-6 rounded-lg shadow">
-                <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-                <div className="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
-                <div className="h-3 bg-gray-200 rounded w-full mb-2"></div>
-                <div className="h-3 bg-gray-200 rounded w-2/3"></div>
-              </div>
-            ))}
-          </div>
+          <TableLoader rows={5} />
         </div>
       </div>
     )
@@ -305,13 +302,15 @@ export default function AdminNewsPage() {
                     <Edit className="w-4 h-4 mr-1" />
                     Edit
                   </Link>
-                  <button
+                  <LoadingButton
                     onClick={() => deleteArticle(article._id)}
-                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors flex items-center"
+                    loading={deletingArticle('deleteArticle')}
+                    variant="danger"
+                    size="sm"
                   >
                     <Trash2 className="w-4 h-4 mr-1" />
                     Delete
-                  </button>
+                  </LoadingButton>
                 </div>
               </div>
             </div>

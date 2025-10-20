@@ -1,21 +1,47 @@
 import { v2 as cloudinary } from 'cloudinary'
 
-// Configure Cloudinary
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-})
+// Configure Cloudinary - Support both URL format and individual variables
+if (process.env.CLOUDINARY_URL) {
+  cloudinary.config()
+} else {
+  cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+  })
+}
 
 class CloudinaryService {
   async uploadImage(file: Buffer | string, folder: string = 'apna-journey') {
     try {
-      const result = await cloudinary.uploader.upload(file as string, {
-        folder,
-        resource_type: 'auto',
-        quality: 'auto',
-        fetch_format: 'auto',
-      })
+      let result: any
+
+      if (Buffer.isBuffer(file)) {
+        // Use upload_stream for Buffer data
+        result = await new Promise((resolve, reject) => {
+          const uploadStream = cloudinary.uploader.upload_stream(
+            {
+              folder,
+              resource_type: 'auto',
+              quality: 'auto',
+              fetch_format: 'auto',
+            },
+            (error, result) => {
+              if (error) reject(error)
+              else resolve(result)
+            }
+          )
+          uploadStream.end(file)
+        })
+      } else {
+        // Use regular upload for string URLs
+        result = await cloudinary.uploader.upload(file, {
+          folder,
+          resource_type: 'auto',
+          quality: 'auto',
+          fetch_format: 'auto',
+        })
+      }
 
       return {
         success: true,

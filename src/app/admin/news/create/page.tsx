@@ -8,9 +8,13 @@ import {
   ArrowLeft,
   Upload,
   X,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Loader2,
+  CheckCircle,
+  AlertCircle
 } from 'lucide-react'
 import { NEWS_CATEGORIES } from '@/lib/constants/categories'
+import LoadingButton from '@/components/shared/LoadingButton'
 
 export default function CreateNewsPage() {
   const router = useRouter()
@@ -31,6 +35,13 @@ export default function CreateNewsPage() {
   })
   const [tagInput, setTagInput] = useState('')
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [imageUpload, setImageUpload] = useState({
+    uploading: false,
+    uploaded: false,
+    error: '',
+    preview: '',
+    file: null as File | null
+  })
 
   useEffect(() => {
     checkAuth()
@@ -80,21 +91,173 @@ export default function CreateNewsPage() {
     }
   }
 
+  const handleImageUpload = async (file: File) => {
+    setImageUpload(prev => ({ ...prev, uploading: true, error: '' }))
+
+    try {
+      const formData = new FormData()
+      formData.append('image', file)
+      formData.append('folder', 'apna-journey/news')
+
+      const token = localStorage.getItem('adminToken')
+      const response = await fetch('/api/upload/image', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: formData
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        setFormData(prev => ({ ...prev, featuredImage: data.data.url }))
+        setImageUpload({
+          uploading: false,
+          uploaded: true,
+          error: '',
+          preview: data.data.url,
+          file
+        })
+      } else {
+        setImageUpload(prev => ({
+          ...prev,
+          uploading: false,
+          error: data.message || 'Upload failed'
+        }))
+      }
+    } catch (error) {
+      console.error('Error uploading image:', error)
+      setImageUpload(prev => ({
+        ...prev,
+        uploading: false,
+        error: 'Upload failed. Please try again.'
+      }))
+    }
+  }
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      // Validate file type
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp']
+      if (!allowedTypes.includes(file.type)) {
+        setImageUpload(prev => ({
+          ...prev,
+          error: 'Invalid file type. Only JPEG, PNG, and WebP are allowed.'
+        }))
+        return
+      }
+
+      // Validate file size (5MB max)
+      const maxSize = 5 * 1024 * 1024 // 5MB
+      if (file.size > maxSize) {
+        setImageUpload(prev => ({
+          ...prev,
+          error: 'File size too large. Maximum size is 5MB.'
+        }))
+        return
+      }
+
+      // Create preview
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        setImageUpload(prev => ({
+          ...prev,
+          preview: e.target?.result as string,
+          file
+        }))
+      }
+      reader.readAsDataURL(file)
+
+      // Upload the file
+      handleImageUpload(file)
+    }
+  }
+
+  const handleImageUrlUpload = async () => {
+    if (!formData.featuredImage) return
+
+    setImageUpload(prev => ({ ...prev, uploading: true, error: '' }))
+
+    try {
+      const token = localStorage.getItem('adminToken')
+      const response = await fetch('/api/upload/image', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          imageUrl: formData.featuredImage,
+          folder: 'apna-journey/news'
+        })
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        setFormData(prev => ({ ...prev, featuredImage: data.data.url }))
+        setImageUpload(prev => ({
+          ...prev,
+          uploading: false,
+          uploaded: true,
+          error: '',
+          preview: data.data.url
+        }))
+      } else {
+        setImageUpload(prev => ({
+          ...prev,
+          uploading: false,
+          error: data.message || 'Upload failed'
+        }))
+      }
+    } catch (error) {
+      console.error('Error uploading image from URL:', error)
+      setImageUpload(prev => ({
+        ...prev,
+        uploading: false,
+        error: 'Upload failed. Please try again.'
+      }))
+    }
+  }
+
+  const removeImage = () => {
+    setFormData(prev => ({ ...prev, featuredImage: '' }))
+    setImageUpload({
+      uploading: false,
+      uploaded: false,
+      error: '',
+      preview: '',
+      file: null
+    })
+  }
+
   const validateForm = () => {
     const newErrors: Record<string, string> = {}
 
     if (!formData.title.trim()) {
       newErrors.title = 'Title is required'
+    } else if (formData.title.trim().length < 10) {
+      newErrors.title = 'Title must be at least 10 characters'
     }
+    
     if (!formData.excerpt.trim()) {
       newErrors.excerpt = 'Excerpt is required'
+    } else if (formData.excerpt.trim().length < 20) {
+      newErrors.excerpt = 'Excerpt must be at least 20 characters'
     }
+    
     if (!formData.content.trim()) {
       newErrors.content = 'Content is required'
+    } else if (formData.content.trim().length < 50) {
+      newErrors.content = 'Content must be at least 50 characters'
     }
+    
     if (!formData.category) {
       newErrors.category = 'Category is required'
     }
+    
     if (!formData.featuredImage.trim()) {
       newErrors.featuredImage = 'Featured image is required'
     }
@@ -128,10 +291,19 @@ export default function CreateNewsPage() {
         if (data.success) {
           router.push('/admin/news')
         } else {
-          setErrors({ submit: data.message || 'Failed to create article' })
+          if (data.errors) {
+            setErrors(data.errors)
+          } else {
+            setErrors({ submit: data.message || 'Failed to create article' })
+          }
         }
       } else {
-        setErrors({ submit: 'Failed to create article' })
+        const errorData = await response.json()
+        if (errorData.errors) {
+          setErrors(errorData.errors)
+        } else {
+          setErrors({ submit: errorData.message || 'Failed to create article' })
+        }
       }
     } catch (error) {
       console.error('Error creating article:', error)
@@ -245,9 +417,14 @@ export default function CreateNewsPage() {
                   className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
                     errors.title ? 'border-red-500' : 'border-gray-300'
                   }`}
-                  placeholder="Enter article title"
+                  placeholder="Enter article title (minimum 10 characters)"
                 />
-                {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
+                <div className="flex justify-between items-center mt-1">
+                  {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
+                  <p className={`text-sm ${formData.title.length < 10 ? 'text-red-500' : 'text-gray-500'}`}>
+                    {formData.title.length}/200 characters (min: 10)
+                  </p>
+                </div>
               </div>
 
               <div>
@@ -318,31 +495,130 @@ export default function CreateNewsPage() {
 
             <div className="mt-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Featured Image URL *
+                Featured Image *
               </label>
-              <input
-                type="url"
-                name="featuredImage"
-                value={formData.featuredImage}
-                onChange={handleInputChange}
-                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
-                  errors.featuredImage ? 'border-red-500' : 'border-gray-300'
-                }`}
-                placeholder="https://example.com/image.jpg"
-              />
-              {errors.featuredImage && <p className="text-red-500 text-sm mt-1">{errors.featuredImage}</p>}
-              {formData.featuredImage && (
-                <div className="mt-2">
-                  <img
-                    src={formData.featuredImage}
-                    alt="Preview"
-                    className="w-32 h-20 object-cover rounded border"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).style.display = 'none'
-                    }}
+              
+              {/* Upload Methods */}
+              <div className="space-y-4">
+                {/* File Upload */}
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary-500 transition-colors">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileSelect}
+                    className="hidden"
+                    id="image-upload"
+                    disabled={imageUpload.uploading}
                   />
+                  <label
+                    htmlFor="image-upload"
+                    className={`cursor-pointer ${imageUpload.uploading ? 'cursor-not-allowed opacity-50' : ''}`}
+                  >
+                    <div className="flex flex-col items-center">
+                      {imageUpload.uploading ? (
+                        <>
+                          <Loader2 className="w-8 h-8 text-primary-500 animate-spin mb-2" />
+                          <p className="text-sm text-gray-600">Uploading...</p>
+                        </>
+                      ) : imageUpload.uploaded ? (
+                        <>
+                          <CheckCircle className="w-8 h-8 text-green-500 mb-2" />
+                          <p className="text-sm text-green-600">Image uploaded successfully!</p>
+                        </>
+                      ) : (
+                        <>
+                          <Upload className="w-8 h-8 text-gray-400 mb-2" />
+                          <p className="text-sm text-gray-600">
+                            <span className="text-primary-600 font-medium">Click to upload</span> or drag and drop
+                          </p>
+                          <p className="text-xs text-gray-500 mt-1">PNG, JPG, WebP up to 5MB</p>
+                        </>
+                      )}
+                    </div>
+                  </label>
                 </div>
-              )}
+
+                {/* OR Divider */}
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-gray-300" />
+                  </div>
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-2 bg-white text-gray-500">OR</span>
+                  </div>
+                </div>
+
+                {/* URL Upload */}
+                <div className="space-y-2">
+                  <input
+                    type="url"
+                    name="featuredImage"
+                    value={formData.featuredImage}
+                    onChange={handleInputChange}
+                    className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
+                      errors.featuredImage ? 'border-red-500' : 'border-gray-300'
+                    }`}
+                    placeholder="https://example.com/image.jpg"
+                    disabled={imageUpload.uploading}
+                  />
+                  {formData.featuredImage && !imageUpload.uploaded && (
+                    <button
+                      type="button"
+                      onClick={handleImageUrlUpload}
+                      disabled={imageUpload.uploading}
+                      className="w-full px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                    >
+                      {imageUpload.uploading ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                          Uploading...
+                        </>
+                      ) : (
+                        <>
+                          <Upload className="w-4 h-4 mr-2" />
+                          Upload to Cloudinary
+                        </>
+                      )}
+                    </button>
+                  )}
+                </div>
+
+                {/* Error Messages */}
+                {imageUpload.error && (
+                  <div className="flex items-center space-x-2 text-red-600 text-sm">
+                    <AlertCircle className="w-4 h-4" />
+                    <span>{imageUpload.error}</span>
+                  </div>
+                )}
+                {errors.featuredImage && <p className="text-red-500 text-sm">{errors.featuredImage}</p>}
+
+                {/* Image Preview */}
+                {(imageUpload.preview || formData.featuredImage) && (
+                  <div className="relative">
+                    <img
+                      src={imageUpload.preview || formData.featuredImage}
+                      alt="Preview"
+                      className="w-full max-w-md h-48 object-cover rounded-lg border"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none'
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={removeImage}
+                      className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                    {imageUpload.uploaded && (
+                      <div className="absolute bottom-2 left-2 bg-green-500 text-white px-2 py-1 rounded text-xs flex items-center">
+                        <CheckCircle className="w-3 h-3 mr-1" />
+                        Uploaded
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="mt-6">
@@ -357,9 +633,14 @@ export default function CreateNewsPage() {
                 className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
                   errors.excerpt ? 'border-red-500' : 'border-gray-300'
                 }`}
-                placeholder="Brief description of the article"
+                placeholder="Brief description of the article (minimum 20 characters)"
               />
-              {errors.excerpt && <p className="text-red-500 text-sm mt-1">{errors.excerpt}</p>}
+              <div className="flex justify-between items-center mt-1">
+                {errors.excerpt && <p className="text-red-500 text-sm">{errors.excerpt}</p>}
+                <p className={`text-sm ${formData.excerpt.length < 20 ? 'text-red-500' : 'text-gray-500'}`}>
+                  {formData.excerpt.length}/500 characters (min: 20)
+                </p>
+              </div>
             </div>
           </div>
 
@@ -378,9 +659,14 @@ export default function CreateNewsPage() {
                 className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
                   errors.content ? 'border-red-500' : 'border-gray-300'
                 }`}
-                placeholder="Write your article content here..."
+                placeholder="Write your article content here... (minimum 50 characters)"
               />
-              {errors.content && <p className="text-red-500 text-sm mt-1">{errors.content}</p>}
+              <div className="flex justify-between items-center mt-1">
+                {errors.content && <p className="text-red-500 text-sm">{errors.content}</p>}
+                <p className={`text-sm ${formData.content.length < 50 ? 'text-red-500' : 'text-gray-500'}`}>
+                  {formData.content.length} characters (min: 50)
+                </p>
+              </div>
             </div>
           </div>
 
@@ -480,23 +766,14 @@ export default function CreateNewsPage() {
             >
               Cancel
             </button>
-            <button
+            <LoadingButton
               type="submit"
-              disabled={loading}
-              className="px-6 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+              loading={loading}
+              loadingText="Creating..."
             >
-              {loading ? (
-                <>
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                  Creating...
-                </>
-              ) : (
-                <>
-                  <Save className="w-4 h-4 mr-2" />
-                  Create Article
-                </>
-              )}
-            </button>
+              <Save className="w-4 h-4 mr-2" />
+              Create Article
+            </LoadingButton>
           </div>
         </form>
       )}

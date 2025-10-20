@@ -90,9 +90,9 @@ export async function POST(request: NextRequest) {
     } = body
 
     // Validate required fields
-    if (!title || !excerpt || !content || !category) {
+    if (!title || !excerpt || !content || !category || !featuredImage) {
       return NextResponse.json(
-        { success: false, message: 'Title, excerpt, content, and category are required' },
+        { success: false, message: 'Title, excerpt, content, category, and featured image are required' },
         { status: 400 }
       )
     }
@@ -121,8 +121,23 @@ export async function POST(request: NextRequest) {
       data: news
     })
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error creating news article:', error)
+    
+    // Handle Mongoose validation errors
+    if (error.name === 'ValidationError') {
+      const validationErrors: Record<string, string> = {}
+      Object.keys(error.errors).forEach(key => {
+        validationErrors[key] = error.errors[key].message
+      })
+      
+      return NextResponse.json({
+        success: false,
+        message: 'Validation failed',
+        errors: validationErrors
+      }, { status: 400 })
+    }
+    
     return NextResponse.json(
       { success: false, message: 'Internal server error' },
       { status: 500 }

@@ -16,7 +16,7 @@ export default function LatestJobs() {
   const fetchLatestJobs = async () => {
     try {
       setLoading(true)
-      const response = await fetch('/api/jobs?limit=6&status=active')
+      const response = await fetch('/api/jobs?limit=6&status=approved')
       const data = await response.json()
       
       if (data.success) {

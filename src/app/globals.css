@@ -196,3 +196,67 @@ html {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* Background scrolling animations */
+@keyframes scroll {
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+  25% {
+    transform: translateX(-10px) translateY(-5px);
+  }
+  50% {
+    transform: translateX(0) translateY(-10px);
+  }
+  75% {
+    transform: translateX(10px) translateY(-5px);
+  }
+  100% {
+    transform: translateX(0) translateY(0);
+  }
+}
+
+@keyframes scroll-reverse {
+  0% {
+    transform: translateX(0) translateY(0) scale(1.1);
+  }
+  25% {
+    transform: translateX(10px) translateY(5px) scale(1.05);
+  }
+  50% {
+    transform: translateX(0) translateY(10px) scale(1.1);
+  }
+  75% {
+    transform: translateX(-10px) translateY(5px) scale(1.05);
+  }
+  100% {
+    transform: translateX(0) translateY(0) scale(1.1);
+  }
+}
+
+@keyframes scroll-slow {
+  0% {
+    transform: translateX(0) translateY(0) scale(1.2);
+  }
+  33% {
+    transform: translateX(-15px) translateY(-8px) scale(1.15);
+  }
+  66% {
+    transform: translateX(15px) translateY(-12px) scale(1.25);
+  }
+  100% {
+    transform: translateX(0) translateY(0) scale(1.2);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 20s linear infinite;
+}
+
+.animate-scroll-reverse {
+  animation: scroll-reverse 25s linear infinite;
+}
+
+.animate-scroll-slow {
+  animation: scroll-slow 30s linear infinite;
+}

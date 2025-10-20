@@ -4,6 +4,9 @@ import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import JobCard from './JobCard'
 import { Job } from '@/types'
+import { ListLoader } from '@/components/shared/PageLoader'
+import LoadingSpinner from '@/components/shared/LoadingSpinner'
+import LoadingButton from '@/components/shared/LoadingButton'
 
 function JobListContent() {
   const [jobs, setJobs] = useState<Job[]>([])
@@ -50,18 +53,7 @@ function JobListContent() {
   }
 
   if (loading) {
-    return (
-      <div className="space-y-4">
-        {[...Array(6)].map((_, i) => (
-          <div key={i} className="bg-white rounded-lg shadow-sm p-6 animate-pulse">
-            <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-            <div className="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
-            <div className="h-3 bg-gray-200 rounded w-full mb-2"></div>
-            <div className="h-3 bg-gray-200 rounded w-2/3"></div>
-          </div>
-        ))}
-      </div>
-    )
+    return <ListLoader items={6} />
   }
 
   if (error) {
@@ -74,12 +66,13 @@ function JobListContent() {
         </div>
         <h3 className="text-lg font-semibold text-gray-800 mb-2">Error Loading Jobs</h3>
         <p className="text-gray-600 mb-4">{error}</p>
-        <button
+        <LoadingButton
           onClick={fetchJobs}
-          className="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors"
+          loading={loading}
+          loadingText="Retrying..."
         >
           Try Again
-        </button>
+        </LoadingButton>
       </div>
     )
   }
@@ -108,11 +101,11 @@ function JobListContent() {
 
   return (
     <div>
-      <div className="mb-4 flex justify-between items-center">
-        <p className="text-gray-600">
+      <div className="mb-4 flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-2 sm:space-y-0">
+        <p className="text-sm sm:text-base text-gray-600">
           Showing {jobs.length} of {pagination.total} jobs
         </p>
-        <div className="text-sm text-gray-500">
+        <div className="text-xs sm:text-sm text-gray-500">
           Page {pagination.page} of {pagination.pages}
         </div>
       </div>
@@ -125,8 +118,8 @@ function JobListContent() {
 
       {/* Pagination */}
       {pagination.pages > 1 && (
-        <div className="mt-8 flex justify-center">
-          <div className="flex space-x-2">
+        <div className="mt-6 sm:mt-8 flex justify-center">
+          <div className="flex flex-wrap justify-center gap-2">
             {pagination.page > 1 && (
               <button
                 onClick={() => {
@@ -134,7 +127,7 @@ function JobListContent() {
                   params.set('page', (pagination.page - 1).toString())
                   window.location.href = `/jobs?${params.toString()}`
                 }}
-                className="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+                className="px-2 sm:px-3 py-2 text-xs sm:text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
               >
                 Previous
               </button>
@@ -170,7 +163,7 @@ function JobListContent() {
                   params.set('page', (pagination.page + 1).toString())
                   window.location.href = `/jobs?${params.toString()}`
                 }}
-                className="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+                className="px-2 sm:px-3 py-2 text-xs sm:text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
               >
                 Next
               </button>

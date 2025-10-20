@@ -1,7 +1,7 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import Header from '@/components/frontend/layout/Header'
+import RoleBasedNavbar from '@/components/shared/RoleBasedNavbar'
 import Footer from '@/components/frontend/layout/Footer'
 
 interface ConditionalLayoutProps {
@@ -20,7 +20,7 @@ export default function ConditionalLayout({ children }: ConditionalLayoutProps) 
   
   return (
     <>
-      <Header />
+      <RoleBasedNavbar />
       <main className="min-h-screen">
         {children}
       </main>

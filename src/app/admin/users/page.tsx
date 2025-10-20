@@ -5,8 +5,6 @@ import { useRouter } from 'next/navigation'
 import { 
   Users, 
   Search, 
-  Filter, 
-  Eye, 
   UserCheck, 
   UserX, 
   Mail,
@@ -22,8 +20,14 @@ interface User {
   name: string
   email: string
   phone?: string
-  role: 'user' | 'admin'
-  status: 'active' | 'banned'
+  role: 'user' | 'admin' | 'collaborator' | 'content-creator'
+  status: 'active' | 'banned' | 'pending'
+  permissions: string[]
+  createdBy: {
+    _id: string
+    name: string
+  }
+  lastActive: string
   resumeUrl?: string
   createdAt: string
   updatedAt: string
@@ -42,9 +46,14 @@ export default function AdminUsersPage() {
     email: '',
     password: '',
     phone: '',
-    role: 'user' as 'user' | 'admin',
-    status: 'active' as 'active' | 'banned'
+    role: 'collaborator' as 'user' | 'admin' | 'collaborator' | 'content-creator',
+    status: 'pending' as 'active' | 'banned' | 'pending',
+    permissions: [] as string[]
   })
+  const [createUserErrors, setCreateUserErrors] = useState<Record<string, string>>({})
+  const [isCreating, setIsCreating] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [notification, setNotification] = useState<{ type: 'success' | 'error', message: string } | null>(null)
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 10,
@@ -55,7 +64,7 @@ export default function AdminUsersPage() {
   useEffect(() => {
     checkAuth()
     fetchUsers()
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const checkAuth = () => {
     const token = localStorage.getItem('adminToken')
@@ -145,8 +154,44 @@ export default function AdminUsersPage() {
     }
   }
 
+  const validateCreateUserForm = () => {
+    const errors: Record<string, string> = {}
+
+    if (!createUserData.name.trim()) {
+      errors.name = 'Name is required'
+    } else if (createUserData.name.trim().length < 2) {
+      errors.name = 'Name must be at least 2 characters'
+    }
+
+    if (!createUserData.email.trim()) {
+      errors.email = 'Email is required'
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(createUserData.email)) {
+      errors.email = 'Please enter a valid email address'
+    }
+
+    if (!createUserData.password) {
+      errors.password = 'Password is required'
+    } else if (createUserData.password.length < 6) {
+      errors.password = 'Password must be at least 6 characters'
+    }
+
+    if (createUserData.phone && !/^[6-9]\d{9}$/.test(createUserData.phone)) {
+      errors.phone = 'Please enter a valid 10-digit phone number'
+    }
+
+    setCreateUserErrors(errors)
+    return Object.keys(errors).length === 0
+  }
+
   const createUser = async () => {
+    if (!validateCreateUserForm()) {
+      return
+    }
+
     try {
+      setIsCreating(true)
+      setCreateUserErrors({})
+      
       const token = localStorage.getItem('adminToken')
       
       const response = await fetch('/api/admin/users/create', {
@@ -158,30 +203,48 @@ export default function AdminUsersPage() {
         body: JSON.stringify(createUserData)
       })
 
-      if (response.ok) {
-        const data = await response.json()
-        if (data.success) {
-          fetchUsers() // Refresh the list
-          setShowCreateModal(false)
-          setCreateUserData({
-            name: '',
-            email: '',
-            password: '',
-            phone: '',
-            role: 'user',
-            status: 'active'
-          })
-          alert('User created successfully!')
-        } else {
-          alert(data.message || 'Failed to create user')
-        }
+      const data = await response.json()
+
+      if (response.ok && data.success) {
+        fetchUsers() // Refresh the list
+        setShowCreateModal(false)
+        resetCreateUserForm()
+        setNotification({ type: 'success', message: `User "${createUserData.name}" created successfully!` })
+        setTimeout(() => setNotification(null), 5000)
       } else {
-        alert('Failed to create user')
+        if (data.errors) {
+          setCreateUserErrors(data.errors)
+        } else {
+          setNotification({ type: 'error', message: data.message || 'Failed to create user' })
+          setTimeout(() => setNotification(null), 5000)
+        }
       }
     } catch (error) {
       console.error('Error creating user:', error)
-      alert('Failed to create user')
+      setNotification({ type: 'error', message: 'Failed to create user. Please try again.' })
+      setTimeout(() => setNotification(null), 5000)
+    } finally {
+      setIsCreating(false)
     }
+  }
+
+  const resetCreateUserForm = () => {
+    setCreateUserData({
+      name: '',
+      email: '',
+      password: '',
+      phone: '',
+      role: 'collaborator',
+      status: 'pending',
+      permissions: []
+    })
+    setCreateUserErrors({})
+    setShowPassword(false)
+  }
+
+  const handleCreateUserModalClose = () => {
+    setShowCreateModal(false)
+    resetCreateUserForm()
   }
 
   const getStatusColor = (status: string) => {
@@ -190,6 +253,8 @@ export default function AdminUsersPage() {
         return 'bg-green-100 text-green-800'
       case 'banned':
         return 'bg-red-100 text-red-800'
+      case 'pending':
+        return 'bg-yellow-100 text-yellow-800'
       default:
         return 'bg-gray-100 text-gray-800'
     }
@@ -199,8 +264,12 @@ export default function AdminUsersPage() {
     switch (role) {
       case 'admin':
         return 'bg-purple-100 text-purple-800'
-      case 'user':
+      case 'collaborator':
         return 'bg-blue-100 text-blue-800'
+      case 'content-creator':
+        return 'bg-green-100 text-green-800'
+      case 'user':
+        return 'bg-gray-100 text-gray-800'
       default:
         return 'bg-gray-100 text-gray-800'
     }
@@ -208,7 +277,7 @@ export default function AdminUsersPage() {
 
   useEffect(() => {
     fetchUsers()
-  }, [search, statusFilter, roleFilter, pagination.page])
+  }, [search, statusFilter, roleFilter, pagination.page]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (loading) {
     return (
@@ -232,19 +301,67 @@ export default function AdminUsersPage() {
 
   return (
     <div className="p-6">
+      {/* Notification */}
+      {notification && (
+        <div className={`fixed top-4 right-4 z-50 max-w-sm w-full bg-white rounded-lg shadow-lg border-l-4 ${
+          notification.type === 'success' ? 'border-green-400' : 'border-red-400'
+        }`}>
+          <div className="p-4">
+            <div className="flex items-start">
+              <div className={`flex-shrink-0 w-5 h-5 mt-0.5 ${
+                notification.type === 'success' ? 'text-green-400' : 'text-red-400'
+              }`}>
+                {notification.type === 'success' ? (
+                  <UserCheck className="w-5 h-5" />
+                ) : (
+                  <UserX className="w-5 h-5" />
+                )}
+              </div>
+              <div className="ml-3">
+                <p className={`text-sm font-medium ${
+                  notification.type === 'success' ? 'text-green-800' : 'text-red-800'
+                }`}>
+                  {notification.message}
+                </p>
+              </div>
+              <div className="ml-auto pl-3">
+                <button
+                  onClick={() => setNotification(null)}
+                  className={`inline-flex rounded-md p-1.5 ${
+                    notification.type === 'success' 
+                      ? 'text-green-500 hover:bg-green-100' 
+                      : 'text-red-500 hover:bg-red-100'
+                  }`}
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="mb-8">
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-4 sm:space-y-0">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">User Management</h1>
-            <p className="text-gray-600 mt-2">Manage user accounts and permissions</p>
+            <p className="text-gray-600 mt-2">Manage user accounts, roles, and permissions</p>
           </div>
-          <button
-            onClick={() => setShowCreateModal(true)}
-            className="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors flex items-center"
-          >
-            <UserPlus className="w-4 h-4 mr-2" />
-            Create User
-          </button>
+          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+            <button
+              onClick={() => setShowCreateModal(true)}
+              className="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors flex items-center justify-center"
+            >
+              <UserPlus className="w-4 h-4 mr-2" />
+              Create New User
+            </button>
+            <button
+              onClick={fetchUsers}
+              className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center"
+            >
+              <Search className="w-4 h-4 mr-2" />
+              Refresh
+            </button>
+          </div>
         </div>
       </div>
 
@@ -367,6 +484,11 @@ export default function AdminUsersPage() {
                         <Calendar className="w-4 h-4 mr-1" />
                         <span>Joined: {new Date(user.createdAt).toLocaleDateString()}</span>
                       </div>
+                      {user.lastActive && (
+                        <div className="flex items-center">
+                          <span>Last Active: {new Date(user.lastActive).toLocaleDateString()}</span>
+                        </div>
+                      )}
                       {user.resumeUrl && (
                         <div className="flex items-center">
                           <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">
@@ -375,6 +497,20 @@ export default function AdminUsersPage() {
                         </div>
                       )}
                     </div>
+                    {user.permissions && user.permissions.length > 0 && (
+                      <div className="mt-2">
+                        <div className="flex flex-wrap gap-1">
+                          {user.permissions.map((permission) => (
+                            <span
+                              key={permission}
+                              className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800"
+                            >
+                              {permission.replace('-', ' ')}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -412,23 +548,35 @@ export default function AdminUsersPage() {
                     </button>
                   )}
                   
-                  {user.role === 'user' ? (
-                    <button
-                      onClick={() => updateUserRole(user._id, 'admin')}
-                      className="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors flex items-center"
-                    >
-                      <Shield className="w-4 h-4 mr-1" />
-                      Make Admin
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => updateUserRole(user._id, 'user')}
-                      className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors flex items-center"
-                    >
-                      <UserIcon className="w-4 h-4 mr-1" />
-                      Remove Admin
-                    </button>
-                  )}
+                  <div className="flex flex-wrap gap-2">
+                    {user.role !== 'collaborator' && (
+                      <button
+                        onClick={() => updateUserRole(user._id, 'collaborator')}
+                        className="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 transition-colors flex items-center text-sm"
+                      >
+                        <UserPlus className="w-3 h-3 mr-1" />
+                        Make Collaborator
+                      </button>
+                    )}
+                    {user.role !== 'content-creator' && (
+                      <button
+                        onClick={() => updateUserRole(user._id, 'content-creator')}
+                        className="bg-green-500 text-white px-3 py-1 rounded-lg hover:bg-green-600 transition-colors flex items-center text-sm"
+                      >
+                        <UserIcon className="w-3 h-3 mr-1" />
+                        Make Content Creator
+                      </button>
+                    )}
+                    {user.role !== 'user' && (
+                      <button
+                        onClick={() => updateUserRole(user._id, 'user')}
+                        className="bg-gray-500 text-white px-3 py-1 rounded-lg hover:bg-gray-600 transition-colors flex items-center text-sm"
+                      >
+                        <UserIcon className="w-3 h-3 mr-1" />
+                        Make Regular User
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -483,114 +631,253 @@ export default function AdminUsersPage() {
       {/* Create User Modal */}
       {showCreateModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-md w-full p-6">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Create New User</h3>
+          <div className="bg-white rounded-lg max-w-lg w-full p-6 max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-6">
+              <div>
+                <h3 className="text-xl font-semibold text-gray-900">Create New User</h3>
+                <p className="text-sm text-gray-600 mt-1">Add a new user to the system</p>
+              </div>
               <button
-                onClick={() => setShowCreateModal(false)}
-                className="text-gray-400 hover:text-gray-600"
+                onClick={handleCreateUserModalClose}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
               >
                 <X className="w-6 h-6" />
               </button>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-5">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Name *
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Full Name *
                 </label>
                 <input
                   type="text"
                   value={createUserData.name}
-                  onChange={(e) => setCreateUserData(prev => ({ ...prev, name: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  onChange={(e) => {
+                    setCreateUserData(prev => ({ ...prev, name: e.target.value }))
+                    if (createUserErrors.name) {
+                      setCreateUserErrors(prev => ({ ...prev, name: '' }))
+                    }
+                  }}
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
+                    createUserErrors.name ? 'border-red-300' : 'border-gray-300'
+                  }`}
                   placeholder="Enter full name"
                 />
+                {createUserErrors.name && (
+                  <p className="mt-1 text-sm text-red-600">{createUserErrors.name}</p>
+                )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Email *
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Email Address *
                 </label>
                 <input
                   type="email"
                   value={createUserData.email}
-                  onChange={(e) => setCreateUserData(prev => ({ ...prev, email: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  onChange={(e) => {
+                    setCreateUserData(prev => ({ ...prev, email: e.target.value }))
+                    if (createUserErrors.email) {
+                      setCreateUserErrors(prev => ({ ...prev, email: '' }))
+                    }
+                  }}
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
+                    createUserErrors.email ? 'border-red-300' : 'border-gray-300'
+                  }`}
                   placeholder="Enter email address"
                 />
+                {createUserErrors.email && (
+                  <p className="mt-1 text-sm text-red-600">{createUserErrors.email}</p>
+                )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Password *
                 </label>
-                <input
-                  type="password"
-                  value={createUserData.password}
-                  onChange={(e) => setCreateUserData(prev => ({ ...prev, password: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  placeholder="Enter password (min 6 characters)"
-                />
+                <div className="relative">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    value={createUserData.password}
+                    onChange={(e) => {
+                      setCreateUserData(prev => ({ ...prev, password: e.target.value }))
+                      if (createUserErrors.password) {
+                        setCreateUserErrors(prev => ({ ...prev, password: '' }))
+                      }
+                    }}
+                    className={`w-full px-3 py-2 pr-10 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
+                      createUserErrors.password ? 'border-red-300' : 'border-gray-300'
+                    }`}
+                    placeholder="Enter password (min 6 characters)"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+                  >
+                    {showPassword ? (
+                      <UserX className="w-4 h-4" />
+                    ) : (
+                      <UserCheck className="w-4 h-4" />
+                    )}
+                  </button>
+                </div>
+                {createUserErrors.password && (
+                  <p className="mt-1 text-sm text-red-600">{createUserErrors.password}</p>
+                )}
+                <p className="mt-1 text-xs text-gray-500">
+                  Password must be at least 6 characters long
+                </p>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Phone
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Phone Number
                 </label>
                 <input
                   type="tel"
                   value={createUserData.phone}
-                  onChange={(e) => setCreateUserData(prev => ({ ...prev, phone: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  placeholder="Enter phone number"
+                  onChange={(e) => {
+                    setCreateUserData(prev => ({ ...prev, phone: e.target.value }))
+                    if (createUserErrors.phone) {
+                      setCreateUserErrors(prev => ({ ...prev, phone: '' }))
+                    }
+                  }}
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
+                    createUserErrors.phone ? 'border-red-300' : 'border-gray-300'
+                  }`}
+                  placeholder="Enter 10-digit phone number"
                 />
+                {createUserErrors.phone && (
+                  <p className="mt-1 text-sm text-red-600">{createUserErrors.phone}</p>
+                )}
+                <p className="mt-1 text-xs text-gray-500">
+                  Optional - Enter a valid 10-digit Indian phone number
+                </p>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Role
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    User Role *
                   </label>
                   <select
                     value={createUserData.role}
-                    onChange={(e) => setCreateUserData(prev => ({ ...prev, role: e.target.value as 'user' | 'admin' }))}
+                    onChange={(e) => setCreateUserData(prev => ({ ...prev, role: e.target.value as 'user' | 'admin' | 'collaborator' | 'content-creator' }))}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   >
-                    <option value="user">User</option>
+                    <option value="user">Regular User</option>
+                    <option value="collaborator">Collaborator</option>
+                    <option value="content-creator">Content Creator</option>
                     <option value="admin">Admin</option>
                   </select>
+                  <p className="mt-1 text-xs text-gray-500">
+                    {createUserData.role === 'collaborator' && 'Can create content and view analytics'}
+                    {createUserData.role === 'content-creator' && 'Can create jobs and news articles'}
+                    {createUserData.role === 'user' && 'Basic access only'}
+                    {createUserData.role === 'admin' && 'Full system access'}
+                  </p>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Status
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Account Status *
                   </label>
                   <select
                     value={createUserData.status}
-                    onChange={(e) => setCreateUserData(prev => ({ ...prev, status: e.target.value as 'active' | 'banned' }))}
+                    onChange={(e) => setCreateUserData(prev => ({ ...prev, status: e.target.value as 'active' | 'banned' | 'pending' }))}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   >
+                    <option value="pending">Pending</option>
                     <option value="active">Active</option>
                     <option value="banned">Banned</option>
                   </select>
+                  <p className="mt-1 text-xs text-gray-500">
+                    {createUserData.status === 'pending' && 'User needs admin approval'}
+                    {createUserData.status === 'active' && 'User can login immediately'}
+                    {createUserData.status === 'banned' && 'User access is blocked'}
+                  </p>
                 </div>
               </div>
+
+              {/* Permissions Section */}
+              {createUserData.role === 'collaborator' && (
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <label className="block text-sm font-medium text-gray-700 mb-3">
+                    Permissions
+                  </label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {[
+                      { key: 'create-jobs', label: 'Create Jobs', description: 'Post job opportunities' },
+                      { key: 'create-news', label: 'Create News', description: 'Write news articles' },
+                      { key: 'edit-own-content', label: 'Edit Own Content', description: 'Modify their posts' },
+                      { key: 'delete-own-content', label: 'Delete Own Content', description: 'Remove their posts' },
+                      { key: 'view-analytics', label: 'View Analytics', description: 'See performance data' }
+                    ].map((permission) => (
+                      <label key={permission.key} className="flex items-start space-x-3 p-2 hover:bg-white rounded-md transition-colors">
+                        <input
+                          type="checkbox"
+                          checked={createUserData.permissions.includes(permission.key)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setCreateUserData(prev => ({
+                                ...prev,
+                                permissions: [...prev.permissions, permission.key]
+                              }))
+                            } else {
+                              setCreateUserData(prev => ({
+                                ...prev,
+                                permissions: prev.permissions.filter(p => p !== permission.key)
+                              }))
+                            }
+                          }}
+                          className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded mt-0.5"
+                        />
+                        <div className="flex-1">
+                          <span className="text-sm font-medium text-gray-700">{permission.label}</span>
+                          <p className="text-xs text-gray-500">{permission.description}</p>
+                        </div>
+                      </label>
+                    ))}
+                  </div>
+                  <p className="mt-2 text-xs text-gray-500">
+                    Select the permissions this collaborator should have
+                  </p>
+                </div>
+              )}
             </div>
 
-            <div className="flex justify-end space-x-4 mt-6">
-              <button
-                onClick={() => setShowCreateModal(false)}
-                className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={createUser}
-                className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
-              >
-                Create User
-              </button>
+            <div className="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
+              <div className="text-sm text-gray-500">
+                * Required fields
+              </div>
+              <div className="flex space-x-3">
+                <button
+                  onClick={handleCreateUserModalClose}
+                  disabled={isCreating}
+                  className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={createUser}
+                  disabled={isCreating}
+                  className="px-6 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+                >
+                  {isCreating ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>Creating...</span>
+                    </>
+                  ) : (
+                    <>
+                      <UserPlus className="w-4 h-4" />
+                      <span>Create User</span>
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
         </div>

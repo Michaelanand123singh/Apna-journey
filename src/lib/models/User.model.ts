@@ -5,8 +5,11 @@ export interface IUser extends Document {
   email: string
   password: string
   phone?: string
-  role: 'user' | 'admin'
-  status: 'active' | 'banned'
+  role: 'user' | 'admin' | 'collaborator' | 'content-creator'
+  status: 'active' | 'banned' | 'pending'
+  permissions: string[]
+  createdBy: mongoose.Types.ObjectId
+  lastActive: Date
   resumeUrl?: string
   createdAt: Date
   updatedAt: Date
@@ -38,13 +41,33 @@ const UserSchema = new Schema<IUser>({
   },
   role: { 
     type: String, 
-    enum: ['user', 'admin'], 
+    enum: ['user', 'admin', 'collaborator', 'content-creator'], 
     default: 'user' 
   },
   status: { 
     type: String, 
-    enum: ['active', 'banned'], 
-    default: 'active' 
+    enum: ['active', 'banned', 'pending'], 
+    default: 'pending' 
+  },
+  permissions: [{
+    type: String,
+    enum: [
+      'create-jobs',
+      'create-news',
+      'edit-own-content',
+      'delete-own-content',
+      'view-analytics',
+      'manage-applications'
+    ]
+  }],
+  createdBy: {
+    type: Schema.Types.ObjectId,
+    ref: 'Admin',
+    required: true
+  },
+  lastActive: {
+    type: Date,
+    default: Date.now
   },
   resumeUrl: { 
     type: String,
@@ -58,5 +81,40 @@ const UserSchema = new Schema<IUser>({
 UserSchema.index({ email: 1 }, { unique: true })
 UserSchema.index({ role: 1 })
 UserSchema.index({ status: 1 })
+UserSchema.index({ createdBy: 1 })
+
+// Set permissions based on role
+UserSchema.pre('save', function(next) {
+  if (this.isModified('role')) {
+    if (this.role === 'collaborator') {
+      this.permissions = [
+        'create-jobs',
+        'create-news',
+        'edit-own-content',
+        'delete-own-content',
+        'view-analytics'
+      ]
+    } else if (this.role === 'content-creator') {
+      this.permissions = [
+        'create-jobs',
+        'create-news',
+        'edit-own-content',
+        'delete-own-content'
+      ]
+    } else if (this.role === 'user') {
+      this.permissions = []
+    } else if (this.role === 'admin') {
+      this.permissions = [
+        'create-jobs',
+        'create-news',
+        'edit-own-content',
+        'delete-own-content',
+        'view-analytics',
+        'manage-applications'
+      ]
+    }
+  }
+  next()
+})
 
 export default mongoose.models.User || mongoose.model<IUser>('User', UserSchema)

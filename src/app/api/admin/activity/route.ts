@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
+import mongoose from 'mongoose'
 import dbConnect from '@/lib/db/mongodb'
+import User from '@/lib/models/User.model'
 import Job from '@/lib/models/Job.model'
 import News from '@/lib/models/News.model'
-import User from '@/lib/models/User.model'
 import Application from '@/lib/models/Application.model'
 import { verifyAdminTokenFromRequest } from '@/lib/middleware/adminAuth'
 
@@ -15,6 +16,11 @@ export async function GET(request: NextRequest) {
     }
 
     await dbConnect()
+
+    // Ensure User model is registered
+    if (!mongoose.models.User) {
+      mongoose.model('User', User.schema)
+    }
 
     // Get recent activities from different collections
     const [recentJobs, recentNews, recentUsers, recentApplications] = await Promise.all([

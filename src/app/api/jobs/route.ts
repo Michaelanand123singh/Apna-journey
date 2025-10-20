@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import dbConnect from '@/lib/db/mongodb'
 import Job from '@/lib/models/Job.model'
+import User from '@/lib/models/User.model'
 import { jobFiltersSchema } from '@/lib/utils/validation'
 
 export async function GET(request: NextRequest) {
@@ -73,13 +74,14 @@ export async function GET(request: NextRequest) {
     console.error('Get jobs error:', error)
     
     if (error.name === 'ZodError') {
+      const errors = error.issues || error.errors || []
       return NextResponse.json(
         { 
           success: false, 
           message: 'Invalid query parameters',
-          errors: error.errors.map((err: any) => ({
-            field: err.path.join('.'),
-            message: err.message
+          errors: errors.map((err: any) => ({
+            field: err.path ? err.path.join('.') : 'unknown',
+            message: err.message || 'Validation error'
           }))
         },
         { status: 400 }
@@ -128,26 +130,32 @@ export async function POST(request: NextRequest) {
       expiresAt: new Date(validatedData.expiresAt)
     })
     
-    // Populate postedBy field
-    await job.populate('postedBy', 'name email')
+    // Get user details separately to avoid population issues
+    console.log('Looking for user with ID:', payload.userId)
+    const user = await User.findById(payload.userId).select('name email').lean()
+    console.log('Found user:', user)
     
     return NextResponse.json({
       success: true,
       message: 'Job created successfully. It will be reviewed before publishing.',
-      data: job
+      data: {
+        ...job.toObject(),
+        postedBy: user
+      }
     }, { status: 201 })
     
   } catch (error: any) {
     console.error('Create job error:', error)
     
     if (error.name === 'ZodError') {
+      const errors = error.issues || error.errors || []
       return NextResponse.json(
         { 
           success: false, 
           message: 'Validation failed',
-          errors: error.errors.map((err: any) => ({
-            field: err.path.join('.'),
-            message: err.message
+          errors: errors.map((err: any) => ({
+            field: err.path ? err.path.join('.') : 'unknown',
+            message: err.message || 'Validation error'
           }))
         },
         { status: 400 }

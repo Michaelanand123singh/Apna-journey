@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useAuth } from '@/contexts/AuthContext'
 import { 
   LayoutDashboard, 
   Newspaper, 
@@ -11,18 +12,23 @@ import {
   Settings,
   LogOut,
   Menu,
-  X
+  X,
+  MessageSquare,
+  CheckCircle
 } from 'lucide-react'
 
 export default function AdminSidebar() {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
+  const { logout } = useAuth()
 
   const navigation = [
     { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
+    { name: 'Content Approval', href: '/admin/content-approval', icon: CheckCircle },
     { name: 'News', href: '/admin/news', icon: Newspaper },
     { name: 'Jobs', href: '/admin/jobs', icon: Briefcase },
     { name: 'Users', href: '/admin/users', icon: Users },
+    { name: 'Inquiries', href: '/admin/inquiries', icon: MessageSquare },
     { name: 'Settings', href: '/admin/settings', icon: Settings },
   ]
 
@@ -34,18 +40,25 @@ export default function AdminSidebar() {
   }
 
   const handleLogout = () => {
-    localStorage.removeItem('adminToken')
-    localStorage.removeItem('admin')
-    window.location.href = '/admin/login'
+    logout()
   }
 
   return (
     <>
+      {/* Mobile overlay */}
+      {isOpen && (
+        <div 
+          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
       {/* Mobile menu button */}
       <div className="lg:hidden fixed top-4 left-4 z-50">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="bg-white p-2 rounded-md shadow-md"
+          className="bg-white p-2 rounded-md shadow-md hover:bg-gray-50 transition-colors"
+          aria-label="Toggle sidebar"
         >
           {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>

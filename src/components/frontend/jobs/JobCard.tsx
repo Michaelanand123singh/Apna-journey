@@ -91,18 +91,18 @@ export default function JobCard({ job }: JobCardProps) {
         )}
       </button>
 
-      <div className="p-6 relative z-10">
+      <div className="p-4 sm:p-6 relative z-10">
         {/* Header */}
-        <div className="flex items-start justify-between mb-6">
-          <div className="flex-1 pr-4">
+        <div className="flex items-start justify-between mb-4 sm:mb-6">
+          <div className="flex-1 pr-2 sm:pr-4">
             <Link 
               href={`/jobs/${job.slug}`}
-              className="text-xl font-bold text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2 group-hover:underline"
+              className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2 group-hover:underline"
             >
               {job.title}
             </Link>
             
-            <div className="flex items-center mt-2 space-x-4">
+            <div className="flex flex-col sm:flex-row sm:items-center mt-2 space-y-1 sm:space-y-0 sm:space-x-4">
               <div className="flex items-center text-gray-600 dark:text-gray-400">
                 <Building className="w-4 h-4 mr-2" />
                 <span className="text-sm font-medium">{job.company}</span>

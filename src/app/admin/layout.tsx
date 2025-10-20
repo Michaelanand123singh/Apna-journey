@@ -7,6 +7,7 @@ import AdminSidebar from '@/components/admin/layout/AdminSidebar'
 import ErrorBoundary from '@/components/shared/ErrorBoundary'
 import { ToastContainer } from '@/components/shared/Toast'
 import { useToast } from '@/hooks/useToast'
+import { useAuth } from '@/contexts/AuthContext'
 
 export default function AdminLayout({
   children,
@@ -16,20 +17,13 @@ export default function AdminLayout({
   const router = useRouter()
   const pathname = usePathname()
   const { toasts, removeToast } = useToast()
-  const [isLoading, setIsLoading] = useState(true)
+  const { admin, isLoading } = useAuth()
 
   useEffect(() => {
-    checkAuth()
-  }, [])
-
-  const checkAuth = () => {
-    const token = localStorage.getItem('adminToken')
-    if (!token && pathname !== '/admin/login') {
+    if (!isLoading && !admin && pathname !== '/admin/login') {
       router.push('/admin/login')
-    } else {
-      setIsLoading(false)
     }
-  }
+  }, [isLoading, admin, pathname, router])
 
   if (isLoading) {
     return (
@@ -57,7 +51,7 @@ export default function AdminLayout({
         <AdminSidebar />
         <div className="lg:pl-64">
           <AdminHeader />
-          <main className="py-6">
+          <main className="py-4 sm:py-6 px-4 sm:px-6 lg:px-8">
             {children}
           </main>
         </div>

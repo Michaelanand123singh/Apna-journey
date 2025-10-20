@@ -23,7 +23,7 @@ interface Job {
   location: string
   jobType: string
   salary: string
-  status: 'pending' | 'active' | 'rejected' | 'expired'
+  status: 'pending' | 'approved' | 'rejected'
   postedBy: {
     name: string
     email: string
@@ -220,7 +220,7 @@ export default function PendingJobsPage() {
                     Review
                   </button>
                   <button
-                    onClick={() => updateJobStatus(job._id, 'active')}
+                    onClick={() => updateJobStatus(job._id, 'approved')}
                     className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors flex items-center"
                   >
                     <CheckCircle className="w-4 h-4 mr-1" />

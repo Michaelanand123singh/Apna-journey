@@ -9,8 +9,18 @@ export async function GET(
   try {
     await dbConnect()
     const { id } = await params
-    const job = await Job.findById(id)
-      .populate('postedBy', 'name email')
+    
+    // Check if id is a valid ObjectId (24 hex characters) or a slug
+    const isObjectId = /^[0-9a-fA-F]{24}$/.test(id)
+    
+    let job
+    if (isObjectId) {
+      // Search by ObjectId
+      job = await Job.findById(id).populate('postedBy', 'name email')
+    } else {
+      // Search by slug
+      job = await Job.findOne({ slug: id }).populate('postedBy', 'name email')
+    }
     
     if (!job) {
       return NextResponse.json(
@@ -28,7 +38,11 @@ export async function GET(
     }
     
     // Increment view count
-    await Job.findByIdAndUpdate(id, { $inc: { views: 1 } })
+    if (isObjectId) {
+      await Job.findByIdAndUpdate(id, { $inc: { views: 1 } })
+    } else {
+      await Job.findOneAndUpdate({ slug: id }, { $inc: { views: 1 } })
+    }
     
     return NextResponse.json({
       success: true,

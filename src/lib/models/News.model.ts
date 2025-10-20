@@ -30,24 +30,35 @@ const NewsSchema = new Schema<INews>({
   },
   slug: { 
     type: String, 
-    required: true, 
+    required: false, // Will be auto-generated
     lowercase: true
   },
   excerpt: { 
     type: String, 
     required: [true, 'Excerpt is required'],
-    minlength: [50, 'Excerpt must be at least 50 characters'],
+    minlength: [20, 'Excerpt must be at least 20 characters'],
     maxlength: [500, 'Excerpt cannot exceed 500 characters']
   },
   content: { 
     type: String, 
     required: [true, 'Content is required'],
-    minlength: [100, 'Content must be at least 100 characters']
+    minlength: [50, 'Content must be at least 50 characters']
   },
   featuredImage: { 
     type: String, 
     required: [true, 'Featured image is required'],
-    match: [/^https?:\/\/.+/, 'Please enter a valid image URL']
+    validate: {
+      validator: function(v: string) {
+        // Allow any valid URL format (HTTP, HTTPS, Cloudinary, etc.)
+        try {
+          new URL(v)
+          return true
+        } catch {
+          return false
+        }
+      },
+      message: 'Please enter a valid image URL or upload an image'
+    }
   },
   category: { 
     type: String, 
@@ -101,12 +112,29 @@ const NewsSchema = new Schema<INews>({
 })
 
 // Create slug from title before saving
-NewsSchema.pre('save', function(next) {
-  if (this.isModified('title')) {
-    this.slug = this.title
+NewsSchema.pre('save', async function(next) {
+  if (this.isModified('title') || !this.slug) {
+    let baseSlug = this.title
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/(^-|-$)/g, '')
+
+    // Ensure slug is not empty
+    if (!baseSlug) {
+      baseSlug = 'news-' + Date.now()
+    }
+
+    // Check for duplicates and add counter if needed
+    let finalSlug = baseSlug
+    let counter = 1
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const NewsModel = this.constructor as any
+    while (await NewsModel.findOne({ slug: finalSlug, _id: { $ne: this._id } })) {
+      finalSlug = `${baseSlug}-${counter}`
+      counter++
+    }
+
+    this.slug = finalSlug
   }
   
   // Set publishedAt when status changes to published

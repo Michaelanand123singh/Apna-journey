@@ -16,6 +16,7 @@ import {
 } from 'lucide-react'
 import { JOB_CATEGORIES, JOB_TYPES } from '@/lib/constants/categories'
 import { GAYA_LOCATIONS } from '@/lib/constants/locations'
+import LoadingButton from '@/components/shared/LoadingButton'
 
 export default function PostJobPage() {
   const router = useRouter()
@@ -81,16 +82,22 @@ export default function PostJobPage() {
       newErrors.title = 'Job title is required'
     } else if (formData.title.trim().length < 5) {
       newErrors.title = 'Title must be at least 5 characters'
+    } else if (formData.title.trim().length > 100) {
+      newErrors.title = 'Title cannot exceed 100 characters'
     }
 
     if (!formData.company.trim()) {
       newErrors.company = 'Company name is required'
+    } else if (formData.company.trim().length > 50) {
+      newErrors.company = 'Company name cannot exceed 50 characters'
     }
 
     if (!formData.description.trim()) {
       newErrors.description = 'Job description is required'
     } else if (formData.description.trim().length < 50) {
       newErrors.description = 'Description must be at least 50 characters'
+    } else if (formData.description.trim().length > 2000) {
+      newErrors.description = 'Description cannot exceed 2000 characters'
     }
 
     if (!formData.category) {
@@ -107,6 +114,13 @@ export default function PostJobPage() {
 
     if (formData.requirements.filter(req => req.trim()).length === 0) {
       newErrors.requirements = 'At least one requirement is needed'
+    } else {
+      // Check individual requirement lengths
+      for (let i = 0; i < formData.requirements.length; i++) {
+        if (formData.requirements[i].trim() && formData.requirements[i].length > 200) {
+          newErrors[`requirement_${i}`] = 'Each requirement cannot exceed 200 characters'
+        }
+      }
     }
 
     if (!formData.contactEmail.trim()) {
@@ -251,6 +265,7 @@ export default function PostJobPage() {
                         name="title"
                         value={formData.title}
                         onChange={handleChange}
+                        maxLength={100}
                         className={`w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 ${
                           errors.title ? 'border-red-300' : 'border-gray-300'
                         }`}
@@ -275,6 +290,7 @@ export default function PostJobPage() {
                         name="company"
                         value={formData.company}
                         onChange={handleChange}
+                        maxLength={50}
                         className={`w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 ${
                           errors.company ? 'border-red-300' : 'border-gray-300'
                         }`}
@@ -301,14 +317,22 @@ export default function PostJobPage() {
                       rows={6}
                       value={formData.description}
                       onChange={handleChange}
+                      maxLength={2000}
                       className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 ${
                         errors.description ? 'border-red-300' : 'border-gray-300'
                       }`}
                       placeholder="Describe the job responsibilities, requirements, and what the candidate will be doing..."
                     />
-                    {errors.description && (
-                      <p className="mt-1 text-sm text-red-600">{errors.description}</p>
-                    )}
+                    <div className="flex justify-between items-center mt-1">
+                      {errors.description && (
+                        <p className="text-sm text-red-600">{errors.description}</p>
+                      )}
+                      <p className={`text-sm ml-auto ${
+                        formData.description.length > 1800 ? 'text-red-500' : 'text-gray-500'
+                      }`}>
+                        {formData.description.length}/2000 characters
+                      </p>
+                    </div>
                   </div>
 
                   <div className="grid md:grid-cols-3 gap-6">
@@ -398,6 +422,7 @@ export default function PostJobPage() {
                         name="salary"
                         value={formData.salary}
                         onChange={handleChange}
+                        maxLength={50}
                         className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                         placeholder="e.g., ₹25,000 - ₹35,000 per month"
                       />
@@ -411,23 +436,36 @@ export default function PostJobPage() {
                 <h2 className="text-lg font-semibold text-gray-800 mb-4">Requirements</h2>
                 <div className="space-y-3">
                   {formData.requirements.map((requirement, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <input
-                        type="text"
-                        value={requirement}
-                        onChange={(e) => handleRequirementChange(index, e.target.value)}
-                        className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                        placeholder="Enter a requirement..."
-                      />
-                      {formData.requirements.length > 1 && (
-                        <button
-                          type="button"
-                          onClick={() => removeRequirement(index)}
-                          className="p-2 text-red-500 hover:text-red-700"
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
+                    <div key={index} className="space-y-1">
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="text"
+                          value={requirement}
+                          onChange={(e) => handleRequirementChange(index, e.target.value)}
+                          maxLength={200}
+                          className={`flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 ${
+                            errors[`requirement_${index}`] ? 'border-red-300' : 'border-gray-300'
+                          }`}
+                          placeholder="Enter a requirement..."
+                        />
+                        {formData.requirements.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => removeRequirement(index)}
+                            className="p-2 text-red-500 hover:text-red-700"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        )}
+                      </div>
+                      {errors[`requirement_${index}`] && (
+                        <p className="text-sm text-red-600">{errors[`requirement_${index}`]}</p>
                       )}
+                      <p className={`text-xs ${
+                        requirement.length > 180 ? 'text-red-500' : 'text-gray-500'
+                      }`}>
+                        {requirement.length}/200 characters
+                      </p>
                     </div>
                   ))}
                   <button
@@ -540,13 +578,13 @@ export default function PostJobPage() {
                 >
                   Cancel
                 </button>
-                <button
+                <LoadingButton
                   type="submit"
-                  disabled={isLoading}
-                  className="px-6 py-2 bg-primary-500 text-white rounded-md hover:bg-primary-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  loading={isLoading}
+                  loadingText="Posting Job..."
                 >
-                  {isLoading ? 'Posting Job...' : 'Post Job'}
-                </button>
+                  Post Job
+                </LoadingButton>
               </div>
             </form>
           </div>

@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter, Noto_Sans_Devanagari } from 'next/font/google'
 import './globals.css'
-import Header from '@/components/frontend/layout/Header'
-import Footer from '@/components/frontend/layout/Footer'
+import ConditionalLayout from '@/components/shared/ConditionalLayout'
+import { AuthProvider } from '@/contexts/AuthContext'
 
 const inter = Inter({ subsets: ['latin'] })
 const notoSansDevanagari = Noto_Sans_Devanagari({ 
@@ -46,11 +46,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} ${notoSansDevanagari.variable}`}>
-        <Header />
-        <main className="min-h-screen">
-          {children}
-        </main>
-        <Footer />
+        <AuthProvider>
+          <ConditionalLayout>
+            {children}
+          </ConditionalLayout>
+        </AuthProvider>
       </body>
     </html>
   );

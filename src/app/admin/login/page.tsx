@@ -3,9 +3,11 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { LogIn, Mail, Lock, Eye, EyeOff, Shield } from 'lucide-react'
+import { useAuth } from '@/contexts/AuthContext'
 
 export default function AdminLoginPage() {
   const router = useRouter()
+  const { adminLogin } = useAuth()
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -37,9 +39,8 @@ export default function AdminLoginPage() {
       const data = await response.json()
 
       if (data.success) {
-        // Store admin token and data
-        localStorage.setItem('adminToken', data.data.token)
-        localStorage.setItem('admin', JSON.stringify(data.data.admin))
+        // Use auth context to handle admin login
+        adminLogin(data.data.admin, data.data.token)
         
         // Redirect to admin dashboard
         router.push('/admin')

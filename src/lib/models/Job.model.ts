@@ -31,7 +31,7 @@ const JobSchema = new Schema<IJob>({
   },
   slug: { 
     type: String, 
-    required: true, 
+    required: false, 
     lowercase: true
   },
   company: { 
@@ -114,12 +114,28 @@ const JobSchema = new Schema<IJob>({
 })
 
 // Create slug from title before saving
-JobSchema.pre('save', function(next) {
-  if (this.isModified('title')) {
-    this.slug = this.title
+JobSchema.pre('save', async function(next) {
+  if (this.isModified('title') || !this.slug) {
+    let baseSlug = this.title
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/(^-|-$)/g, '')
+    
+    // Ensure slug is not empty
+    if (!baseSlug) {
+      baseSlug = 'job-' + Date.now()
+    }
+    
+    // Check for duplicates and add counter if needed
+    let finalSlug = baseSlug
+    let counter = 1
+    const JobModel = this.constructor as any
+    while (await JobModel.findOne({ slug: finalSlug, _id: { $ne: this._id } })) {
+      finalSlug = `${baseSlug}-${counter}`
+      counter++
+    }
+    
+    this.slug = finalSlug
   }
   next()
 })
