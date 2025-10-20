@@ -16,11 +16,31 @@ export default function LatestNews() {
   const fetchLatestNews = async () => {
     try {
       setLoading(true)
-      const response = await fetch('/api/news?limit=6&status=published')
+      console.log('Fetching latest news...')
+      
+      const response = await fetch('/api/news?limit=6&status=published', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache',
+        },
+        cache: 'no-store'
+      })
+      
+      console.log('Response status:', response.status)
+      
+      if (!response.ok) {
+        console.error(`Failed to fetch news: ${response.status} ${response.statusText}`)
+        return
+      }
+      
       const data = await response.json()
+      console.log('News data received:', data)
       
       if (data.success) {
+        console.log('Setting news data:', data.data)
         setNews(data.data)
+      } else {
+        console.error('API returned error:', data.message)
       }
     } catch (error) {
       console.error('Error fetching latest news:', error)

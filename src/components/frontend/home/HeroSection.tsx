@@ -81,7 +81,7 @@ export default function HeroSection() {
   }, [])
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+    <section className="relative min-h-[60vh] md:min-h-[70vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 w-full" style={{ marginLeft: 'calc(-50vw + 50%)', marginRight: 'calc(-50vw + 50%)', width: '100vw' }}>
       {/* Animated Background Images */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-black/40 z-10"></div>
@@ -110,31 +110,31 @@ export default function HeroSection() {
       <div className="absolute top-40 right-20 w-16 h-16 bg-secondary-500/20 rounded-full animate-float" style={{animationDelay: '1s'}}></div>
       <div className="absolute bottom-20 left-1/4 w-12 h-12 bg-white/10 rounded-full animate-float" style={{animationDelay: '2s'}}></div>
 
-      <div className="container mx-auto px-4 relative z-20">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
+        <div className="grid lg:grid-cols-2 gap-8 items-center">
           {/* Left Content */}
-          <div className={`text-white space-y-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className={`text-white space-y-6 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             {/* Badge */}
 
             {/* Main Heading */}
             <div className="space-y-3">
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight">
                 <span className="block text-white">Apna Journey</span>
-                <span className="block text-xl md:text-2xl lg:text-3xl font-hindi text-white/80 mt-1">
+                <span className="block text-lg md:text-xl lg:text-2xl font-hindi text-white/80 mt-1">
                   गया की आवाज़
                 </span>
         </h1>
               
               {/* Animated Text */}
-              <div className="h-10 md:h-12 flex items-center">
-                <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-white/90 transition-all duration-500">
+              <div className="h-8 md:h-10 flex items-center">
+                <h2 className="text-base md:text-lg lg:text-xl font-semibold text-white/90 transition-all duration-500">
                   {heroTexts[currentText]}
                 </h2>
               </div>
             </div>
 
             {/* Description */}
-            <p className="text-base md:text-lg text-white/80 leading-relaxed max-w-xl">
+            <p className="text-sm md:text-base text-white/80 leading-relaxed max-w-lg">
               Your comprehensive platform for local job opportunities and news in Gaya, Bihar. 
               Connect with the community and discover endless possibilities.
             </p>
@@ -155,10 +155,10 @@ export default function HeroSection() {
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
+            <div className="flex flex-col sm:flex-row gap-2 md:gap-3">
             <Link 
               href="/jobs" 
-                className="group text-primary-600 px-6 md:px-7 lg:px-8 py-3 md:py-3.5 rounded-lg md:rounded-xl font-semibold hover:text-blue-600 hover:shadow-glow-lg transition-all duration-300 inline-flex items-center justify-center space-x-2 transform hover:-translate-y-1"
+                className="group text-primary-600 px-5 md:px-6 py-2.5 md:py-3 rounded-lg font-semibold hover:text-blue-600 hover:shadow-glow-lg transition-all duration-300 inline-flex items-center justify-center space-x-2 transform hover:-translate-y-1"
             >
                 <Briefcase className="w-4 h-4 md:w-5 md:h-5" />
                 <span>Find Jobs</span>
@@ -167,7 +167,7 @@ export default function HeroSection() {
               
             <Link 
               href="/news" 
-                className="group bg-transparent border-2 border-white/30 text-white px-6 md:px-7 lg:px-8 py-3 md:py-3.5 rounded-lg md:rounded-xl font-semibold hover:bg-white/10 hover:border-white/50 transition-all duration-300 inline-flex items-center justify-center space-x-2 backdrop-blur-sm"
+                className="group bg-transparent border border-white/30 text-white px-5 md:px-6 py-2.5 md:py-3 rounded-lg font-semibold hover:bg-white/10 hover:border-white/50 transition-all duration-300 inline-flex items-center justify-center space-x-2 backdrop-blur-sm"
             >
                 <Newspaper className="w-4 h-4 md:w-5 md:h-5" />
                 <span>Read News</span>
@@ -176,24 +176,24 @@ export default function HeroSection() {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-4 md:gap-6 pt-6 md:pt-8 border-t border-white/20">
+            <div className="grid grid-cols-3 gap-4 md:gap-5 pt-5 md:pt-6 border-t border-white/20">
               <div className="text-center">
-                <div className="text-xl md:text-2xl lg:text-3xl font-bold text-white">
+                <div className="text-lg md:text-xl lg:text-2xl font-bold text-white">
                   {loading ? '...' : `${stats?.activeJobs || 0}+`}
                 </div>
-                <div className="text-xs md:text-sm text-white/70">Active Jobs</div>
+                <div className="text-[11px] md:text-xs text-white/70">Active Jobs</div>
               </div>
               <div className="text-center">
-                <div className="text-xl md:text-2xl lg:text-3xl font-bold text-white">
+                <div className="text-lg md:text-xl lg:text-2xl font-bold text-white">
                   {loading ? '...' : `${Math.floor((stats?.totalUsers || 0) / 1000)}K+`}
                 </div>
-                <div className="text-xs md:text-sm text-white/70">Happy Users</div>
+                <div className="text-[11px] md:text-xs text-white/70">Happy Users</div>
               </div>
               <div className="text-center">
-                <div className="text-xl md:text-2xl lg:text-3xl font-bold text-white">
+                <div className="text-lg md:text-xl lg:text-2xl font-bold text-white">
                   {loading ? '...' : `${stats?.publishedNews || 0}+`}
                 </div>
-                <div className="text-xs md:text-sm text-white/70">News Articles</div>
+                <div className="text-[11px] md:text-xs text-white/70">News Articles</div>
               </div>
             </div>
           </div>

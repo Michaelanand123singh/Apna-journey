@@ -22,7 +22,7 @@ export default function LoadingButton({
   onClick,
   type = 'button',
   variant = 'primary',
-  size = 'md',
+  size = 'sm',
   className = '',
   loadingText
 }: LoadingButtonProps) {

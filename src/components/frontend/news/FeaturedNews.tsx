@@ -17,11 +17,31 @@ export default function FeaturedNews() {
   const fetchFeaturedNews = async () => {
     try {
       setLoading(true)
-      const response = await fetch('/api/news?featured=true&limit=2')
+      console.log('FeaturedNews: Fetching featured news...')
+      
+      const response = await fetch('/api/news?featured=true&limit=2', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache',
+        },
+        cache: 'no-store'
+      })
+      
+      console.log('FeaturedNews: Response status:', response.status)
+      
+      if (!response.ok) {
+        console.error(`Failed to fetch featured news: ${response.status} ${response.statusText}`)
+        return
+      }
+
       const data = await response.json()
+      console.log('FeaturedNews: Data received:', data)
 
       if (data.success) {
+        console.log('FeaturedNews: Setting featured news data:', data.data)
         setFeaturedNews(data.data)
+      } else {
+        console.error('API returned error:', data.message)
       }
     } catch (error) {
       console.error('Error fetching featured news:', error)

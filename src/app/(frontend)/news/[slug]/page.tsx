@@ -3,16 +3,23 @@ import { notFound } from 'next/navigation'
 import NewsArticle from '@/components/frontend/news/NewsArticle'
 import { ArrowLeft, Share2 } from 'lucide-react'
 import Link from 'next/link'
+import { getApiUrl } from '@/lib/utils/api'
 
 type NewsPageParams = { slug: string }
 
 async function getNewsArticle(slug: string) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/api/news/${slug}`, {
-      cache: 'no-store'
+    const apiUrl = getApiUrl(`/news/${slug}`)
+    
+    const response = await fetch(apiUrl, {
+      cache: 'no-store',
+      headers: {
+        'Content-Type': 'application/json',
+      }
     })
     
     if (!response.ok) {
+      console.error(`Failed to fetch news article: ${response.status} ${response.statusText}`)
       return null
     }
     

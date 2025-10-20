@@ -8,7 +8,11 @@ export interface News {
   category: string
   tags: string[]
   language: 'english' | 'hindi'
-  author: string
+  author: {
+    _id: string
+    name: string
+    email: string
+  }
   status: 'draft' | 'published'
   isFeatured: boolean
   views: number

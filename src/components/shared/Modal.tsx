@@ -21,10 +21,10 @@ export default function Modal({
   showCloseButton = true
 }: ModalProps) {
   const sizeClasses = {
-    sm: 'max-w-md',
-    md: 'max-w-lg',
-    lg: 'max-w-2xl',
-    xl: 'max-w-4xl'
+    sm: 'max-w-sm',
+    md: 'max-w-md',
+    lg: 'max-w-lg',
+    xl: 'max-w-2xl'
   }
 
   useEffect(() => {
@@ -73,9 +73,9 @@ export default function Modal({
         >
           {/* Header */}
           {(title || showCloseButton) && (
-            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+            <div className="flex items-center justify-between p-4 border-b border-gray-200">
               {title && (
-                <h3 className="text-lg font-semibold text-gray-900">
+                <h3 className="text-base font-semibold text-gray-900">
                   {title}
                 </h3>
               )}
@@ -85,14 +85,14 @@ export default function Modal({
                   onClick={onClose}
                   className="text-gray-400 hover:text-gray-600 transition-colors"
                 >
-                  <X className="w-6 h-6" />
+                  <X className="w-5 h-5" />
                 </button>
               )}
             </div>
           )}
           
           {/* Content */}
-          <div className="p-6">
+          <div className="p-4">
             {children}
           </div>
         </div>

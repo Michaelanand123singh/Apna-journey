@@ -100,32 +100,32 @@ export default function FeaturesSection() {
         </div>
 
         {/* Features Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {features.map((feature, index) => {
             const IconComponent = feature.icon
             return (
               <div 
                 key={index}
-                className="group relative bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-soft hover:shadow-medium transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:-translate-y-2"
+                className="group relative bg-white dark:bg-gray-800 rounded-xl p-6 shadow-soft hover:shadow-medium transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:-translate-y-1.5"
               >
                 {/* Icon */}
-                <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.color} mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                  <IconComponent className="w-8 h-8 text-white" />
+                <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${feature.color} mb-4 group-hover:scale-105 transition-transform duration-300`}>
+                  <IconComponent className="w-6 h-6 text-white" />
                 </div>
 
                 {/* Content */}
                 <div className="space-y-4">
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
                     {feature.title}
                   </h3>
                   
-                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-sm">
                     {feature.description}
                   </p>
 
                   {/* Stats */}
-                  <div className={`inline-flex items-center space-x-2 ${feature.bgColor} ${feature.textColor} px-3 py-1 rounded-full text-sm font-medium`}>
-                    <TrendingUp className="w-4 h-4" />
+                  <div className={`inline-flex items-center space-x-2 ${feature.bgColor} ${feature.textColor} px-2.5 py-0.5 rounded-full text-xs font-medium`}>
+                    <TrendingUp className="w-3.5 h-3.5" />
                     <span>{feature.stats}</span>
                   </div>
                 </div>

@@ -3,16 +3,23 @@ import { notFound } from 'next/navigation'
 import JobDetails from '@/components/frontend/jobs/JobDetails'
 import { ArrowLeft, Share2 } from 'lucide-react'
 import Link from 'next/link'
+import { getApiUrl } from '@/lib/utils/api'
 
 type JobPageParams = { slug: string }
 
 async function getJob(slug: string) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/api/jobs/${slug}`, {
-      cache: 'no-store'
+    const apiUrl = getApiUrl(`/jobs/${slug}`)
+    
+    const response = await fetch(apiUrl, {
+      cache: 'no-store',
+      headers: {
+        'Content-Type': 'application/json',
+      }
     })
     
     if (!response.ok) {
+      console.error(`Failed to fetch job: ${response.status} ${response.statusText}`)
       return null
     }
     

@@ -113,7 +113,7 @@ export default function NewsArticle({ article }: NewsArticleProps) {
                 <div className="flex items-center">
                   <User className="w-4 h-4 mr-2" />
                   <span>
-                    By {((article as any)?.author?.name as string) ?? (article.author as string)}
+                    By {typeof article.author === 'object' ? article.author.name : article.author}
                   </span>
                 </div>
               )}
@@ -202,7 +202,7 @@ export default function NewsArticle({ article }: NewsArticleProps) {
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-800">
-                    {((article as any)?.author?.name as string) ?? (article.author as string)}
+                    {typeof article.author === 'object' ? article.author.name : article.author}
                   </h4>
                   <p className="text-sm text-gray-600">News Writer</p>
                 </div>

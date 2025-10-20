@@ -17,7 +17,7 @@ function NewsListContent({ category }: NewsListContentProps) {
   const [error, setError] = useState<string | null>(null)
   const [pagination, setPagination] = useState({
     page: 1,
-    limit: 10,
+    limit: 12,
     total: 0,
     pages: 0
   })
@@ -32,6 +32,7 @@ function NewsListContent({ category }: NewsListContentProps) {
     try {
       setLoading(true)
       setError(null)
+      console.log('NewsList: Fetching news...')
 
       const params = new URLSearchParams()
       searchParams.forEach((value, key) => {
@@ -43,14 +44,34 @@ function NewsListContent({ category }: NewsListContentProps) {
         params.set('category', category)
       }
 
-      const response = await fetch(`/api/news?${params.toString()}`)
+      console.log('NewsList: Request params:', params.toString())
+
+      const response = await fetch(`/api/news?${params.toString()}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache',
+        },
+        cache: 'no-store'
+      })
+      
+      console.log('NewsList: Response status:', response.status)
+      
+      if (!response.ok) {
+        console.error(`Failed to fetch news: ${response.status} ${response.statusText}`)
+        setError(`Failed to fetch news: ${response.status}`)
+        return
+      }
+      
       const data = await response.json()
+      console.log('NewsList: Data received:', data)
 
       if (data.success) {
+        console.log('NewsList: Setting news data:', data.data)
         setNews(data.data)
         setPagination(data.pagination)
       } else {
         setError(data.message || 'Failed to fetch news')
+        console.error('API returned error:', data.message)
       }
     } catch (err) {
       setError('Failed to fetch news')
@@ -117,7 +138,7 @@ function NewsListContent({ category }: NewsListContentProps) {
         </div>
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-4">
         {news.map((article) => (
           <NewsCard key={article._id} article={article} />
         ))}

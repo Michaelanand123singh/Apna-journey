@@ -14,7 +14,7 @@ function JobListContent() {
   const [error, setError] = useState<string | null>(null)
   const [pagination, setPagination] = useState({
     page: 1,
-    limit: 10,
+    limit: 15,
     total: 0,
     pages: 0
   })

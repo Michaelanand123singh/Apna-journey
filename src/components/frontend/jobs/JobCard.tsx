@@ -15,7 +15,8 @@ import {
   Star,
   TrendingUp,
   Users,
-  Briefcase
+  Briefcase,
+  CheckCircle
 } from 'lucide-react'
 import { useState } from 'react'
 
@@ -25,11 +26,9 @@ interface JobCardProps {
 
 export default function JobCard({ job }: JobCardProps) {
   const [isSaved, setIsSaved] = useState(false)
-  const [isHovered, setIsHovered] = useState(false)
 
   const formatDate = (date: string | Date) => {
     return new Date(date).toLocaleDateString('en-IN', {
-      year: 'numeric',
       month: 'short',
       day: 'numeric'
     })
@@ -37,148 +36,144 @@ export default function JobCard({ job }: JobCardProps) {
 
   const getJobTypeColor = (jobType: string) => {
     const colors = {
-      'full-time': 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300',
-      'part-time': 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300',
-      'contract': 'bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-300',
-      'internship': 'bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300'
+      'full-time': 'bg-emerald-50 text-emerald-700 border-emerald-200',
+      'part-time': 'bg-blue-50 text-blue-700 border-blue-200',
+      'contract': 'bg-amber-50 text-amber-700 border-amber-200',
+      'internship': 'bg-purple-50 text-purple-700 border-purple-200'
     }
-    return colors[jobType as keyof typeof colors] || 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300'
+    return colors[jobType as keyof typeof colors] || 'bg-slate-50 text-slate-700 border-slate-200'
   }
 
   const getCategoryColor = (category: string) => {
     const colors = {
-      'government': 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300',
-      'private': 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300',
-      'part-time': 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300',
-      'internship': 'bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300',
-      'work-from-home': 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-300',
-      'freelance': 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300',
-      'education': 'bg-pink-100 dark:bg-pink-900/30 text-pink-800 dark:text-pink-300',
-      'healthcare': 'bg-teal-100 dark:bg-teal-900/30 text-teal-800 dark:text-teal-300',
-      'banking': 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-300',
-      'it': 'bg-cyan-100 dark:bg-cyan-900/30 text-cyan-800 dark:text-cyan-300',
-      'marketing': 'bg-rose-100 dark:bg-rose-900/30 text-rose-800 dark:text-rose-300',
-      'other': 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300'
+      'government': 'bg-red-50 text-red-700 border-red-200',
+      'private': 'bg-blue-50 text-blue-700 border-blue-200',
+      'part-time': 'bg-green-50 text-green-700 border-green-200',
+      'internship': 'bg-purple-50 text-purple-700 border-purple-200',
+      'work-from-home': 'bg-indigo-50 text-indigo-700 border-indigo-200',
+      'freelance': 'bg-yellow-50 text-yellow-700 border-yellow-200',
+      'education': 'bg-pink-50 text-pink-700 border-pink-200',
+      'healthcare': 'bg-teal-50 text-teal-700 border-teal-200',
+      'banking': 'bg-emerald-50 text-emerald-700 border-emerald-200',
+      'it': 'bg-cyan-50 text-cyan-700 border-cyan-200',
+      'marketing': 'bg-rose-50 text-rose-700 border-rose-200',
+      'other': 'bg-slate-50 text-slate-700 border-slate-200'
     }
-    return colors[category as keyof typeof colors] || 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300'
+    return colors[category as keyof typeof colors] || 'bg-slate-50 text-slate-700 border-slate-200'
   }
 
   const getUrgencyColor = (expiresAt: string | Date) => {
     const daysLeft = Math.ceil((new Date(expiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))
-    if (daysLeft <= 3) return 'text-red-600 dark:text-red-400'
-    if (daysLeft <= 7) return 'text-orange-600 dark:text-orange-400'
-    return 'text-gray-600 dark:text-gray-400'
+    if (daysLeft <= 3) return 'text-red-600 bg-red-50'
+    if (daysLeft <= 7) return 'text-orange-600 bg-orange-50'
+    return 'text-slate-600 bg-slate-50'
   }
 
   return (
-    <div 
-      className="group relative bg-white dark:bg-gray-800 rounded-2xl shadow-soft hover:shadow-medium transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:-translate-y-1 overflow-hidden"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 to-secondary-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-      
+    <div className="group bg-white rounded-xl border border-slate-200 hover:border-slate-300 hover:shadow-lg transition-all duration-300 overflow-hidden">
       {/* Save Button */}
       <button
         onClick={() => setIsSaved(!isSaved)}
-        className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-200"
+        className="absolute top-4 right-4 z-10 p-2 rounded-lg bg-white/90 backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-200 border border-slate-200"
       >
         {isSaved ? (
-          <BookmarkCheck className="w-5 h-5 text-primary-600" />
+          <BookmarkCheck className="w-4 h-4 text-blue-600" />
         ) : (
-          <Bookmark className="w-5 h-5 text-gray-400 hover:text-primary-600" />
+          <Bookmark className="w-4 h-4 text-slate-400 hover:text-blue-600" />
         )}
       </button>
 
-      <div className="p-4 sm:p-6 relative z-10">
+      <div className="p-6">
         {/* Header */}
-        <div className="flex items-start justify-between mb-4 sm:mb-6">
-          <div className="flex-1 pr-2 sm:pr-4">
-            <Link 
-              href={`/jobs/${job.slug}`}
-              className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2 group-hover:underline"
-            >
-              {job.title}
-            </Link>
-            
-            <div className="flex flex-col sm:flex-row sm:items-center mt-2 space-y-1 sm:space-y-0 sm:space-x-4">
-              <div className="flex items-center text-gray-600 dark:text-gray-400">
-                <Building className="w-4 h-4 mr-2" />
-                <span className="text-sm font-medium">{job.company}</span>
+        <div className="flex items-start justify-between mb-4">
+          <div className="flex-1 pr-3">
+            <div className="flex items-start space-x-3">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center shadow-sm">
+                <Building className="w-6 h-6 text-white" />
               </div>
-              
-              {job.views > 100 && (
-                <div className="flex items-center text-gray-500 dark:text-gray-500">
-                  <TrendingUp className="w-4 h-4 mr-1" />
-                  <span className="text-xs">Trending</span>
+              <div className="flex-1">
+                <Link 
+                  href={`/jobs/${job.slug}`}
+                  className="text-lg font-semibold text-slate-900 hover:text-blue-600 transition-colors line-clamp-2"
+                >
+                  {job.title}
+                </Link>
+                
+                <div className="flex items-center mt-2 text-sm text-slate-600">
+                  <Building className="w-4 h-4 mr-2" />
+                  <span className="font-medium">{job.company}</span>
                 </div>
-              )}
+              </div>
             </div>
           </div>
 
           {/* Badges */}
           <div className="flex flex-col items-end space-y-2">
-            <span className={`px-3 py-1 text-xs font-semibold rounded-full ${getJobTypeColor(job.jobType)}`}>
-              {job.jobType.replace('-', ' ').toUpperCase()}
+            <span className={`px-3 py-1 text-xs font-medium rounded-full border ${getJobTypeColor(job.jobType)}`}>
+              {job.jobType.replace('-', ' ')}
             </span>
-            <span className={`px-3 py-1 text-xs font-semibold rounded-full ${getCategoryColor(job.category)}`}>
-              {job.category.replace('-', ' ').toUpperCase()}
+            <span className={`px-3 py-1 text-xs font-medium rounded-full border ${getCategoryColor(job.category)}`}>
+              {job.category.replace('-', ' ')}
             </span>
           </div>
         </div>
 
         {/* Description */}
-        <p className="text-gray-600 dark:text-gray-300 text-sm mb-6 line-clamp-3 leading-relaxed">
+        <p className="text-slate-600 text-sm mb-4 line-clamp-2 leading-relaxed">
           {job.description}
         </p>
 
         {/* Meta Information */}
-        <div className="grid grid-cols-2 gap-4 mb-6">
-          <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-            <MapPin className="w-4 h-4 mr-2 text-primary-600" />
-            <span className="font-medium">{job.location.replace('-', ' ').toUpperCase()}</span>
+        <div className="grid grid-cols-2 gap-3 mb-4">
+          <div className="flex items-center text-sm text-slate-600">
+            <div className="p-1.5 bg-slate-100 rounded-lg mr-3">
+              <MapPin className="w-3.5 h-3.5 text-slate-600" />
+            </div>
+            <span className="truncate">{job.location.replace('-', ' ')}</span>
           </div>
           
           {job.salary && (
-            <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-              <DollarSign className="w-4 h-4 mr-2 text-green-600" />
-              <span className="font-medium">{job.salary}</span>
+            <div className="flex items-center text-sm text-slate-600">
+              <div className="p-1.5 bg-green-100 rounded-lg mr-3">
+                <DollarSign className="w-3.5 h-3.5 text-green-600" />
+              </div>
+              <span className="truncate">{job.salary}</span>
             </div>
           )}
           
-          <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-            <Calendar className="w-4 h-4 mr-2 text-orange-600" />
-            <span className={`font-medium ${getUrgencyColor(job.expiresAt)}`}>
-              Expires: {formatDate(job.expiresAt)}
+          <div className="flex items-center text-sm">
+            <div className="p-1.5 bg-orange-100 rounded-lg mr-3">
+              <Calendar className="w-3.5 h-3.5 text-orange-600" />
+            </div>
+            <span className={`truncate ${getUrgencyColor(job.expiresAt)} px-2 py-1 rounded-md text-xs`}>
+              Exp: {formatDate(job.expiresAt)}
             </span>
           </div>
           
-          <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-            <Eye className="w-4 h-4 mr-2 text-blue-600" />
-            <span className="font-medium">{job.views} views</span>
+          <div className="flex items-center text-sm text-slate-600">
+            <div className="p-1.5 bg-blue-100 rounded-lg mr-3">
+              <Eye className="w-3.5 h-3.5 text-blue-600" />
+            </div>
+            <span>{job.views} views</span>
           </div>
         </div>
 
         {/* Requirements */}
         {job.requirements && job.requirements.length > 0 && (
-          <div className="mb-6">
-            <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
-              <Briefcase className="w-4 h-4 mr-2 text-primary-600" />
-              Key Requirements
-            </h4>
+          <div className="mb-4">
             <div className="flex flex-wrap gap-2">
-              {job.requirements.slice(0, 4).map((req, index) => (
+              {job.requirements.slice(0, 3).map((req, index) => (
                 <span
                   key={index}
-                  className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full font-medium"
+                  className="inline-flex items-center px-3 py-1 bg-slate-50 text-slate-700 text-xs rounded-lg font-medium border border-slate-200"
                 >
+                  <CheckCircle className="w-3 h-3 mr-1.5 text-green-500" />
                   {req}
                 </span>
               ))}
-              {job.requirements.length > 4 && (
-                <span className="px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-xs rounded-full font-medium">
-                  +{job.requirements.length - 4} more
+              {job.requirements.length > 3 && (
+                <span className="inline-flex items-center px-3 py-1 bg-blue-50 text-blue-700 text-xs rounded-lg font-medium border border-blue-200">
+                  +{job.requirements.length - 3} more
                 </span>
               )}
             </div>
@@ -186,29 +181,24 @@ export default function JobCard({ job }: JobCardProps) {
         )}
 
         {/* Footer */}
-        <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
-          <div className="flex items-center space-x-4 text-xs text-gray-500 dark:text-gray-400">
-            <span>Posted {formatDate(job.createdAt)}</span>
+        <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+          <div className="flex items-center space-x-4 text-xs text-slate-500">
+            <span>{formatDate(job.createdAt)}</span>
             <div className="flex items-center space-x-1">
               <Users className="w-3 h-3" />
               <span>50+ applicants</span>
             </div>
           </div>
           
-          <div className="flex items-center space-x-2">
-            <Link
-              href={`/jobs/${job.slug}`}
-              className="group/btn bg-primary-600 text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:bg-primary-700 hover:shadow-glow transition-all duration-200 inline-flex items-center space-x-2"
-            >
-              <span>View Details</span>
-              <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-            </Link>
-          </div>
+          <Link
+            href={`/jobs/${job.slug}`}
+            className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-2.5 rounded-lg text-sm font-medium hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 inline-flex items-center space-x-2 shadow-sm hover:shadow-md"
+          >
+            <span>View Details</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </div>
-
-      {/* Hover Effect Border */}
-      <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-primary-200 dark:group-hover:border-primary-800 transition-colors duration-300 pointer-events-none"></div>
     </div>
   )
 }

@@ -37,11 +37,24 @@ export default function SearchSuggestions({ query, isVisible, onClose }: SearchS
       
       const timeoutId = setTimeout(async () => {
         try {
-          const response = await fetch(`/api/search?q=${encodeURIComponent(query)}&type=all&limit=5`)
+          const response = await fetch(`/api/search?q=${encodeURIComponent(query)}&type=all&limit=5`, {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            cache: 'no-store'
+          })
+          
+          if (!response.ok) {
+            console.error(`Search failed: ${response.status} ${response.statusText}`)
+            return
+          }
+          
           const data = await response.json()
           
           if (data.success) {
             setResults(data.data)
+          } else {
+            console.error('Search API returned error:', data.message)
           }
         } catch (error) {
           console.error('Search suggestions error:', error)
