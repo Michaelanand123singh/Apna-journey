@@ -4,15 +4,18 @@ This guide explains how to deploy the Apna Journey application to Google Cloud P
 
 ## 🚨 Problem Solved
 
-The original issue was that TypeScript was installed as a dev dependency, but GCP's `npm ci --only=production` command excludes dev dependencies, causing the build to fail when Next.js tries to process `next.config.ts`.
+The original issue was that TypeScript and Tailwind CSS were installed as dev dependencies, but GCP's `npm ci --only=production` command excludes dev dependencies, causing the build to fail when Next.js tries to process `next.config.ts` and CSS files.
 
 ## ✅ Solution Implemented
 
 1. **Moved TypeScript to production dependencies** in `package.json`
 2. **Moved all TypeScript type definitions** to production dependencies
-3. **Created optimized Docker configuration** for GCP deployment
-4. **Added proper `.gcloudignore`** to exclude unnecessary files
-5. **Created deployment scripts** for easy deployment
+3. **Downgraded Tailwind CSS from v4 to v3** for better compatibility
+4. **Updated PostCSS configuration** to work with Tailwind v3
+5. **Fixed CSS imports** to use standard Tailwind v3 syntax
+6. **Created optimized Docker configuration** for GCP deployment
+7. **Added proper `.gcloudignore`** to exclude unnecessary files
+8. **Created deployment scripts** for easy deployment
 
 ## 📋 Prerequisites
 
