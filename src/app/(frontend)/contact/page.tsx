@@ -13,7 +13,11 @@ import {
   User,
   Mail as MailIcon,
   Phone as PhoneIcon,
-  FileText
+  FileText,
+  Building2,
+  Headphones,
+  Zap,
+  Shield
 } from 'lucide-react'
 
 interface FormData {
@@ -39,12 +43,12 @@ export default function ContactPage() {
   const [errorMessage, setErrorMessage] = useState('')
 
   const inquiryTypes = [
-    { value: 'general', label: 'General Inquiry' },
-    { value: 'job', label: 'Job Related' },
-    { value: 'news', label: 'News & Content' },
-    { value: 'technical', label: 'Technical Support' },
-    { value: 'partnership', label: 'Partnership' },
-    { value: 'other', label: 'Other' }
+    { value: 'general', label: 'General Inquiry', icon: MessageSquare },
+    { value: 'job', label: 'Job Related', icon: Building2 },
+    { value: 'news', label: 'News & Content', icon: FileText },
+    { value: 'technical', label: 'Technical Support', icon: Headphones },
+    { value: 'partnership', label: 'Partnership', icon: Zap },
+    { value: 'other', label: 'Other', icon: Shield }
   ]
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -86,7 +90,7 @@ export default function ContactPage() {
         setSubmitStatus('error')
         setErrorMessage(data.message || 'Failed to submit inquiry')
       }
-    } catch (error) {
+    } catch {
       setSubmitStatus('error')
       setErrorMessage('Network error. Please try again.')
     } finally {
@@ -95,94 +99,104 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-primary-600 via-primary-700 to-secondary-600 overflow-hidden">
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-4xl mx-auto text-center text-white">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Contact <span className="text-yellow-400">Us</span>
+      <section className="relative py-24 bg-gradient-to-br from-blue-600 via-indigo-700 to-purple-800 overflow-hidden">
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20"></div>
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-5xl mx-auto text-center text-white">
+            <div className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium mb-8">
+              <MessageSquare className="w-4 h-4 mr-2" />
+              Contact Us
+            </div>
+            <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">
+              Let's <span className="text-yellow-400">Connect</span><br />
+              <span className="text-4xl md:text-5xl font-semibold text-blue-100">Start Your Journey</span>
             </h1>
-            <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
-              We'd love to hear from you. Get in touch with our team.
+            <p className="text-xl md:text-2xl text-blue-100 mb-8 leading-relaxed max-w-4xl mx-auto">
+              We&apos;d love to hear from you. Get in touch with our team.
             </p>
-            <p className="text-lg text-white/80 max-w-3xl mx-auto">
-              Have questions about jobs, news, or our platform? We're here to help and always 
+            <p className="text-lg text-blue-200 max-w-3xl mx-auto leading-relaxed">
+              Have questions about jobs, news, or our platform? We&apos;re here to help and always 
               happy to hear from our community members.
             </p>
           </div>
         </div>
       </section>
 
-      <div className="container mx-auto px-4 py-16">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12">
+      <div className="container mx-auto px-6 py-20">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-16">
             {/* Contact Information */}
-            <div className="space-y-8">
+            <div className="space-y-12">
               <div>
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
+                <div className="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium mb-6">
+                  <MessageSquare className="w-4 h-4 mr-2" />
                   Get in Touch
+                </div>
+                <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">
+                  We&apos;re Here to <span className="text-blue-600">Help</span>
                 </h2>
-                <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
-                  We're here to help and answer any questions you might have. 
+                <p className="text-xl text-slate-600 mb-8 leading-relaxed">
+                  We&apos;re here to help and answer any questions you might have. 
                   We look forward to hearing from you!
                 </p>
               </div>
 
-              <div className="space-y-6">
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-6 h-6 text-primary-600 dark:text-primary-400" />
+              <div className="space-y-8">
+                <div className="flex items-start space-x-6 p-6 bg-white rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                  <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <MapPin className="w-8 h-8 text-blue-600" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+                    <h3 className="text-xl font-bold text-slate-900 mb-2">
                       Address
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-300">
+                    <p className="text-slate-600 text-lg leading-relaxed">
                       Gaya City Center<br />
                       Bihar, India - 823001
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Phone className="w-6 h-6 text-primary-600 dark:text-primary-400" />
+                <div className="flex items-start space-x-6 p-6 bg-white rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                  <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <Phone className="w-8 h-8 text-green-600" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+                    <h3 className="text-xl font-bold text-slate-900 mb-2">
                       Phone
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-300">
+                    <p className="text-slate-600 text-lg">
                       +91 98765 43210
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-6 h-6 text-primary-600 dark:text-primary-400" />
+                <div className="flex items-start space-x-6 p-6 bg-white rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                  <div className="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <Mail className="w-8 h-8 text-purple-600" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+                    <h3 className="text-xl font-bold text-slate-900 mb-2">
                       Email
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-300">
+                    <p className="text-slate-600 text-lg">
                       info@apnajourney.com
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Clock className="w-6 h-6 text-primary-600 dark:text-primary-400" />
+                <div className="flex items-start space-x-6 p-6 bg-white rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                  <div className="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <Clock className="w-8 h-8 text-orange-600" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+                    <h3 className="text-xl font-bold text-slate-900 mb-2">
                       Business Hours
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-300">
+                    <p className="text-slate-600 text-lg leading-relaxed">
                       Monday - Friday: 9:00 AM - 6:00 PM<br />
                       Saturday: 10:00 AM - 4:00 PM<br />
                       Sunday: Closed
@@ -191,54 +205,77 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <div className="bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20 p-6 rounded-lg">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
-                  Quick Response
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300 text-sm">
+              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-2xl border border-blue-100">
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mr-4">
+                    <Zap className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-slate-900">
+                    Quick Response Guarantee
+                  </h3>
+                </div>
+                <p className="text-slate-700 text-lg leading-relaxed">
                   We typically respond to all inquiries within 24 hours. For urgent matters, 
-                  please call us directly.
+                  please call us directly for immediate assistance.
                 </p>
               </div>
             </div>
 
             {/* Contact Form */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
-              <div className="mb-6">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+            <div className="bg-white rounded-3xl shadow-xl p-10 border border-slate-200">
+              <div className="mb-8">
+                <div className="inline-flex items-center px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-medium mb-6">
+                  <Send className="w-4 h-4 mr-2" />
                   Send us a Message
+                </div>
+                <h2 className="text-3xl font-bold text-slate-900 mb-4">
+                  Get Started Today
                 </h2>
-                <p className="text-gray-600 dark:text-gray-300">
-                  Fill out the form below and we'll get back to you as soon as possible.
+                <p className="text-slate-600 text-lg leading-relaxed">
+                  Fill out the form below and we&apos;ll get back to you as soon as possible.
                 </p>
               </div>
 
               {submitStatus === 'success' && (
-                <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0" />
-                  <p className="text-green-800 dark:text-green-200">
-                    Thank you! Your message has been sent successfully. We'll get back to you soon.
-                  </p>
+                <div className="mb-8 p-6 bg-green-50 border border-green-200 rounded-2xl flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <CheckCircle className="w-6 h-6 text-green-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-green-800 mb-1">
+                      Message Sent Successfully!
+                    </h3>
+                    <p className="text-green-700">
+                      Thank you! Your message has been sent successfully. We&apos;ll get back to you soon.
+                    </p>
+                  </div>
                 </div>
               )}
 
               {submitStatus === 'error' && (
-                <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-center space-x-3">
-                  <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0" />
-                  <p className="text-red-800 dark:text-red-200">
-                    {errorMessage}
-                  </p>
+                <div className="mb-8 p-6 bg-red-50 border border-red-200 rounded-2xl flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <AlertCircle className="w-6 h-6 text-red-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-red-800 mb-1">
+                      Error Sending Message
+                    </h3>
+                    <p className="text-red-700">
+                      {errorMessage}
+                    </p>
+                  </div>
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-8">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label htmlFor="name" className="block text-sm font-semibold text-slate-700 mb-3">
                       Full Name *
                     </label>
                     <div className="relative">
-                      <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                      <User className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
                       <input
                         type="text"
                         id="name"
@@ -246,18 +283,18 @@ export default function ContactPage() {
                         value={formData.name}
                         onChange={handleInputChange}
                         required
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                        className="w-full pl-12 pr-4 py-4 border border-slate-300 rounded-xl bg-slate-50 text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                         placeholder="Enter your full name"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label htmlFor="email" className="block text-sm font-semibold text-slate-700 mb-3">
                       Email Address *
                     </label>
                     <div className="relative">
-                      <MailIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                      <MailIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
                       <input
                         type="email"
                         id="email"
@@ -265,7 +302,7 @@ export default function ContactPage() {
                         value={formData.email}
                         onChange={handleInputChange}
                         required
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                        className="w-full pl-12 pr-4 py-4 border border-slate-300 rounded-xl bg-slate-50 text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                         placeholder="Enter your email"
                       />
                     </div>
@@ -274,25 +311,25 @@ export default function ContactPage() {
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label htmlFor="phone" className="block text-sm font-semibold text-slate-700 mb-3">
                       Phone Number
                     </label>
                     <div className="relative">
-                      <PhoneIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                      <PhoneIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
                       <input
                         type="tel"
                         id="phone"
                         name="phone"
                         value={formData.phone}
                         onChange={handleInputChange}
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                        className="w-full pl-12 pr-4 py-4 border border-slate-300 rounded-xl bg-slate-50 text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                         placeholder="Enter your phone number"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="type" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label htmlFor="type" className="block text-sm font-semibold text-slate-700 mb-3">
                       Inquiry Type *
                     </label>
                     <select
@@ -301,7 +338,7 @@ export default function ContactPage() {
                       value={formData.type}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                      className="w-full px-4 py-4 border border-slate-300 rounded-xl bg-slate-50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                     >
                       {inquiryTypes.map((type) => (
                         <option key={type.value} value={type.value}>
@@ -313,7 +350,7 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label htmlFor="subject" className="block text-sm font-semibold text-slate-700 mb-3">
                     Subject *
                   </label>
                   <input
@@ -323,17 +360,17 @@ export default function ContactPage() {
                     value={formData.subject}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    className="w-full px-4 py-4 border border-slate-300 rounded-xl bg-slate-50 text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                     placeholder="What's this about?"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label htmlFor="message" className="block text-sm font-semibold text-slate-700 mb-3">
                     Message *
                   </label>
                   <div className="relative">
-                    <FileText className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+                    <FileText className="absolute left-4 top-4 w-5 h-5 text-slate-400" />
                     <textarea
                       id="message"
                       name="message"
@@ -341,7 +378,7 @@ export default function ContactPage() {
                       onChange={handleInputChange}
                       required
                       rows={6}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none"
+                      className="w-full pl-12 pr-4 py-4 border border-slate-300 rounded-xl bg-slate-50 text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition-all"
                       placeholder="Tell us more about your inquiry..."
                     />
                   </div>
@@ -350,17 +387,17 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-primary-600 hover:bg-primary-700 disabled:bg-primary-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2"
+                  className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 disabled:from-blue-400 disabled:to-indigo-400 text-white font-bold py-4 px-8 rounded-xl transition-all duration-200 flex items-center justify-center space-x-3 shadow-lg hover:shadow-xl disabled:shadow-none"
                 >
                   {isSubmitting ? (
                     <>
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      <span>Sending...</span>
+                      <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span className="text-lg">Sending...</span>
                     </>
                   ) : (
                     <>
-                      <Send className="w-5 h-5" />
-                      <span>Send Message</span>
+                      <Send className="w-6 h-6" />
+                      <span className="text-lg">Send Message</span>
                     </>
                   )}
                 </button>

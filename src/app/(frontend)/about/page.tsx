@@ -14,37 +14,54 @@ import {
   MapPin,
   Phone,
   Mail,
-  Clock
+  Building2,
+  TrendingUp,
+  Users2,
+  Newspaper
 } from 'lucide-react'
+import Link from 'next/link'
+import Image from 'next/image'
 
 export default function AboutPage() {
   const stats = [
-    { label: 'Active Jobs', value: '500+', icon: Target },
-    { label: 'Happy Users', value: '10K+', icon: Users },
-    { label: 'News Articles', value: '200+', icon: Globe },
-    { label: 'Success Rate', value: '95%', icon: Award }
+    { label: 'Active Jobs', value: '500+', icon: Target, color: 'text-blue-600', bgColor: 'bg-blue-100' },
+    { label: 'Happy Users', value: '10K+', icon: Users, color: 'text-green-600', bgColor: 'bg-green-100' },
+    { label: 'News Articles', value: '200+', icon: Newspaper, color: 'text-purple-600', bgColor: 'bg-purple-100' },
+    { label: 'Success Rate', value: '95%', icon: Award, color: 'text-orange-600', bgColor: 'bg-orange-100' }
   ]
 
   const values = [
     {
       icon: Heart,
       title: 'Community First',
-      description: 'We believe in putting our local community at the heart of everything we do, creating opportunities that matter to Gaya residents.'
+      description: 'We believe in putting our local community at the heart of everything we do, creating opportunities that matter to Gaya residents.',
+      color: 'text-red-600',
+      bgColor: 'bg-red-50',
+      iconBg: 'bg-red-100'
     },
     {
       icon: Shield,
       title: 'Trust & Transparency',
-      description: 'Every job posting and news article is verified to ensure authenticity and build trust within our community.'
+      description: 'Every job posting and news article is verified to ensure authenticity and build trust within our community.',
+      color: 'text-blue-600',
+      bgColor: 'bg-blue-50',
+      iconBg: 'bg-blue-100'
     },
     {
       icon: Lightbulb,
       title: 'Innovation',
-      description: 'We continuously evolve our platform with cutting-edge technology to provide the best user experience.'
+      description: 'We continuously evolve our platform with cutting-edge technology to provide the best user experience.',
+      color: 'text-yellow-600',
+      bgColor: 'bg-yellow-50',
+      iconBg: 'bg-yellow-100'
     },
     {
       icon: Globe,
       title: 'Local Focus',
-      description: 'Deep understanding of local needs, culture, and opportunities specific to Gaya and surrounding areas.'
+      description: 'Deep understanding of local needs, culture, and opportunities specific to Gaya and surrounding areas.',
+      color: 'text-green-600',
+      bgColor: 'bg-green-50',
+      iconBg: 'bg-green-100'
     }
   ]
 
@@ -53,36 +70,45 @@ export default function AboutPage() {
       name: 'Rajesh Kumar',
       role: 'Founder & CEO',
       description: 'Passionate about connecting Gaya\'s talent with opportunities',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face'
+      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face',
+      gradient: 'from-blue-500 to-blue-600'
     },
     {
       name: 'Priya Sharma',
       role: 'Head of Operations',
       description: 'Ensuring smooth operations and user satisfaction',
-      image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=400&fit=crop&crop=face'
+      image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=400&fit=crop&crop=face',
+      gradient: 'from-purple-500 to-purple-600'
     },
     {
       name: 'Amit Singh',
       role: 'Tech Lead',
       description: 'Building innovative solutions for our community',
-      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face'
+      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face',
+      gradient: 'from-green-500 to-green-600'
     }
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-primary-600 via-primary-700 to-secondary-600 overflow-hidden">
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-4xl mx-auto text-center text-white">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              About <span className="text-yellow-400">Apna Journey</span>
+      <section className="relative py-24 bg-gradient-to-br from-blue-600 via-indigo-700 to-purple-800 overflow-hidden">
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20"></div>
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-5xl mx-auto text-center text-white">
+            <div className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium mb-8">
+              <Building2 className="w-4 h-4 mr-2" />
+              About Apna Journey
+            </div>
+            <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">
+              Empowering <span className="text-yellow-400">Gaya</span><br />
+              <span className="text-4xl md:text-5xl font-semibold text-blue-100">One Opportunity at a Time</span>
             </h1>
-            <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
+            <p className="text-xl md:text-2xl text-blue-100 mb-8 leading-relaxed max-w-4xl mx-auto">
               गया की आवाज़ - Your trusted platform for local opportunities and news
             </p>
-            <p className="text-lg text-white/80 max-w-3xl mx-auto">
+            <p className="text-lg text-blue-200 max-w-3xl mx-auto leading-relaxed">
               We are dedicated to empowering the Gaya community by connecting talented individuals 
               with meaningful opportunities and keeping everyone informed about local developments.
             </p>
@@ -91,20 +117,28 @@ export default function AboutPage() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-white dark:bg-gray-800">
-        <div className="container mx-auto px-4">
+      <section className="py-20 bg-white relative">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              Our Impact in Numbers
+            </h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              Building a stronger community through verified opportunities and trusted information
+            </p>
+          </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => {
               const IconComponent = stat.icon
               return (
-                <div key={index} className="text-center">
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-100 dark:bg-primary-900/30 rounded-full mb-4">
-                    <IconComponent className="w-8 h-8 text-primary-600 dark:text-primary-400" />
+                <div key={index} className="text-center group">
+                  <div className={`inline-flex items-center justify-center w-20 h-20 ${stat.bgColor} rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                    <IconComponent className={`w-10 h-10 ${stat.color}`} />
                   </div>
-                  <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                  <div className="text-4xl font-bold text-slate-900 mb-2">
                     {stat.value}
                   </div>
-                  <div className="text-gray-600 dark:text-gray-400">
+                  <div className="text-slate-600 font-medium">
                     {stat.label}
                   </div>
                 </div>
@@ -115,19 +149,25 @@ export default function AboutPage() {
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-20 bg-gray-50 dark:bg-gray-900">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div>
-                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
-                  Our Mission
-                </h2>
-                <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                  To bridge the gap between local talent and opportunities in Gaya, creating a 
-                  thriving ecosystem where every individual can find meaningful employment and 
-                  stay connected with their community.
-                </p>
+      <section className="py-24 bg-gradient-to-r from-slate-50 to-blue-50/50">
+        <div className="container mx-auto px-6">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              <div className="space-y-8">
+                <div>
+                  <div className="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium mb-6">
+                    <Target className="w-4 h-4 mr-2" />
+                    Our Mission
+                  </div>
+                  <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">
+                    Bridging Talent with <span className="text-blue-600">Opportunity</span>
+                  </h2>
+                  <p className="text-xl text-slate-600 mb-8 leading-relaxed">
+                    To bridge the gap between local talent and opportunities in Gaya, creating a 
+                    thriving ecosystem where every individual can find meaningful employment and 
+                    stay connected with their community.
+                  </p>
+                </div>
                 <div className="space-y-4">
                   {[
                     'Connect local talent with quality opportunities',
@@ -135,28 +175,36 @@ export default function AboutPage() {
                     'Foster community growth and development',
                     'Ensure transparency and trust in all interactions'
                   ].map((item, index) => (
-                    <div key={index} className="flex items-center space-x-3">
-                      <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                      <span className="text-gray-700 dark:text-gray-300">{item}</span>
+                    <div key={index} className="flex items-center space-x-4">
+                      <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <CheckCircle className="w-5 h-5 text-green-600" />
+                      </div>
+                      <span className="text-slate-700 text-lg">{item}</span>
                     </div>
                   ))}
                 </div>
               </div>
-              <div>
-                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
-                  Our Vision
-                </h2>
-                <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                  To become the leading platform that empowers every resident of Gaya to achieve 
-                  their professional goals while staying informed and connected with their community.
-                </p>
-                <div className="bg-primary-50 dark:bg-primary-900/20 p-6 rounded-lg">
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+              <div className="space-y-8">
+                <div>
+                  <div className="inline-flex items-center px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-medium mb-6">
+                    <TrendingUp className="w-4 h-4 mr-2" />
+                    Our Vision
+                  </div>
+                  <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">
+                    Empowering Every <span className="text-purple-600">Resident</span>
+                  </h2>
+                  <p className="text-xl text-slate-600 mb-8 leading-relaxed">
+                    To become the leading platform that empowers every resident of Gaya to achieve 
+                    their professional goals while staying informed and connected with their community.
+                  </p>
+                </div>
+                <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-8 rounded-2xl border border-blue-100">
+                  <h3 className="text-2xl font-bold text-slate-900 mb-4">
                     Why Gaya?
                   </h3>
-                  <p className="text-gray-700 dark:text-gray-300">
-                    Gaya is not just a city; it's a community with rich heritage, diverse talent, 
-                    and immense potential. We're here to unlock that potential and help our 
+                  <p className="text-slate-700 text-lg leading-relaxed">
+                    Gaya is not just a city; it&apos;s a community with rich heritage, diverse talent, 
+                    and immense potential. We&apos;re here to unlock that potential and help our 
                     community thrive in the modern economy.
                   </p>
                 </div>
@@ -167,14 +215,18 @@ export default function AboutPage() {
       </section>
 
       {/* Values Section */}
-      <section className="py-20 bg-white dark:bg-gray-800">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-20">
+              <div className="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-700 rounded-full text-sm font-medium mb-6">
+                <Heart className="w-4 h-4 mr-2" />
                 Our Core Values
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
+                What Drives Us Forward
               </h2>
-              <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
                 These principles guide everything we do and shape our commitment to the Gaya community.
               </p>
             </div>
@@ -182,14 +234,14 @@ export default function AboutPage() {
               {values.map((value, index) => {
                 const IconComponent = value.icon
                 return (
-                  <div key={index} className="text-center group">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-600 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
-                      <IconComponent className="w-8 h-8 text-white" />
+                  <div key={index} className={`${value.bgColor} p-8 rounded-2xl group hover:shadow-lg transition-all duration-300`}>
+                    <div className={`inline-flex items-center justify-center w-16 h-16 ${value.iconBg} rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                      <IconComponent className={`w-8 h-8 ${value.color}`} />
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                    <h3 className="text-2xl font-bold text-slate-900 mb-4">
                       {value.title}
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    <p className="text-slate-700 leading-relaxed">
                       {value.description}
                     </p>
                   </div>
@@ -201,35 +253,46 @@ export default function AboutPage() {
       </section>
 
       {/* Team Section */}
-      <section className="py-20 bg-gray-50 dark:bg-gray-900">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+      <section className="py-24 bg-gradient-to-r from-slate-50 to-blue-50/50">
+        <div className="container mx-auto px-6">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-20">
+              <div className="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium mb-6">
+                <Users2 className="w-4 h-4 mr-2" />
                 Meet Our Team
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
+                Passionate People, <span className="text-blue-600">Purposeful Impact</span>
               </h2>
-              <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
                 Passionate individuals dedicated to serving the Gaya community and making a difference.
               </p>
             </div>
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-3 gap-12">
               {team.map((member, index) => (
                 <div key={index} className="text-center group">
-                  <div className="relative mb-6">
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      className="w-32 h-32 rounded-full mx-auto object-cover shadow-lg group-hover:shadow-xl transition-shadow duration-300"
-                    />
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary-500/20 to-secondary-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="relative mb-8">
+                    <div className="relative w-40 h-40 mx-auto">
+                      <Image
+                        src={member.image}
+                        alt={member.name}
+                        width={160}
+                        height={160}
+                        className="w-full h-full rounded-full object-cover shadow-xl group-hover:shadow-2xl transition-shadow duration-300"
+                      />
+                      <div className={`absolute inset-0 rounded-full bg-gradient-to-br ${member.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-300`}></div>
+                    </div>
+                    <div className={`absolute -bottom-2 -right-2 w-12 h-12 bg-gradient-to-br ${member.gradient} rounded-full flex items-center justify-center shadow-lg`}>
+                      <Star className="w-6 h-6 text-white" />
+                    </div>
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                  <h3 className="text-2xl font-bold text-slate-900 mb-2">
                     {member.name}
                   </h3>
-                  <p className="text-primary-600 dark:text-primary-400 font-medium mb-3">
+                  <p className="text-blue-600 font-semibold text-lg mb-4">
                     {member.role}
                   </p>
-                  <p className="text-gray-600 dark:text-gray-300 text-sm">
+                  <p className="text-slate-600 leading-relaxed">
                     {member.description}
                   </p>
                 </div>
@@ -240,70 +303,77 @@ export default function AboutPage() {
       </section>
 
       {/* Contact Info */}
-      <section className="py-20 bg-white dark:bg-gray-800">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-8">
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="max-w-5xl mx-auto text-center">
+            <div className="inline-flex items-center px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-medium mb-6">
+              <Mail className="w-4 h-4 mr-2" />
               Get in Touch
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-12">
+              Ready to Start Your <span className="text-green-600">Journey?</span>
             </h2>
-            <div className="grid md:grid-cols-3 gap-8 mb-12">
-              <div className="flex flex-col items-center">
-                <div className="w-16 h-16 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center mb-4">
-                  <MapPin className="w-8 h-8 text-primary-600 dark:text-primary-400" />
+            <div className="grid md:grid-cols-3 gap-8 mb-16">
+              <div className="flex flex-col items-center group">
+                <div className="w-20 h-20 bg-blue-100 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <MapPin className="w-10 h-10 text-blue-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                <h3 className="text-xl font-bold text-slate-900 mb-3">
                   Address
                 </h3>
-                <p className="text-gray-600 dark:text-gray-300 text-center">
+                <p className="text-slate-600 text-center leading-relaxed">
                   Gaya City Center<br />
                   Bihar, India - 823001
                 </p>
               </div>
-              <div className="flex flex-col items-center">
-                <div className="w-16 h-16 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center mb-4">
-                  <Phone className="w-8 h-8 text-primary-600 dark:text-primary-400" />
+              <div className="flex flex-col items-center group">
+                <div className="w-20 h-20 bg-green-100 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <Phone className="w-10 h-10 text-green-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                <h3 className="text-xl font-bold text-slate-900 mb-3">
                   Phone
                 </h3>
-                <p className="text-gray-600 dark:text-gray-300">
+                <p className="text-slate-600">
                   +91 98765 43210
                 </p>
               </div>
-              <div className="flex flex-col items-center">
-                <div className="w-16 h-16 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center mb-4">
-                  <Mail className="w-8 h-8 text-primary-600 dark:text-primary-400" />
+              <div className="flex flex-col items-center group">
+                <div className="w-20 h-20 bg-purple-100 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <Mail className="w-10 h-10 text-purple-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                <h3 className="text-xl font-bold text-slate-900 mb-3">
                   Email
                 </h3>
-                <p className="text-gray-600 dark:text-gray-300">
+                <p className="text-slate-600">
                   info@apnajourney.com
                 </p>
               </div>
             </div>
-            <div className="bg-gradient-to-r from-primary-600 to-secondary-600 rounded-2xl p-8 text-white">
-              <h3 className="text-2xl font-bold mb-4">
-                Ready to Start Your Journey?
-              </h3>
-              <p className="text-white/90 mb-6">
-                Join thousands of Gaya residents who have found their dream jobs and stay updated with local news.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
-                  href="/jobs"
-                  className="inline-flex items-center justify-center px-6 py-3 bg-white text-primary-600 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
-                >
-                  Browse Jobs
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </a>
-                <a
-                  href="/contact"
-                  className="inline-flex items-center justify-center px-6 py-3 bg-transparent border-2 border-white/30 text-white rounded-lg font-semibold hover:bg-white/10 transition-colors"
-                >
-                  Contact Us
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </a>
+            <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 rounded-3xl p-12 text-white relative overflow-hidden">
+              <div className="absolute inset-0 bg-black/10"></div>
+              <div className="relative z-10">
+                <h3 className="text-3xl font-bold mb-6">
+                  Join Our Community Today
+                </h3>
+                <p className="text-blue-100 text-xl mb-8 max-w-2xl mx-auto leading-relaxed">
+                  Join thousands of Gaya residents who have found their dream jobs and stay updated with local news.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-6 justify-center">
+                  <Link
+                    href="/jobs"
+                    className="inline-flex items-center justify-center px-8 py-4 bg-white text-blue-600 rounded-xl font-bold text-lg hover:bg-blue-50 transition-colors shadow-lg hover:shadow-xl"
+                  >
+                    Browse Jobs
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Link>
+                  <Link
+                    href="/contact"
+                    className="inline-flex items-center justify-center px-8 py-4 bg-transparent border-2 border-white/30 text-white rounded-xl font-bold text-lg hover:bg-white/10 transition-colors"
+                  >
+                    Contact Us
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
