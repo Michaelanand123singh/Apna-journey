@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import mongoose from 'mongoose'
-import dbConnect from '@/lib/db/mongodb'
+import { safeDbConnect, isBuildContext, getBuildTimeResponse } from '@/lib/utils/db'
 import User from '@/lib/models/User.model'
 import Job from '@/lib/models/Job.model'
 import News from '@/lib/models/News.model'
@@ -15,7 +15,17 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 })
     }
 
-    await dbConnect()
+    // Check if we're in build context
+    if (isBuildContext()) {
+      return NextResponse.json(getBuildTimeResponse())
+    }
+
+    const dbConnection = await safeDbConnect()
+    
+    // If no database connection available, return empty data
+    if (!dbConnection) {
+      return NextResponse.json(getBuildTimeResponse())
+    }
 
     // Ensure User model is registered
     if (!mongoose.models.User) {

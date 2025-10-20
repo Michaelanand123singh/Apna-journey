@@ -1,6 +1,7 @@
-const MONGODB_URI = process.env.MONGODB_URI!
+const MONGODB_URI = process.env.MONGODB_URI
 
-if (!MONGODB_URI) {
+// Only throw error if we're not in build mode and MONGODB_URI is missing
+if (!MONGODB_URI && process.env.NODE_ENV !== 'production' && !process.env.NEXT_PHASE) {
   throw new Error('Please define the MONGODB_URI environment variable inside .env.local')
 }
 
@@ -12,6 +13,12 @@ if (!cached) {
 }
 
 async function dbConnect() {
+  // Skip connection during build time or if MONGODB_URI is not available
+  if (!MONGODB_URI || process.env.NEXT_PHASE === 'phase-production-build') {
+    console.warn('⚠️ MONGODB_URI not available or in build phase, skipping database connection')
+    return null
+  }
+
   if (!cached) {
     cached = { conn: null, promise: null }
     ;(global as any).mongoose = cached as any
