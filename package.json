@@ -24,7 +24,10 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/multer": "^2.0.0",
+    "@types/node": "^20.19.21",
     "@types/nodemailer": "^7.0.2",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
     "bcryptjs": "^3.0.2",
     "cloudinary": "^2.7.0",
     "clsx": "^2.1.1",
@@ -40,19 +43,16 @@
     "react-dom": "19.1.0",
     "react-hook-form": "^7.65.0",
     "tailwind-merge": "^3.3.1",
+    "typescript": "^5",
     "zod": "^4.1.12",
     "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20.19.21",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.5.5",
     "tailwindcss": "^4",
-    "tsx": "^4.19.2",
-    "typescript": "^5"
+    "tsx": "^4.19.2"
   }
 }
