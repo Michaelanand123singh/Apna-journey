@@ -18,8 +18,8 @@ export default function NewsPage() {
                 <Newspaper className="w-8 h-8 text-white" />
               </div>
               <div>
-                <h1 className="text-4xl font-bold text-slate-900 tracking-tight">Gaya News</h1>
-                <p className="text-slate-600 text-lg mt-2">Stay informed with the latest developments in Gaya and Bihar</p>
+                <h1 className="text-4xl font-bold text-slate-900 tracking-tight">Bihar News</h1>
+                <p className="text-slate-600 text-lg mt-2">Stay informed with the latest developments across Bihar</p>
               </div>
             </div>
             

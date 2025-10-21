@@ -47,10 +47,10 @@ export default function HeroSection() {
   const [loading, setLoading] = useState(true)
 
   const heroTexts = [
-    "Find Your Dream Job in Gaya",
-    "Stay Updated with Local News",
-    "Connect with Local Community",
-    "Discover Opportunities"
+    "Find Your Dream Job in Bihar",
+    "Stay Updated with Bihar News",
+    "Connect with Bihar Community",
+    "Discover Opportunities Across Bihar"
   ]
 
   useEffect(() => {
@@ -87,19 +87,19 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-black/40 z-10"></div>
         <div className="absolute inset-0 opacity-30">
           <div className="w-full h-full bg-cover bg-center bg-no-repeat animate-scroll" style={{
-            backgroundImage: `url("https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80")`,
+            backgroundImage: `url("https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80")`,
             animation: 'scroll 20s linear infinite'
           }}></div>
         </div>
         <div className="absolute inset-0 opacity-20">
           <div className="w-full h-full bg-cover bg-center bg-no-repeat animate-scroll-reverse" style={{
-            backgroundImage: `url("https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2084&q=80")`,
+            backgroundImage: `url("https://images.unsplash.com/photo-1587474260584-136574528ed5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80")`,
             animation: 'scroll-reverse 25s linear infinite'
           }}></div>
         </div>
         <div className="absolute inset-0 opacity-15">
           <div className="w-full h-full bg-cover bg-center bg-no-repeat animate-scroll-slow" style={{
-            backgroundImage: `url("https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80")`,
+            backgroundImage: `url("https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80")`,
             animation: 'scroll-slow 30s linear infinite'
           }}></div>
         </div>
@@ -121,7 +121,7 @@ export default function HeroSection() {
               <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight">
                 <span className="block text-white">Apna Journey</span>
                 <span className="block text-lg md:text-xl lg:text-2xl font-hindi text-white/80 mt-1">
-                  गया की आवाज़
+                  बिहार की आवाज़
                 </span>
         </h1>
               
@@ -135,7 +135,7 @@ export default function HeroSection() {
 
             {/* Description */}
             <p className="text-sm md:text-base text-white/80 leading-relaxed max-w-lg">
-              Your comprehensive platform for local job opportunities and news in Gaya, Bihar. 
+              Your comprehensive platform for local job opportunities and news across Bihar. 
               Connect with the community and discover endless possibilities.
             </p>
 
@@ -143,7 +143,7 @@ export default function HeroSection() {
             <div className="space-y-2 md:space-y-2.5">
               {[
                 "Verified job listings from local employers",
-                "Real-time news updates from Gaya",
+                "Real-time news updates from Bihar",
                 "Community-driven content and reviews",
                 "Mobile-first responsive design"
               ].map((feature, index) => (

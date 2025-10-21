@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
         id: 'welcome',
         name: 'Welcome Email',
         subject: 'Welcome to Apna Journey!',
-        body: 'Dear {{name}},\n\nWelcome to Apna Journey - Gaya Ki Awaaz! We\'re excited to have you join our community.\n\nYou can now:\n- Browse and apply for local jobs\n- Stay updated with Gaya news\n- Post job opportunities\n- Connect with the community\n\nIf you have any questions, feel free to contact us.\n\nBest regards,\nThe Apna Journey Team',
+        body: 'Dear {{name}},\n\nWelcome to Apna Journey - Bihar Ki Awaaz! We\'re excited to have you join our community.\n\nYou can now:\n- Browse and apply for local jobs across Bihar\n- Stay updated with Bihar news\n- Post job opportunities\n- Connect with the community\n\nIf you have any questions, feel free to contact us.\n\nBest regards,\nThe Apna Journey Team',
         type: 'welcome'
       },
       {

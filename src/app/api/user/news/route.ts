@@ -12,7 +12,7 @@ const createNewsSchema = z.object({
   category: z.enum(['politics', 'education', 'crime', 'sports', 'business', 'local-events', 'development', 'health', 'entertainment', 'technology', 'environment', 'other']),
   tags: z.array(z.string()).optional().default([]),
   language: z.enum(['english', 'hindi']).default('english'),
-  status: z.enum(['draft', 'published']).default('draft'),
+  status: z.enum(['draft', 'pending', 'published']).default('pending'),
   isFeatured: z.boolean().default(false),
   seoTitle: z.string().optional(),
   seoDescription: z.string().optional()

@@ -28,7 +28,7 @@ export default function PostNewsPage() {
     category: '',
     tags: [] as string[],
     language: 'english' as 'english' | 'hindi',
-    status: 'draft' as 'draft' | 'published',
+    status: 'pending' as 'draft' | 'pending' | 'published',
     isFeatured: false,
     seoTitle: '',
     seoDescription: ''

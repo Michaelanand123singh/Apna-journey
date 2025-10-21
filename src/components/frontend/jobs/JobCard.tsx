@@ -5,7 +5,6 @@ import { Job } from '@/types'
 import { 
   MapPin, 
   Clock, 
-  DollarSign, 
   Building, 
   Calendar, 
   Eye, 
@@ -135,7 +134,7 @@ export default function JobCard({ job }: JobCardProps) {
           {job.salary && (
             <div className="flex items-center text-sm text-slate-600">
               <div className="p-1.5 bg-green-100 rounded-lg mr-3">
-                <DollarSign className="w-3.5 h-3.5 text-green-600" />
+                <span className="text-green-600 font-bold text-sm">₹</span>
               </div>
               <span className="truncate">{job.salary}</span>
             </div>

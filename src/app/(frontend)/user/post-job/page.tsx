@@ -6,7 +6,6 @@ import {
   Briefcase, 
   Building, 
   MapPin, 
-  DollarSign, 
   Calendar,
   Mail,
   Phone,
@@ -15,7 +14,7 @@ import {
   CheckCircle
 } from 'lucide-react'
 import { JOB_CATEGORIES, JOB_TYPES } from '@/lib/constants/categories'
-import { GAYA_LOCATIONS } from '@/lib/constants/locations'
+import { BIHAR_LOCATIONS } from '@/lib/constants/locations'
 import LoadingButton from '@/components/shared/LoadingButton'
 
 export default function PostJobPage() {
@@ -397,7 +396,7 @@ export default function PostJobPage() {
                         }`}
                       >
                         <option value="">Select Location</option>
-                        {GAYA_LOCATIONS.map((location) => (
+                        {BIHAR_LOCATIONS.map((location) => (
                           <option key={location.value} value={location.value}>
                             {location.label}
                           </option>
@@ -411,11 +410,11 @@ export default function PostJobPage() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Salary (Optional)
+                      Salary in INR (Optional)
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <DollarSign className="h-5 w-5 text-gray-400" />
+                        <span className="text-gray-400 font-bold text-lg">₹</span>
                       </div>
                       <input
                         type="text"

@@ -154,8 +154,8 @@ export default function ContactPage() {
                       Address
                     </h3>
                     <p className="text-slate-600 text-lg leading-relaxed">
-                      Gaya City Center<br />
-                      Bihar, India - 823001
+                      Patna, Bihar<br />
+                      India
                     </p>
                   </div>
                 </div>

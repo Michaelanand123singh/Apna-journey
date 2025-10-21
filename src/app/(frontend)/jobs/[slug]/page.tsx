@@ -92,7 +92,7 @@ export async function generateMetadata({ params }: { params: Promise<JobPagePara
   return {
     title: `${job.title} at ${job.company} - Apna Journey`,
     description: job.description.substring(0, 160),
-    keywords: `jobs in Gaya, ${job.title}, ${job.company}, ${job.category}, ${job.jobType}`,
+    keywords: `jobs in Bihar, ${job.title}, ${job.company}, ${job.category}, ${job.jobType}`,
     openGraph: {
       title: `${job.title} at ${job.company}`,
       description: job.description.substring(0, 160),

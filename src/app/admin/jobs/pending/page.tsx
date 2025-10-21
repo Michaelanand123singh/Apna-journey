@@ -276,7 +276,7 @@ export default function PendingJobsPage() {
                     <p className="text-gray-600">{selectedJob.jobType}</p>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-2">Salary</h3>
+                    <h3 className="font-semibold text-gray-900 mb-2">Salary (INR)</h3>
                     <p className="text-gray-600">{selectedJob.salary}</p>
                   </div>
                   <div>

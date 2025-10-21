@@ -59,7 +59,7 @@ const JobSchema = new Schema<IJob>({
   location: { 
     type: String, 
     required: [true, 'Location is required'],
-    enum: ['gaya-city', 'bodh-gaya', 'sherghati', 'manpur', 'tekari', 'wazirganj', 'mohania', 'dobhi', 'fatehpur', 'guraru', 'other']
+    enum: ['patna', 'gaya', 'bhagalpur', 'muzaffarpur', 'darbhanga', 'purnia', 'bihar-sharif', 'arrah', 'begusarai', 'katihar', 'munger', 'chapra', 'saharsa', 'sasaram', 'hajipur', 'dehri', 'bettiah', 'motihari', 'buxar', 'kishanganj', 'sitamarhi', 'gopalganj', 'madhubani', 'siwan', 'jehanabad', 'aurangabad', 'nawada', 'jamui', 'lakhisarai', 'sheikhpura', 'banka', 'arwal', 'sheohar', 'kaimur', 'rohtas', 'bhojpur', 'other']
   },
   salary: { 
     type: String,

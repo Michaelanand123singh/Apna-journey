@@ -10,7 +10,7 @@ export interface INews extends Document {
   tags: string[]
   language: 'english' | 'hindi'
   author: mongoose.Types.ObjectId
-  status: 'draft' | 'published'
+  status: 'draft' | 'pending' | 'published' | 'rejected'
   isFeatured: boolean
   views: number
   publishedAt: Date
@@ -83,8 +83,8 @@ const NewsSchema = new Schema<INews>({
   },
   status: { 
     type: String, 
-    enum: ['draft', 'published'], 
-    default: 'draft' 
+    enum: ['draft', 'pending', 'published', 'rejected'], 
+    default: 'pending' 
   },
   isFeatured: { 
     type: Boolean, 

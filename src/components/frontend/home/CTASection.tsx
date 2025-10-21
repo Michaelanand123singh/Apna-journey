@@ -6,7 +6,7 @@ export default function CTASection() {
   return (
     <section className="py-16 text-black">
       <div className="container mx-auto px-4 text-center">
-        <p className="text-xl mb-8">Join thousands of Gaya residents using Apna Journey</p>
+        <p className="text-xl mb-8">Join thousands of Bihar residents using Apna Journey</p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link 
             href="/auth/login" 

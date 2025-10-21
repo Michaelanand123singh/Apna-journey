@@ -17,11 +17,11 @@ export async function GET(request: NextRequest) {
     // In a real application, you would store these in a database
     const settings = {
       siteName: 'Apna Journey',
-      siteDescription: 'Gaya Ki Awaaz - Jobs & News Platform',
+      siteDescription: 'Bihar Ki Awaaz - Jobs & News Platform',
       siteUrl: 'https://apnajourney.com',
       contactEmail: 'info@apnajourney.com',
       contactPhone: '+91 98765 43210',
-      address: 'Gaya City Center, Bihar, India - 823001',
+      address: 'Patna, Bihar, India',
       socialMedia: {
         facebook: '',
         twitter: '',
@@ -29,9 +29,9 @@ export async function GET(request: NextRequest) {
         linkedin: ''
       },
       seo: {
-        metaTitle: 'Apna Journey - Gaya Ki Awaaz | Jobs & News in Gaya, Bihar',
-        metaDescription: 'Find local jobs and stay updated with Gaya news. Your one-stop platform for opportunities and information in Gaya, Bihar.',
-        metaKeywords: 'Gaya jobs, Bihar news, local jobs, Gaya news, jobs in Gaya, government jobs Gaya, part time jobs Gaya'
+        metaTitle: 'Apna Journey - Bihar Ki Awaaz | Jobs & News in Bihar',
+        metaDescription: 'Find local jobs and stay updated with Bihar news. Your one-stop platform for opportunities and information across Bihar.',
+        metaKeywords: 'Bihar jobs, Bihar news, local jobs, Bihar employment, jobs in Bihar, government jobs Bihar, part time jobs Bihar'
       },
       notifications: {
         emailNotifications: true,

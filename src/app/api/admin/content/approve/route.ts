@@ -38,14 +38,22 @@ export async function PATCH(request: NextRequest) {
         { new: true }
       ).populate('postedBy', 'name email')
     } else if (type === 'news') {
+      const updateData: any = {
+        rejectionReason: reason,
+        reviewedBy: admin.id,
+        reviewedAt: new Date()
+      }
+      
+      if (status === 'approved') {
+        updateData.status = 'published'
+        updateData.publishedAt = new Date()
+      } else {
+        updateData.status = 'rejected'
+      }
+      
       content = await News.findByIdAndUpdate(
         id,
-        { 
-          status,
-          rejectionReason: reason,
-          reviewedBy: admin.id,
-          reviewedAt: new Date()
-        },
+        updateData,
         { new: true }
       ).populate('author', 'name email')
     }

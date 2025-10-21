@@ -92,7 +92,7 @@ export async function generateMetadata({ params }: { params: Promise<NewsPagePar
   return {
     title: `${article.title} - Apna Journey`,
     description: article.excerpt,
-    keywords: `Gaya news, ${article.category}, ${article.tags?.join(', ')}, Bihar news`,
+    keywords: `Bihar news, ${article.category}, ${article.tags?.join(', ')}, local news`,
     openGraph: {
       title: article.title,
       description: article.excerpt,

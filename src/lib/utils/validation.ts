@@ -42,7 +42,7 @@ export const createJobSchema = z.object({
     .max(2000, 'Description cannot exceed 2000 characters'),
   category: z.enum(['government', 'private', 'part-time', 'internship', 'work-from-home', 'freelance', 'education', 'healthcare', 'banking', 'it', 'marketing', 'other']),
   jobType: z.enum(['full-time', 'part-time', 'contract', 'internship']),
-  location: z.enum(['gaya-city', 'bodh-gaya', 'sherghati', 'manpur', 'tekari', 'wazirganj', 'mohania', 'dobhi', 'fatehpur', 'guraru', 'other']),
+  location: z.enum(['patna', 'gaya', 'bhagalpur', 'muzaffarpur', 'darbhanga', 'purnia', 'bihar-sharif', 'arrah', 'begusarai', 'katihar', 'munger', 'chapra', 'saharsa', 'sasaram', 'hajipur', 'dehri', 'bettiah', 'motihari', 'buxar', 'kishanganj', 'sitamarhi', 'gopalganj', 'madhubani', 'siwan', 'jehanabad', 'aurangabad', 'nawada', 'jamui', 'lakhisarai', 'sheikhpura', 'banka', 'arwal', 'sheohar', 'kaimur', 'rohtas', 'bhojpur', 'other']),
   salary: z.string()
     .max(50, 'Salary cannot exceed 50 characters')
     .optional(),
@@ -133,6 +133,7 @@ export const newsFiltersSchema = z.object({
   language: z.string().optional(),
   search: z.string().optional(),
   featured: z.string().optional(),
+  status: z.string().optional(),
   page: z.string().optional(),
   limit: z.string().optional(),
 })

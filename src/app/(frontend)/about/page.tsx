@@ -34,7 +34,7 @@ export default function AboutPage() {
     {
       icon: Heart,
       title: 'Community First',
-      description: 'We believe in putting our local community at the heart of everything we do, creating opportunities that matter to Gaya residents.',
+      description: 'We believe in putting our local community at the heart of everything we do, creating opportunities that matter to Bihar residents.',
       color: 'text-red-600',
       bgColor: 'bg-red-50',
       iconBg: 'bg-red-100'
@@ -58,7 +58,7 @@ export default function AboutPage() {
     {
       icon: Globe,
       title: 'Local Focus',
-      description: 'Deep understanding of local needs, culture, and opportunities specific to Gaya and surrounding areas.',
+      description: 'Deep understanding of local needs, culture, and opportunities specific to Bihar and its diverse regions.',
       color: 'text-green-600',
       bgColor: 'bg-green-50',
       iconBg: 'bg-green-100'
@@ -69,7 +69,7 @@ export default function AboutPage() {
     {
       name: 'Rajesh Kumar',
       role: 'Founder & CEO',
-      description: 'Passionate about connecting Gaya\'s talent with opportunities',
+      description: 'Passionate about connecting Bihar\'s talent with opportunities',
       image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face',
       gradient: 'from-blue-500 to-blue-600'
     },
@@ -102,14 +102,14 @@ export default function AboutPage() {
               About Apna Journey
             </div>
             <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">
-              Empowering <span className="text-yellow-400">Gaya</span><br />
+              Empowering <span className="text-yellow-400">Bihar</span><br />
               <span className="text-4xl md:text-5xl font-semibold text-blue-100">One Opportunity at a Time</span>
             </h1>
             <p className="text-xl md:text-2xl text-blue-100 mb-8 leading-relaxed max-w-4xl mx-auto">
-              गया की आवाज़ - Your trusted platform for local opportunities and news
+              बिहार की आवाज़ - Your trusted platform for opportunities and news across Bihar
             </p>
             <p className="text-lg text-blue-200 max-w-3xl mx-auto leading-relaxed">
-              We are dedicated to empowering the Gaya community by connecting talented individuals 
+              We are dedicated to empowering the Bihar community by connecting talented individuals 
               with meaningful opportunities and keeping everyone informed about local developments.
             </p>
           </div>
@@ -163,7 +163,7 @@ export default function AboutPage() {
                     Bridging Talent with <span className="text-blue-600">Opportunity</span>
                   </h2>
                   <p className="text-xl text-slate-600 mb-8 leading-relaxed">
-                    To bridge the gap between local talent and opportunities in Gaya, creating a 
+                    To bridge the gap between local talent and opportunities across Bihar, creating a 
                     thriving ecosystem where every individual can find meaningful employment and 
                     stay connected with their community.
                   </p>
@@ -194,16 +194,16 @@ export default function AboutPage() {
                     Empowering Every <span className="text-purple-600">Resident</span>
                   </h2>
                   <p className="text-xl text-slate-600 mb-8 leading-relaxed">
-                    To become the leading platform that empowers every resident of Gaya to achieve 
+                    To become the leading platform that empowers every resident of Bihar to achieve 
                     their professional goals while staying informed and connected with their community.
                   </p>
                 </div>
                 <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-8 rounded-2xl border border-blue-100">
                   <h3 className="text-2xl font-bold text-slate-900 mb-4">
-                    Why Gaya?
+                    Why Bihar?
                   </h3>
                   <p className="text-slate-700 text-lg leading-relaxed">
-                    Gaya is not just a city; it&apos;s a community with rich heritage, diverse talent, 
+                    Bihar is not just a state; it&apos;s a community with rich heritage, diverse talent, 
                     and immense potential. We&apos;re here to unlock that potential and help our 
                     community thrive in the modern economy.
                   </p>
@@ -227,7 +227,7 @@ export default function AboutPage() {
                 What Drives Us Forward
               </h2>
               <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-                These principles guide everything we do and shape our commitment to the Gaya community.
+                These principles guide everything we do and shape our commitment to the Bihar community.
               </p>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -265,7 +265,7 @@ export default function AboutPage() {
                 Passionate People, <span className="text-blue-600">Purposeful Impact</span>
               </h2>
               <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-                Passionate individuals dedicated to serving the Gaya community and making a difference.
+                Passionate individuals dedicated to serving the Bihar community and making a difference.
               </p>
             </div>
             <div className="grid md:grid-cols-3 gap-12">
@@ -322,8 +322,8 @@ export default function AboutPage() {
                   Address
                 </h3>
                 <p className="text-slate-600 text-center leading-relaxed">
-                  Gaya City Center<br />
-                  Bihar, India - 823001
+                  Patna, Bihar<br />
+                  India
                 </p>
               </div>
               <div className="flex flex-col items-center group">
@@ -356,7 +356,7 @@ export default function AboutPage() {
                   Join Our Community Today
                 </h3>
                 <p className="text-blue-100 text-xl mb-8 max-w-2xl mx-auto leading-relaxed">
-                  Join thousands of Gaya residents who have found their dream jobs and stay updated with local news.
+                  Join thousands of Bihar residents who have found their dream jobs and stay updated with local news.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-6 justify-center">
                   <Link

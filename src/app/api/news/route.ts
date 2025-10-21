@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import dbConnect from '@/lib/db/mongodb'
 import mongoose from 'mongoose'
 import News from '@/lib/models/News.model'
+import Admin from '@/lib/models/Admin.model'
 import { newsFiltersSchema } from '@/lib/utils/validation'
 
 export async function GET(request: NextRequest) {
@@ -52,12 +53,20 @@ export async function GET(request: NextRequest) {
       language,
       search,
       featured,
+      status,
       page = '1',
       limit = '10'
     } = validatedFilters
     
     // Build query
-    const query: any = { status: 'published' } // Only show published news
+    const query: any = {}
+    
+    // Default to published status if not specified
+    if (status) {
+      query.status = status
+    } else {
+      query.status = 'published' // Only show published news by default
+    }
     
     if (category) {
       query.category = category
@@ -72,7 +81,12 @@ export async function GET(request: NextRequest) {
     }
     
     if (search) {
-      query.$text = { $search: search }
+      // Use regex search instead of text search to avoid index issues
+      query.$or = [
+        { title: { $regex: search, $options: 'i' } },
+        { excerpt: { $regex: search, $options: 'i' } },
+        { content: { $regex: search, $options: 'i' } }
+      ]
     }
     
     // Pagination
@@ -80,18 +94,41 @@ export async function GET(request: NextRequest) {
     const limitNum = parseInt(limit)
     const skip = (pageNum - 1) * limitNum
     
+    // Ensure Admin model is registered
+    if (!mongoose.models.Admin) {
+      mongoose.model('Admin', Admin.schema)
+    }
+    
+    // Ensure News model is registered
+    if (!mongoose.models.News) {
+      mongoose.model('News', News.schema)
+    }
+
     // Execute query with error handling
-    let news, total
+    let news: any[] = []
+    let total = 0
+    
     try {
-      [news, total] = await Promise.all([
+      console.log('News API Query:', JSON.stringify(query, null, 2))
+      console.log('Pagination:', { pageNum, limitNum, skip })
+      
+      // Test basic query first
+      const testQuery = await News.find({ status: 'published' }).lean()
+      console.log('Test query result:', testQuery.length)
+      
+      const results = await Promise.all([
         News.find(query)
-          .populate('author', 'name email')
           .sort({ publishedAt: -1, createdAt: -1 })
           .skip(skip)
           .limit(limitNum)
           .lean(),
         News.countDocuments(query)
       ])
+      
+      news = results[0]
+      total = results[1]
+      
+      console.log('Query results:', { newsCount: news.length, total })
     } catch (dbError) {
       console.error('Database query error:', dbError)
       return NextResponse.json({

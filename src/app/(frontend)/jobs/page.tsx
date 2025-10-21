@@ -18,7 +18,7 @@ export default function JobsPage() {
               </div>
               <div>
                 <h1 className="text-4xl font-bold text-slate-900 tracking-tight">Career Opportunities</h1>
-                <p className="text-slate-600 text-lg mt-2">Discover your next professional journey in Gaya</p>
+                <p className="text-slate-600 text-lg mt-2">Discover your next professional journey in Bihar</p>
               </div>
             </div>
             

@@ -37,7 +37,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
             </h1>
           </div>
           <p className="text-gray-600 text-lg">
-            Stay updated with the latest {validCategory.label.toLowerCase()} news from Gaya and Bihar.
+            Stay updated with the latest {validCategory.label.toLowerCase()} news from Bihar.
           </p>
         </div>
       </section>

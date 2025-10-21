@@ -226,7 +226,7 @@ export default function AdminJobsPage() {
                     </div>
                     <div className="flex items-center space-x-4 text-sm text-gray-500">
                       <span>Type: {job.jobType}</span>
-                      <span>Salary: {job.salary}</span>
+                      <span>Salary (INR): {job.salary}</span>
                       <span>Posted by: {job.postedBy.name}</span>
                     </div>
                   </div>

@@ -5,7 +5,6 @@ import { Job } from '@/types'
 import { 
   MapPin, 
   Clock, 
-  DollarSign, 
   Building, 
   Calendar, 
   Mail, 
@@ -98,7 +97,7 @@ export default function JobDetails({ job }: JobDetailsProps) {
               </div>
               {job.salary && (
                 <div className="flex items-center text-gray-600">
-                  <DollarSign className="w-5 h-5 mr-2" />
+                  <span className="text-green-600 font-bold mr-2">₹</span>
                   <span>{job.salary}</span>
                 </div>
               )}
