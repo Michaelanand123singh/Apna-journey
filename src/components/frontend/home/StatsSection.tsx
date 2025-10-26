@@ -1,7 +1,6 @@
 'use client'
 
 import { TrendingUp, Users, Briefcase, Newspaper, Eye, Award } from 'lucide-react'
-import AdSenseBanner from '../ads/AdSenseBanner'
 
 export default function StatsSection() {
   const stats = [
@@ -69,7 +68,7 @@ export default function StatsSection() {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {stats.map((stat, index) => {
             const IconComponent = stat.icon
             return (
@@ -83,15 +82,6 @@ export default function StatsSection() {
               </div>
             )
           })}
-        </div>
-
-        {/* Bottom Ad Banner */}
-        <div className="w-full">
-          <AdSenseBanner 
-            slot="1234567895" 
-            className="h-24 w-full"
-            placeholder="Stats Section Ad"
-          />
         </div>
       </div>
     </section>

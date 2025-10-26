@@ -3,6 +3,7 @@ import dbConnect from '@/lib/db/mongodb'
 import News from '@/lib/models/News.model'
 import { verifyToken } from '@/lib/utils/jwt'
 import { createNewsSchema } from '@/lib/utils/validation'
+import { ZodError } from 'zod'
 
 export async function GET(request: NextRequest) {
   try {
@@ -130,12 +131,12 @@ export async function POST(request: NextRequest) {
   } catch (error: unknown) {
     console.error('Create news article error:', error)
     
-    if (error && typeof error === 'object' && 'name' in error && error.name === 'ZodError') {
+    if (error instanceof ZodError) {
       return NextResponse.json(
         { 
           success: false, 
           message: 'Validation failed',
-          errors: (error as { errors: Array<{ path: string[]; message: string }> }).errors.map((err) => ({
+          errors: error.issues.map((err) => ({
             field: err.path.join('.'),
             message: err.message
           }))
