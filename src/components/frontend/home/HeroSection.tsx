@@ -171,7 +171,7 @@ export default function HeroSection() {
           </div>
 
           {/* Right Content - Premium Notifications */}
-          <div className={`relative transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
+          <div className={`relative transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'} w-full max-w-xs mx-auto`}>
             <div className="space-y-3">
               {/* Latest Jobs Notification */}
               <div className="relative bg-white/95 backdrop-blur-md rounded-xl shadow-lg border border-white/30 overflow-hidden">
