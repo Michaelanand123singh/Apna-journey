@@ -24,12 +24,12 @@ function CategoryNavContent() {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6">
-      <h3 className="text-lg font-semibold text-gray-800 mb-4">News Categories</h3>
-      <div className="flex flex-wrap gap-2">
+    <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6">
+      <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">News Categories</h3>
+      <div className="flex flex-wrap gap-1.5 sm:gap-2">
         <button
           onClick={() => handleCategoryChange('')}
-          className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+          className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-colors ${
             activeCategory === ''
               ? 'bg-primary-500 text-white'
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -41,7 +41,7 @@ function CategoryNavContent() {
           <button
             key={category.value}
             onClick={() => handleCategoryChange(category.value)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+            className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-colors ${
               activeCategory === category.value
                 ? 'bg-primary-500 text-white'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'

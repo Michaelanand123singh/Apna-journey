@@ -50,15 +50,17 @@ export default function NewsStats({ className = '' }: NewsStatsProps) {
 
   if (loading) {
     return (
-      <div className={`grid grid-cols-1 md:grid-cols-4 gap-6 mt-8 ${className}`}>
+      <div className={`grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mt-4 sm:mt-6 md:mt-8 ${className}`}>
         {[...Array(4)].map((_, i) => (
-          <div key={i} className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-slate-200 shadow-sm animate-pulse">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-slate-200 rounded-lg"></div>
-              <div className="flex-1">
-                <div className="h-6 bg-slate-200 rounded w-16 mb-2"></div>
-                <div className="h-4 bg-slate-200 rounded w-20"></div>
-              </div>
+          <div key={i} className="bg-gradient-to-br from-white to-slate-50 rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-slate-200/50 shadow-sm animate-pulse">
+            <div className="flex items-start justify-between mb-3">
+              <div className="w-12 h-12 bg-slate-200 rounded-xl"></div>
+              <div className="w-12 h-5 bg-slate-200 rounded-full"></div>
+            </div>
+            <div className="space-y-2">
+              <div className="h-8 bg-slate-200 rounded w-16"></div>
+              <div className="h-4 bg-slate-200 rounded w-20"></div>
+              <div className="h-3 bg-slate-200 rounded w-24"></div>
             </div>
           </div>
         ))}
@@ -68,17 +70,18 @@ export default function NewsStats({ className = '' }: NewsStatsProps) {
 
   if (error) {
     return (
-      <div className={`grid grid-cols-1 md:grid-cols-4 gap-6 mt-8 ${className}`}>
+      <div className={`grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mt-4 sm:mt-6 md:mt-8 ${className}`}>
         {[...Array(4)].map((_, i) => (
-          <div key={i} className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-slate-200 shadow-sm">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
-                <span className="text-red-600 text-sm">!</span>
+          <div key={i} className="bg-gradient-to-br from-white to-red-50 rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-red-200 shadow-sm">
+            <div className="flex items-start justify-between mb-3">
+              <div className="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
+                <span className="text-red-600 text-xl">!</span>
               </div>
-              <div>
-                <p className="text-2xl font-bold text-slate-900">--</p>
-                <p className="text-sm text-slate-600">Error</p>
-              </div>
+              <div className="w-12 h-5 bg-red-100 rounded-full"></div>
+            </div>
+            <div className="space-y-2">
+              <p className="text-2xl sm:text-3xl font-bold text-slate-900">--</p>
+              <p className="text-sm text-red-600">Error</p>
             </div>
           </div>
         ))}
@@ -124,18 +127,32 @@ export default function NewsStats({ className = '' }: NewsStatsProps) {
   ]
 
   return (
-    <div className={`grid grid-cols-1 md:grid-cols-4 gap-6 mt-8 ${className}`}>
+    <div className={`grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mt-4 sm:mt-6 md:mt-8 ${className}`}>
       {statsItems.map((item, index) => (
-        <div key={index} className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-          <div className="flex items-center space-x-3">
-            <div className={`p-2 ${item.iconBg} rounded-lg`}>
-              <item.icon className={`w-5 h-5 ${item.iconColor}`} />
+        <div key={index} className="group relative bg-gradient-to-br from-white to-slate-50 rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-slate-200/50 shadow-sm hover:shadow-xl hover:border-indigo-300 transition-all duration-300 overflow-hidden">
+          {/* Decorative gradient overlay */}
+          <div className={`absolute inset-0 bg-gradient-to-br ${item.iconColor === 'text-indigo-600' ? 'from-indigo-500/5 to-purple-500/5' : item.iconColor === 'text-purple-600' ? 'from-purple-500/5 to-violet-500/5' : item.iconColor === 'text-green-600' ? 'from-green-500/5 to-emerald-500/5' : 'from-orange-500/5 to-amber-500/5'} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+          
+          <div className="relative">
+            <div className="flex items-start justify-between mb-3">
+              <div className={`p-2.5 sm:p-3 ${item.iconBg} rounded-xl shadow-md group-hover:scale-110 transition-transform duration-300`}>
+                <item.icon className={`w-5 h-5 sm:w-6 sm:h-6 ${item.iconColor}`} />
+              </div>
+              <div className={`px-2 py-1 rounded-full text-xs font-semibold ${item.iconColor === 'text-indigo-600' ? 'bg-indigo-100 text-indigo-700' : item.iconColor === 'text-purple-600' ? 'bg-purple-100 text-purple-700' : item.iconColor === 'text-green-600' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}>
+                {item.label === 'Articles' ? '📰' : item.label === 'Languages' ? '🌍' : item.label === 'Readers' ? '👥' : '⚡'}
+              </div>
             </div>
-            <div>
-              <p className="text-2xl font-bold text-slate-900">{item.value}</p>
-              <p className="text-sm text-slate-600">{item.label}</p>
-              <p className="text-xs text-slate-500">{item.description}</p>
+            
+            <div className="space-y-1">
+              <p className="text-2xl sm:text-3xl font-extrabold text-slate-900 group-hover:scale-105 transition-transform duration-300 inline-block">
+                {item.value}
+              </p>
+              <p className="text-sm sm:text-base font-semibold text-slate-700">{item.label}</p>
+              <p className="text-xs sm:text-sm text-slate-500">{item.description}</p>
             </div>
+            
+            {/* Decorative corner accent */}
+            <div className={`absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-br ${item.iconBg} opacity-5 rounded-tl-full`}></div>
           </div>
         </div>
       ))}

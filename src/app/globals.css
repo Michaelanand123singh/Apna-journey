@@ -106,6 +106,10 @@ html {
   animation: shimmer 1.5s infinite;
 }
 
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
 /* Glass morphism effect */
 .glass {
   background: rgba(255, 255, 255, 0.1);

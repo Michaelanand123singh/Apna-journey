@@ -3,6 +3,7 @@ import { Inter, Noto_Sans_Devanagari } from 'next/font/google'
 import './globals.css'
 import ConditionalLayout from '@/components/shared/ConditionalLayout'
 import { AuthProvider } from '@/contexts/AuthContext'
+import LoadingProvider from '@/components/shared/LoadingProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 const notoSansDevanagari = Noto_Sans_Devanagari({ 
@@ -46,11 +47,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} ${notoSansDevanagari.variable}`}>
-        <AuthProvider>
-          <ConditionalLayout>
-            {children}
-          </ConditionalLayout>
-        </AuthProvider>
+        <LoadingProvider>
+          <AuthProvider>
+            <ConditionalLayout>
+              {children}
+            </ConditionalLayout>
+          </AuthProvider>
+        </LoadingProvider>
       </body>
     </html>
   );

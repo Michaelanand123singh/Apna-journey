@@ -42,10 +42,10 @@ function JobFiltersContent() {
   const hasActiveFilters = Object.values(filters).some(value => value !== '')
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Search */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">
           Search Jobs
         </label>
         <input
@@ -53,19 +53,19 @@ function JobFiltersContent() {
           value={filters.search}
           onChange={(e) => handleFilterChange('search', e.target.value)}
           placeholder="Job title, company, skills..."
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+          className="w-full px-2 sm:px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
         />
       </div>
 
       {/* Category */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">
           Category
         </label>
         <select
           value={filters.category}
           onChange={(e) => handleFilterChange('category', e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+          className="w-full px-2 sm:px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
         >
           <option value="">All Categories</option>
           {JOB_CATEGORIES.map((category) => (
@@ -78,13 +78,13 @@ function JobFiltersContent() {
 
       {/* Job Type */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">
           Job Type
         </label>
         <select
           value={filters.jobType}
           onChange={(e) => handleFilterChange('jobType', e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+          className="w-full px-2 sm:px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
         >
           <option value="">All Types</option>
           {JOB_TYPES.map((type) => (
@@ -97,13 +97,13 @@ function JobFiltersContent() {
 
       {/* Location */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">
           Location
         </label>
         <select
           value={filters.location}
           onChange={(e) => handleFilterChange('location', e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+          className="w-full px-2 sm:px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
         >
           <option value="">All Locations</option>
           {GAYA_LOCATIONS.map((location) => (
@@ -118,7 +118,7 @@ function JobFiltersContent() {
       {hasActiveFilters && (
         <button
           onClick={clearFilters}
-          className="w-full bg-gray-100 text-gray-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-200 transition-colors"
+          className="w-full bg-gray-100 text-gray-700 px-3 sm:px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-200 transition-colors"
         >
           Clear All Filters
         </button>
@@ -127,11 +127,11 @@ function JobFiltersContent() {
       {/* Active Filters Display */}
       {hasActiveFilters && (
         <div>
-          <h4 className="text-sm font-medium text-gray-700 mb-2">Active Filters:</h4>
-          <div className="flex flex-wrap gap-2">
+          <h4 className="text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">Active Filters:</h4>
+          <div className="flex flex-wrap gap-1.5 sm:gap-2">
             {filters.search && (
               <span className="inline-flex items-center px-2 py-1 bg-primary-100 text-primary-800 text-xs rounded-full">
-                Search: {filters.search}
+                Search: {filters.search.length > 10 ? filters.search.substring(0, 10) + '...' : filters.search}
                 <button
                   onClick={() => handleFilterChange('search', '')}
                   className="ml-1 text-primary-600 hover:text-primary-800"

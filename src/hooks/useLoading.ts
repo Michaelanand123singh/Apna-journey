@@ -45,12 +45,15 @@ export function useLoading() {
     setLoadingStates({})
   }, [])
 
+  const hasAnyLoading = Object.values(loadingStates).some(Boolean)
+
   return {
     loadingStates,
     setLoading,
     isLoading,
     withLoading,
     clearLoading,
-    clearAllLoading
+    clearAllLoading,
+    hasAnyLoading
   }
 }
