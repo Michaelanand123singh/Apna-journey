@@ -39,17 +39,13 @@ export default function GovernmentJobs() {
 
   if (loading) {
     return (
-      <div className="animate-pulse">
-        <div className="h-6 bg-gray-200 rounded w-3/4 mb-8"></div>
-        <div className="space-y-4">
-          {[...Array(5)].map((_, i) => (
-            <div key={i} className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-              <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-              <div className="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
-              <div className="h-3 bg-gray-200 rounded w-full mb-2"></div>
-            </div>
-          ))}
-        </div>
+      <div className="animate-pulse space-y-2">
+        {[...Array(8)].map((_, i) => (
+          <div key={i} className="bg-gray-100 p-2 rounded-lg">
+            <div className="h-3 bg-gray-200 rounded w-3/4 mb-1.5"></div>
+            <div className="h-2.5 bg-gray-200 rounded w-1/2"></div>
+          </div>
+        ))}
       </div>
     )
   }
@@ -57,22 +53,22 @@ export default function GovernmentJobs() {
   return (
     <div>
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-4">
         <div className="flex-1">
-          <div className="flex items-center space-x-3 mb-2">
-            <div className="p-2 bg-gradient-to-br from-green-600 to-emerald-600 rounded-lg">
-              <Award className="w-5 h-5 text-white" />
+          <div className="flex items-center space-x-2 mb-1">
+            <div className="p-1.5 bg-gradient-to-br from-green-600 to-emerald-600 rounded-lg">
+              <Award className="w-4 h-4 text-white" />
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">Government Jobs</h2>
+            <h2 className="text-lg sm:text-xl font-bold text-gray-900">Government Jobs</h2>
           </div>
-          <p className="text-sm sm:text-base text-gray-600 pl-12">Sarkari naukri in Bihar</p>
+          <p className="text-xs text-gray-600 pl-7">Sarkari naukri in Bihar</p>
         </div>
         <Link
           href="/jobs?category=government"
-          className="group bg-green-600 text-white px-4 py-2.5 sm:px-6 sm:py-3 rounded-lg font-medium hover:bg-green-700 transition-colors inline-flex items-center justify-center space-x-2 text-sm sm:text-base"
+          className="group bg-green-600 text-white px-3 py-1.5 rounded-lg font-medium hover:bg-green-700 transition-colors inline-flex items-center justify-center space-x-1.5 text-xs"
         >
           <span>View All</span>
-          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
         </Link>
       </div>
       

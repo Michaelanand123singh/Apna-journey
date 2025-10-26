@@ -74,14 +74,14 @@ export default function HomePage() {
         {/* Latest Jobs and Government Jobs */}
         <section className="py-12 sm:py-16 bg-gradient-to-br from-slate-50 to-green-50/30">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
+            <div className="grid lg:grid-cols-2 gap-4 lg:gap-6">
               {/* Latest Jobs */}
-              <div className="bg-white rounded-xl shadow-sm p-6 lg:p-8">
+              <div className="bg-white rounded-lg shadow-sm p-4 lg:p-5">
                 <LatestJobs />
               </div>
               
               {/* Government Jobs */}
-              <div className="bg-white rounded-xl shadow-sm p-6 lg:p-8">
+              <div className="bg-white rounded-lg shadow-sm p-4 lg:p-5">
                 <GovernmentJobs />
               </div>
             </div>
