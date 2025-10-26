@@ -56,6 +56,11 @@ const nextConfig: NextConfig = {
         destination: '/',
         permanent: true,
       },
+      {
+        source: '/index.html',
+        destination: '/',
+        permanent: true,
+      },
     ]
   },
 }

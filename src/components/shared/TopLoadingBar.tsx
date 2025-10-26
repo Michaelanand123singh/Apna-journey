@@ -1,9 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
 
-export default function TopLoadingBar() {
+function TopLoadingBarContent() {
   const [loading, setLoading] = useState(false)
   const [progress, setProgress] = useState(0)
   const pathname = usePathname()
@@ -67,6 +67,14 @@ export default function TopLoadingBar() {
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer" />
       </div>
     </div>
+  )
+}
+
+export default function TopLoadingBar() {
+  return (
+    <Suspense fallback={null}>
+      <TopLoadingBarContent />
+    </Suspense>
   )
 }
 

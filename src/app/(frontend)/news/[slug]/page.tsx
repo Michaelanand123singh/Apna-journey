@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
+import Script from 'next/script'
 import NewsArticle from '@/components/frontend/news/NewsArticle'
 import { ArrowLeft, Share2 } from 'lucide-react'
 import Link from 'next/link'
@@ -39,42 +40,78 @@ export default async function NewsPage({ params }: { params: Promise<NewsPagePar
     notFound()
   }
 
+  // NewsArticle Schema
+  const newsSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: article.title,
+    description: article.excerpt,
+    image: article.featuredImage ? [article.featuredImage] : [],
+    datePublished: article.publishedAt || article.createdAt,
+    dateModified: article.updatedAt || article.createdAt,
+    author: {
+      '@type': 'Person',
+      name: article.author?.name || 'Apna Journey Team',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Apna Journey',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://apnajourney.com/images/logo.png',
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://apnajourney.com/news/${article.slug}`,
+    },
+    articleSection: article.category,
+    keywords: article.tags?.join(', ') || article.category,
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link
-              href="/news"
-              className="flex items-center text-gray-600 hover:text-primary-500 transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to News
-            </Link>
-            <button className="flex items-center text-gray-600 hover:text-primary-500 transition-colors">
-              <Share2 className="w-4 h-4 mr-2" />
-              Share
-            </button>
+    <>
+      <Script
+        id="news-article-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(newsSchema) }}
+      />
+      <div className="min-h-screen bg-gray-50">
+        {/* Header */}
+        <div className="bg-white shadow-sm">
+          <div className="container mx-auto px-4 py-4">
+            <div className="flex items-center justify-between">
+              <Link
+                href="/news"
+                className="flex items-center text-gray-600 hover:text-primary-500 transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to News
+              </Link>
+              <button className="flex items-center text-gray-600 hover:text-primary-500 transition-colors">
+                <Share2 className="w-4 h-4 mr-2" />
+                Share
+              </button>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Article */}
-      <div className="container mx-auto px-4 py-8">
-        <Suspense fallback={
-          <div className="bg-white rounded-lg shadow-sm p-8 animate-pulse">
-            <div className="h-8 bg-gray-200 rounded w-3/4 mb-4"></div>
-            <div className="h-4 bg-gray-200 rounded w-1/2 mb-6"></div>
-            <div className="h-64 bg-gray-200 rounded mb-6"></div>
-            <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
-            <div className="h-4 bg-gray-200 rounded w-2/3"></div>
-          </div>
-        }>
-          <NewsArticle article={article} />
-        </Suspense>
+        {/* Article */}
+        <div className="container mx-auto px-4 py-8">
+          <Suspense fallback={
+            <div className="bg-white rounded-lg shadow-sm p-8 animate-pulse">
+              <div className="h-8 bg-gray-200 rounded w-3/4 mb-4"></div>
+              <div className="h-4 bg-gray-200 rounded w-1/2 mb-6"></div>
+              <div className="h-64 bg-gray-200 rounded mb-6"></div>
+              <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
+              <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+            </div>
+          }>
+            <NewsArticle article={article} />
+          </Suspense>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
@@ -89,22 +126,32 @@ export async function generateMetadata({ params }: { params: Promise<NewsPagePar
     }
   }
 
+  const cleanExcerpt = article.excerpt || article.content?.substring(0, 160).replace(/<[^>]*>/g, '') || 'Latest news from Bihar'
+
   return {
     title: `${article.title} - Apna Journey`,
-    description: article.excerpt,
-    keywords: `Bihar news, ${article.category}, ${article.tags?.join(', ')}, local news`,
+    description: cleanExcerpt,
+    keywords: `Bihar news, ${article.category}, ${article.tags?.join(', ') || ''}, local news Bihar, Bihar latest news`,
     openGraph: {
       title: article.title,
-      description: article.excerpt,
+      description: cleanExcerpt,
       type: 'article',
       publishedTime: article.publishedAt || article.createdAt,
-      images: [article.featuredImage],
+      modifiedTime: article.updatedAt,
+      authors: [article.author?.name || 'Apna Journey Team'],
+      tags: article.tags,
+      images: article.featuredImage ? [article.featuredImage] : [],
+      url: `https://apnajourney.com/news/${article.slug}`,
+      siteName: 'Apna Journey - Bihar Ki Awaaz',
     },
     twitter: {
       card: 'summary_large_image',
       title: article.title,
-      description: article.excerpt,
-      images: [article.featuredImage],
+      description: cleanExcerpt,
+      images: article.featuredImage ? [article.featuredImage] : [],
+    },
+    alternates: {
+      canonical: `https://apnajourney.com/news/${article.slug}`,
     },
   }
 }

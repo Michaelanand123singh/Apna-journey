@@ -1,9 +1,27 @@
+import { Metadata } from 'next'
 import { Suspense } from 'react'
 import NewsList from '@/components/frontend/news/NewsList'
 import CategoryNav from '@/components/frontend/news/CategoryNav'
 import FeaturedNews from '@/components/frontend/news/FeaturedNews'
 import NewsStats from '@/components/frontend/news/NewsStats'
 import { Newspaper, TrendingUp, Globe, Clock, Users, Eye } from 'lucide-react'
+
+export const metadata: Metadata = {
+  title: 'Latest Bihar News | Apna Journey',
+  description: 'Stay updated with the latest news from Bihar. Get news on politics, business, education, sports, and more from across Bihar. Read news in English and Hindi.',
+  keywords: 'Bihar news, latest news Bihar, Bihar politics, Bihar business news, Bihar education news, Patna news, Bihar hindi news, Bihar english news, Bihar current affairs, Bihar local news',
+  openGraph: {
+    title: 'Latest Bihar News | Apna Journey',
+    description: 'Stay updated with the latest news from Bihar. Read news in English and Hindi.',
+    url: 'https://apnajourney.com/news',
+    siteName: 'Apna Journey - Bihar Ki Awaaz',
+    type: 'website',
+    locale: 'en_IN',
+  },
+  alternates: {
+    canonical: 'https://apnajourney.com/news',
+  },
+}
 
 export default function NewsPage() {
   return (

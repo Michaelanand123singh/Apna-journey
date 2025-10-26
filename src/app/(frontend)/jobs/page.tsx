@@ -1,8 +1,26 @@
+import { Metadata } from 'next'
 import { Suspense } from 'react'
 import JobList from '@/components/frontend/jobs/JobList'
 import JobFilters from '@/components/frontend/jobs/JobFilters'
 import JobsStats from '@/components/frontend/jobs/JobsStats'
 import { Briefcase, Search } from 'lucide-react'
+
+export const metadata: Metadata = {
+  title: 'Find Jobs in Bihar | Apna Journey',
+  description: 'Discover job opportunities across Bihar. Browse government jobs, private sector jobs, part-time jobs, and more in Bihar. Latest job listings updated daily.',
+  keywords: 'jobs in Bihar, Bihar employment, government jobs Bihar, private jobs Bihar, Patna jobs, Bihar careers, Bihar job portal, job search Bihar, Bihar vacancies, Bihar recruitment',
+  openGraph: {
+    title: 'Find Jobs in Bihar | Apna Journey',
+    description: 'Discover job opportunities across Bihar. Browse latest job listings in Bihar.',
+    url: 'https://apnajourney.com/jobs',
+    siteName: 'Apna Journey - Bihar Ki Awaaz',
+    type: 'website',
+    locale: 'en_IN',
+  },
+  alternates: {
+    canonical: 'https://apnajourney.com/jobs',
+  },
+}
 
 export default function JobsPage() {
   return (
