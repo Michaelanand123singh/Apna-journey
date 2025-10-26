@@ -20,12 +20,12 @@ export default function NewsCard({ article }: NewsCardProps) {
   const getCategoryColor = (category: string) => {
     const colors = {
       'politics': 'bg-red-50 text-red-700 border-red-200',
-      'education': 'bg-blue-50 text-blue-700 border-blue-200',
+      'education': 'bg-emerald-50 text-emerald-700 border-emerald-200',
       'crime': 'bg-slate-50 text-slate-700 border-slate-200',
       'sports': 'bg-green-50 text-green-700 border-green-200',
       'business': 'bg-yellow-50 text-yellow-700 border-yellow-200',
-      'local-events': 'bg-purple-50 text-purple-700 border-purple-200',
-      'development': 'bg-indigo-50 text-indigo-700 border-indigo-200',
+      'local-events': 'bg-teal-50 text-teal-700 border-teal-200',
+      'development': 'bg-green-50 text-green-700 border-green-200',
       'health': 'bg-pink-50 text-pink-700 border-pink-200',
       'entertainment': 'bg-orange-50 text-orange-700 border-orange-200',
       'technology': 'bg-cyan-50 text-cyan-700 border-cyan-200',
@@ -38,11 +38,11 @@ export default function NewsCard({ article }: NewsCardProps) {
   const getLanguageColor = (language: string) => {
     return language === 'hi' 
       ? 'bg-orange-50 text-orange-700 border-orange-200' 
-      : 'bg-blue-50 text-blue-700 border-blue-200'
+      : 'bg-emerald-50 text-emerald-700 border-emerald-200'
   }
 
   return (
-    <article className="group bg-white rounded-xl sm:rounded-2xl border border-slate-200 hover:border-indigo-300 hover:shadow-xl transition-all duration-300 overflow-hidden">
+    <article className="group bg-white rounded-xl sm:rounded-2xl border border-slate-200 hover:border-green-300 hover:shadow-xl transition-all duration-300 overflow-hidden">
       <div className="p-4 sm:p-6">
         <div className="flex flex-col sm:flex-row gap-4">
           {/* Featured Image */}
@@ -82,7 +82,7 @@ export default function NewsCard({ article }: NewsCardProps) {
                 href={`/news/${article.slug}`}
                 className="block mb-2"
               >
-                <h3 className="text-lg sm:text-xl font-bold text-slate-900 hover:text-indigo-600 transition-colors line-clamp-2 mb-2">
+                <h3 className="text-lg sm:text-xl font-bold text-slate-900 hover:text-green-600 transition-colors line-clamp-2 mb-2">
                   {article.title}
                 </h3>
                 <p className="text-sm sm:text-base text-slate-600 leading-relaxed line-clamp-2">
@@ -123,7 +123,7 @@ export default function NewsCard({ article }: NewsCardProps) {
                   </span>
                 ))}
                 {article.tags.length > 4 && (
-                  <span className="inline-flex items-center px-3 py-1 bg-indigo-50 text-indigo-700 text-xs font-medium rounded-lg border border-indigo-200">
+                  <span className="inline-flex items-center px-3 py-1 bg-green-50 text-green-700 text-xs font-medium rounded-lg border border-green-200">
                     +{article.tags.length - 4} more
                   </span>
                 )}
@@ -133,7 +133,7 @@ export default function NewsCard({ article }: NewsCardProps) {
             {/* Read More Button */}
             <Link
               href={`/news/${article.slug}`}
-              className="inline-flex items-center text-indigo-600 hover:text-indigo-700 font-semibold text-sm sm:text-base group"
+              className="inline-flex items-center text-green-600 hover:text-green-700 font-semibold text-sm sm:text-base group"
             >
               Read Full Story
               <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">

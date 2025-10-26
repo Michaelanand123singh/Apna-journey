@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { 
   User, 
   Briefcase, 
@@ -271,6 +272,13 @@ export default function UserDashboard() {
               >
                 {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
+              <Image 
+                src="/logo1.png" 
+                alt="Apna Journey Logo" 
+                width={32}
+                height={32}
+                className="object-contain"
+              />
               <h1 className="text-lg font-bold text-gray-800">Dashboard</h1>
             </div>
             <button
@@ -287,7 +295,16 @@ export default function UserDashboard() {
       <div className="hidden lg:block bg-white shadow">
         <div className="container mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
+            <div className="flex items-center space-x-3">
+              <Image 
+                src="/logo1.png" 
+                alt="Apna Journey Logo" 
+                width={40}
+                height={40}
+                className="object-contain"
+              />
+              <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
+            </div>
             <div className="flex items-center space-x-4">
               <span className="text-gray-600">Welcome, {user.name}</span>
               <button
@@ -564,7 +581,7 @@ export default function UserDashboard() {
                       <p className="text-gray-600 mb-4">You haven&apos;t applied for any jobs yet.</p>
                       <Link
                         href="/jobs"
-                        className="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors"
+                        className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
                       >
                         Browse Jobs
                       </Link>
@@ -624,7 +641,7 @@ export default function UserDashboard() {
                       <p className="text-gray-600 mb-4">Start by posting your first job opportunity.</p>
                       <Link
                         href="/user/post-job"
-                        className="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors"
+                        className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
                       >
                         Post Your First Job
                       </Link>
@@ -816,7 +833,7 @@ export default function UserDashboard() {
                       <input
                         type="text"
                         value={user.name}
-                        className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                        className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                         readOnly
                       />
                     </div>
@@ -827,7 +844,7 @@ export default function UserDashboard() {
                       <input
                         type="email"
                         value={user.email}
-                        className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                        className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                         readOnly
                       />
                     </div>
@@ -838,7 +855,7 @@ export default function UserDashboard() {
                       <input
                         type="tel"
                         value={user.phone || ''}
-                        className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                        className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                         readOnly
                       />
                     </div>
@@ -849,12 +866,12 @@ export default function UserDashboard() {
                       <input
                         type="url"
                         value={user.resumeUrl || ''}
-                        className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 break-all"
+                        className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 break-all"
                         readOnly
                       />
                     </div>
                     <div className="pt-2 sm:pt-4">
-                      <button className="w-full sm:w-auto bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors text-sm sm:text-base">
+                      <button className="w-full sm:w-auto bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors text-sm sm:text-base">
                         Edit Profile
                       </button>
                     </div>

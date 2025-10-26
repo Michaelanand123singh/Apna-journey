@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { 
@@ -71,9 +72,13 @@ export default function AdminSidebar() {
           {/* Logo */}
           <div className="flex items-center justify-between h-14 sm:h-16 px-4 border-b border-gray-200">
             <div className="flex items-center space-x-2">
-              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-green-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm sm:text-lg">A</span>
-              </div>
+              <Image 
+                src="/logo1.png" 
+                alt="Apna Journey Logo" 
+                width={32}
+                height={32}
+                className="object-contain"
+              />
               <span className="text-lg sm:text-xl font-bold text-gray-800">Apna Journey</span>
             </div>
             {/* Close button for mobile */}

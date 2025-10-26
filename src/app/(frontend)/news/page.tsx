@@ -28,11 +28,11 @@ export default function NewsPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
       {/* Modern Header Section */}
       <section className="relative bg-white border-b border-slate-200">
-        <div className="absolute inset-0 bg-gradient-to-r from-indigo-50/50 to-purple-50/50"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-green-50/50 to-emerald-50/50"></div>
         <div className="relative container mx-auto px-3 sm:px-4 lg:px-6 py-6 sm:py-8 lg:py-12">
           <div className="max-w-4xl">
             <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4 mb-4 sm:mb-6">
-              <div className="p-2 sm:p-2.5 lg:p-3 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg sm:rounded-xl shadow-lg">
+              <div className="p-2 sm:p-2.5 lg:p-3 bg-gradient-to-br from-green-600 to-emerald-600 rounded-lg sm:rounded-xl shadow-lg">
                 <Newspaper className="w-5 h-5 sm:w-6 sm:h-7 lg:w-8 lg:h-8 text-white" />
               </div>
               <div>
@@ -55,7 +55,7 @@ export default function NewsPage() {
             <div className="mb-6 sm:mb-8">
               <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6">
                 <div className="flex items-center space-x-2 mb-4 sm:mb-5">
-                  <div className="p-2 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg">
+                  <div className="p-2 bg-gradient-to-br from-green-600 to-emerald-600 rounded-lg">
                     <FolderOpen className="w-5 h-5 text-white" />
                   </div>
                   <div>
@@ -72,7 +72,7 @@ export default function NewsPage() {
               <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                 <div className="bg-gradient-to-r from-slate-50 to-slate-100 px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-200">
                   <div className="flex items-center space-x-2">
-                    <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-600" />
+                    <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />
                     <h2 className="text-base sm:text-lg font-semibold text-slate-900">Featured Stories</h2>
                   </div>
               </div>
@@ -181,14 +181,14 @@ export default function NewsPage() {
               </div>
 
               {/* Newsletter Signup */}
-              <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-indigo-200">
+              <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-green-200">
                 <div className="text-center">
-                  <div className="p-2 sm:p-3 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl w-fit mx-auto mb-3 sm:mb-4">
+                  <div className="p-2 sm:p-3 bg-gradient-to-br from-green-600 to-emerald-600 rounded-xl w-fit mx-auto mb-3 sm:mb-4">
                     <Newspaper className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                   </div>
                   <h3 className="text-base sm:text-lg font-semibold text-slate-900 mb-1 sm:mb-2">Stay Updated</h3>
                   <p className="text-xs sm:text-sm text-slate-600 mb-3 sm:mb-4">Get the latest news delivered to your inbox</p>
-                  <button className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg text-sm sm:text-base font-medium hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-sm hover:shadow-md">
+                  <button className="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg text-sm sm:text-base font-medium hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-sm hover:shadow-md">
                     Subscribe Now
                   </button>
                 </div>

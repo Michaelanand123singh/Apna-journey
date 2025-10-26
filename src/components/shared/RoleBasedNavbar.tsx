@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { 
@@ -32,6 +33,7 @@ export default function RoleBasedNavbar() {
   const [searchQuery, setSearchQuery] = useState('')
   const [showSearchSuggestions, setShowSearchSuggestions] = useState(false)
   const [showUserMenu, setShowUserMenu] = useState(false)
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -52,7 +54,8 @@ export default function RoleBasedNavbar() {
     e.preventDefault()
     if (searchQuery.trim()) {
       window.location.href = `/search?q=${encodeURIComponent(searchQuery.trim())}`
-      setIsMenuOpen(false)
+      setIsMobileSearchOpen(false)
+      setSearchQuery('')
     }
   }
 
@@ -77,10 +80,13 @@ export default function RoleBasedNavbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3 group">
             <div className="relative">
-              <div className="w-10 h-10 bg-gradient-to-br from-green-600 to-green-700 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-lg group-hover:shadow-green-500/30 transition-all duration-300">
-                <span className="text-white font-bold text-lg">A</span>
-              </div>
-              <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full animate-pulse"></div>
+              <Image 
+                src="/logo1.png" 
+                alt="Apna Journey Logo" 
+                width={50}
+                height={50}
+                className="object-contain"
+              />
             </div>
             <div className="flex flex-col">
               <span className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
@@ -227,41 +233,69 @@ export default function RoleBasedNavbar() {
             )}
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="md:hidden p-2 text-gray-600 dark:text-gray-400 hover:text-green-500 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200"
-          >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          {/* Mobile Actions */}
+          <div className="md:hidden flex items-center space-x-2">
+            {/* Search Icon */}
+            <button
+              onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
+              className="p-2 text-gray-600 dark:text-gray-400 hover:text-green-500 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200"
+            >
+              {isMobileSearchOpen ? <X className="w-6 h-6" /> : <Search className="w-6 h-6" />}
+            </button>
+            
+            {/* Menu Icon */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="p-2 text-gray-600 dark:text-gray-400 hover:text-green-500 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200"
+            >
+              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
+
+        {/* Mobile Search Bar */}
+        {isMobileSearchOpen && (
+          <div className="md:hidden py-3 px-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+            <form onSubmit={handleMobileSearch} className="relative">
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Search className="h-4 w-4 text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search jobs, news..."
+                  className="w-full pl-10 pr-10 py-2.5 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  autoFocus
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsMobileSearchOpen(false)
+                    setSearchQuery('')
+                  }}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-auto"
+                >
+                  <X className="h-4 w-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" />
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 max-h-[calc(100vh-4rem)] overflow-y-auto">
-            {/* Mobile Search */}
-            <div className="mb-4 px-4">
-              <form onSubmit={handleMobileSearch}>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Search className="h-4 w-4 text-gray-400" />
-                  </div>
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search jobs, news..."
-                    className="w-full pl-10 pr-4 py-2.5 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                  />
-                </div>
-              </form>
-            </div>
 
             <nav className="flex flex-col space-y-1 px-4">
               <Link 
                 href="/jobs" 
                 className="flex items-center space-x-3 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 px-3 py-2 rounded-lg transition-all duration-200"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={() => {
+                  setIsMenuOpen(false)
+                  setIsMobileSearchOpen(false)
+                }}
               >
                 <Briefcase className="w-5 h-5" />
                 <span>Jobs</span>
@@ -269,7 +303,10 @@ export default function RoleBasedNavbar() {
               <Link 
                 href="/news" 
                 className="flex items-center space-x-3 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 px-3 py-2 rounded-lg transition-all duration-200"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={() => {
+                  setIsMenuOpen(false)
+                  setIsMobileSearchOpen(false)
+                }}
               >
                 <Newspaper className="w-5 h-5" />
                 <span>News</span>
@@ -277,14 +314,20 @@ export default function RoleBasedNavbar() {
               <Link 
                 href="/about" 
                 className="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 px-3 py-2 rounded-lg transition-all duration-200"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={() => {
+                  setIsMenuOpen(false)
+                  setIsMobileSearchOpen(false)
+                }}
               >
                 About
               </Link>
               <Link 
                 href="/contact" 
                 className="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 px-3 py-2 rounded-lg transition-all duration-200"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={() => {
+                  setIsMenuOpen(false)
+                  setIsMobileSearchOpen(false)
+                }}
               >
                 Contact
               </Link>
@@ -296,7 +339,10 @@ export default function RoleBasedNavbar() {
                   <Link 
                     href="/user/dashboard" 
                     className="flex items-center space-x-3 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 px-3 py-2 rounded-lg transition-all duration-200"
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={() => {
+                      setIsMenuOpen(false)
+                      setIsMobileSearchOpen(false)
+                    }}
                   >
                     <LayoutDashboard className="w-5 h-5" />
                     <span>Dashboard</span>
@@ -304,7 +350,10 @@ export default function RoleBasedNavbar() {
                   <Link 
                     href="/user/post-job" 
                     className="flex items-center space-x-3 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 px-3 py-2 rounded-lg transition-all duration-200"
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={() => {
+                      setIsMenuOpen(false)
+                      setIsMobileSearchOpen(false)
+                    }}
                   >
                     <Plus className="w-5 h-5" />
                     <span>Post Job</span>
@@ -312,7 +361,10 @@ export default function RoleBasedNavbar() {
                   <Link 
                     href="/user/applications" 
                     className="flex items-center space-x-3 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800 px-3 py-2 rounded-lg transition-all duration-200"
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={() => {
+                      setIsMenuOpen(false)
+                      setIsMobileSearchOpen(false)
+                    }}
                   >
                     <FileText className="w-5 h-5" />
                     <span>My Applications</span>
@@ -339,7 +391,10 @@ export default function RoleBasedNavbar() {
                   <Link 
                     href="/auth/login" 
                     className="flex items-center space-x-3 text-white bg-green-600 hover:bg-green-700 px-3 py-2 rounded-lg transition-all duration-200"
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={() => {
+                      setIsMenuOpen(false)
+                      setIsMobileSearchOpen(false)
+                    }}
                   >
                     <LogIn className="w-5 h-5" />
                     <span>Login</span>

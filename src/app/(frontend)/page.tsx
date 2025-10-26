@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import Script from 'next/script'
 import HeroSection from '@/components/frontend/home/HeroSection'
 import LatestJobs from '@/components/frontend/home/LatestJobs'
+import GovernmentJobs from '@/components/frontend/home/GovernmentJobs'
 import LatestNews from '@/components/frontend/home/LatestNews'
 
 // Force dynamic rendering to avoid build issues
@@ -70,8 +71,22 @@ export default function HomePage() {
         {/* Hero Section */}
         <HeroSection />
 
-        {/* Latest Jobs */}
-        <LatestJobs />
+        {/* Latest Jobs and Government Jobs */}
+        <section className="py-12 sm:py-16 bg-gradient-to-br from-slate-50 to-green-50/30">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
+              {/* Latest Jobs */}
+              <div className="bg-white rounded-xl shadow-sm p-6 lg:p-8">
+                <LatestJobs />
+              </div>
+              
+              {/* Government Jobs */}
+              <div className="bg-white rounded-xl shadow-sm p-6 lg:p-8">
+                <GovernmentJobs />
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* Latest News */}
         <LatestNews />

@@ -94,16 +94,16 @@ export default function NewsStats({ className = '' }: NewsStatsProps) {
   const statsItems = [
     {
       icon: TrendingUp,
-      iconBg: 'bg-indigo-100',
-      iconColor: 'text-indigo-600',
+      iconBg: 'bg-green-100',
+      iconColor: 'text-green-600',
       value: `${stats.publishedArticles}+`,
       label: 'Articles',
       description: `${stats.totalArticles} total created`
     },
     {
       icon: Globe,
-      iconBg: 'bg-purple-100',
-      iconColor: 'text-purple-600',
+      iconBg: 'bg-emerald-100',
+      iconColor: 'text-emerald-600',
       value: `${stats.totalLanguages}`,
       label: 'Languages',
       description: 'Multilingual content'
@@ -129,16 +129,16 @@ export default function NewsStats({ className = '' }: NewsStatsProps) {
   return (
     <div className={`grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mt-4 sm:mt-6 md:mt-8 ${className}`}>
       {statsItems.map((item, index) => (
-        <div key={index} className="group relative bg-gradient-to-br from-white to-slate-50 rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-slate-200/50 shadow-sm hover:shadow-xl hover:border-indigo-300 transition-all duration-300 overflow-hidden">
+        <div key={index} className="group relative bg-gradient-to-br from-white to-slate-50 rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-slate-200/50 shadow-sm hover:shadow-xl hover:border-green-300 transition-all duration-300 overflow-hidden">
           {/* Decorative gradient overlay */}
-          <div className={`absolute inset-0 bg-gradient-to-br ${item.iconColor === 'text-indigo-600' ? 'from-indigo-500/5 to-purple-500/5' : item.iconColor === 'text-purple-600' ? 'from-purple-500/5 to-violet-500/5' : item.iconColor === 'text-green-600' ? 'from-green-500/5 to-emerald-500/5' : 'from-orange-500/5 to-amber-500/5'} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+          <div className={`absolute inset-0 bg-gradient-to-br ${item.iconColor === 'text-green-600' ? 'from-green-500/5 to-emerald-500/5' : item.iconColor === 'text-emerald-600' ? 'from-emerald-500/5 to-teal-500/5' : item.iconColor === 'text-green-600' ? 'from-green-500/5 to-emerald-500/5' : 'from-orange-500/5 to-amber-500/5'} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
           
           <div className="relative">
             <div className="flex items-start justify-between mb-3">
               <div className={`p-2.5 sm:p-3 ${item.iconBg} rounded-xl shadow-md group-hover:scale-110 transition-transform duration-300`}>
                 <item.icon className={`w-5 h-5 sm:w-6 sm:h-6 ${item.iconColor}`} />
               </div>
-              <div className={`px-2 py-1 rounded-full text-xs font-semibold ${item.iconColor === 'text-indigo-600' ? 'bg-indigo-100 text-indigo-700' : item.iconColor === 'text-purple-600' ? 'bg-purple-100 text-purple-700' : item.iconColor === 'text-green-600' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}>
+              <div className={`px-2 py-1 rounded-full text-xs font-semibold ${item.iconColor === 'text-green-600' ? 'bg-green-100 text-green-700' : item.iconColor === 'text-emerald-600' ? 'bg-emerald-100 text-emerald-700' : item.iconColor === 'text-green-600' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}>
                 {item.label === 'Articles' ? '📰' : item.label === 'Languages' ? '🌍' : item.label === 'Readers' ? '👥' : '⚡'}
               </div>
             </div>

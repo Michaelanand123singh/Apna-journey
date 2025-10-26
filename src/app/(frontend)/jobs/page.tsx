@@ -27,11 +27,11 @@ export default function JobsPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
       {/* Modern Header Section */}
       <section className="relative bg-white border-b border-slate-200">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-50/50 to-indigo-50/50"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-green-50/50 to-emerald-50/50"></div>
         <div className="relative container mx-auto px-3 sm:px-4 lg:px-6 py-6 sm:py-8 lg:py-12">
           <div className="max-w-4xl">
             <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4 mb-4 sm:mb-6">
-              <div className="p-2 sm:p-2.5 lg:p-3 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg sm:rounded-xl shadow-lg">
+              <div className="p-2 sm:p-2.5 lg:p-3 bg-gradient-to-br from-green-600 to-emerald-600 rounded-lg sm:rounded-xl shadow-lg">
                 <Briefcase className="w-5 h-5 sm:w-6 sm:h-7 lg:w-8 lg:h-8 text-white" />
               </div>
               <div>

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { Facebook, Twitter, Instagram, Mail, Phone, MapPin } from 'lucide-react'
 
 export default function Footer() {
@@ -9,9 +10,13 @@ export default function Footer() {
           {/* Company Info */}
           <div>
             <div className="flex items-center space-x-2 mb-4">
-              <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">A</span>
-              </div>
+              <Image 
+                src="/logo1.png" 
+                alt="Apna Journey Logo" 
+                width={32}
+                height={32}
+                className="object-contain"
+              />
               <span className="text-xl font-bold">Apna Journey</span>
             </div>
             <p className="text-gray-400 mb-4">
