@@ -25,7 +25,7 @@ interface NewsArticle {
   slug: string
   excerpt: string
   category: string
-  language: 'english' | 'hindi'
+  language: 'en' | 'hi'
   status: 'draft' | 'published'
   isFeatured: boolean
   author: {
@@ -137,9 +137,9 @@ export default function AdminNewsPage() {
 
   const getLanguageColor = (language: string) => {
     switch (language) {
-      case 'hindi':
+      case 'hi':
         return 'bg-orange-100 text-orange-800'
-      case 'english':
+      case 'en':
         return 'bg-blue-100 text-blue-800'
       default:
         return 'bg-gray-100 text-gray-800'

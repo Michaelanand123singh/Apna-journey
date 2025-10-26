@@ -124,13 +124,13 @@ export default function NewsPage() {
                       </div>
                       <span className="text-slate-700 font-medium">Featured News</span>
                     </a>
-                    <a href="/news?language=hindi" className="flex items-center p-3 rounded-lg hover:bg-slate-50 transition-colors group">
+                    <a href="/news?language=hi" className="flex items-center p-3 rounded-lg hover:bg-slate-50 transition-colors group">
                       <div className="p-2 bg-orange-100 rounded-lg mr-3 group-hover:bg-orange-200 transition-colors">
                         <Globe className="w-4 h-4 text-orange-600" />
                       </div>
                       <span className="text-slate-700 font-medium">Hindi News</span>
                     </a>
-                    <a href="/news?language=english" className="flex items-center p-3 rounded-lg hover:bg-slate-50 transition-colors group">
+                    <a href="/news?language=en" className="flex items-center p-3 rounded-lg hover:bg-slate-50 transition-colors group">
                       <div className="p-2 bg-blue-100 rounded-lg mr-3 group-hover:bg-blue-200 transition-colors">
                         <Globe className="w-4 h-4 text-blue-600" />
                       </div>

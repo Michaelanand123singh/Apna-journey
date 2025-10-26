@@ -49,7 +49,7 @@ export default function NewsArticle({ article }: NewsArticleProps) {
   }
 
   const getLanguageColor = (language: string) => {
-    return language === 'hindi' 
+    return language === 'hi' 
       ? 'bg-orange-100 text-orange-800' 
       : 'bg-blue-100 text-blue-800'
   }
@@ -120,7 +120,7 @@ export default function NewsArticle({ article }: NewsArticleProps) {
               <div className="flex items-center">
                 <Globe className="w-4 h-4 mr-2" />
                 <span>
-                  {article.language === 'hindi' ? 'हिंदी में पढ़ें' : 'Read in English'}
+                  {article.language === 'hi' ? 'हिंदी में पढ़ें' : 'Read in English'}
                 </span>
               </div>
             </div>

@@ -63,7 +63,7 @@ const UserSchema = new Schema<IUser>({
   createdBy: {
     type: Schema.Types.ObjectId,
     ref: 'Admin',
-    required: true
+    required: false
   },
   lastActive: {
     type: Date,

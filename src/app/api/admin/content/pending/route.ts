@@ -59,9 +59,26 @@ export async function GET(request: NextRequest) {
     // Fetch news if type is not specified or is 'news'
     if (!type || type === 'news') {
       news = await News.find(newsQuery)
-        .populate('author', 'name email')
         .sort({ createdAt: -1 })
         .lean()
+      
+      // Populate author information for each news article
+      for (let i = 0; i < news.length; i++) {
+        const article = news[i]
+        if (article.authorModel === 'User') {
+          const User = await import('@/lib/models/User.model')
+          const user = await User.default.findById(article.author).select('name email').lean()
+          if (user) {
+            article.author = user
+          }
+        } else if (article.authorModel === 'Admin') {
+          const Admin = await import('@/lib/models/Admin.model')
+          const admin = await Admin.default.findById(article.author).select('name email').lean()
+          if (admin) {
+            article.author = admin
+          }
+        }
+      }
     }
 
     // Combine and format the results

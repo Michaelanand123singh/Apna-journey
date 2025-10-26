@@ -3,15 +3,13 @@
 import { 
   Briefcase, 
   Newspaper, 
-  MapPin, 
   Users, 
   Shield, 
   Zap,
-  CheckCircle,
-  ArrowRight,
   Star,
   TrendingUp
 } from 'lucide-react'
+import AdSenseRectangle from '../ads/AdSenseRectangle'
 
 export default function FeaturesSection() {
   const features = [
@@ -72,100 +70,140 @@ export default function FeaturesSection() {
   ]
 
   return (
-    <section className="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-50">
-        <div className="w-full h-full" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23f3f4f6' fill-opacity='0.3'%3E%3Cpath d='M20 20c0-5.5-4.5-10-10-10s-10 4.5-10 10 4.5 10 10 10 10-4.5 10-10zm10 0c0-5.5-4.5-10-10-10s-10 4.5-10 10 4.5 10 10 10 10-4.5 10-10z'/%3E%3C/g%3E%3C/svg%3E")`,
-        }}></div>
-      </div>
-      
-      <div className="container mx-auto px-4 relative z-10">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center space-x-2 bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 px-4 py-2 rounded-full text-sm font-medium mb-6">
-            <Star className="w-4 h-4" />
-            <span>Why Choose Apna Journey?</span>
-          </div>
-          
-          <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-            Everything you need to
-            <span className="block gradient-text">succeed in Bihar</span>
-          </h2>
-          
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Our platform combines cutting-edge technology with local expertise to provide you with 
-            the best job opportunities and news updates across Bihar.
-          </p>
-        </div>
-
-        {/* Features Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {features.map((feature, index) => {
-            const IconComponent = feature.icon
-            return (
-              <div 
-                key={index}
-                className="group relative bg-white dark:bg-gray-800 rounded-xl p-6 shadow-soft hover:shadow-medium transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:-translate-y-1.5"
-              >
-                {/* Icon */}
-                <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${feature.color} mb-4 group-hover:scale-105 transition-transform duration-300`}>
-                  <IconComponent className="w-6 h-6 text-white" />
-                </div>
-
-                {/* Content */}
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-                    {feature.title}
-                  </h3>
-                  
-                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-sm">
-                    {feature.description}
-                  </p>
-
-                  {/* Stats */}
-                  <div className={`inline-flex items-center space-x-2 ${feature.bgColor} ${feature.textColor} px-2.5 py-0.5 rounded-full text-xs font-medium`}>
-                    <TrendingUp className="w-3.5 h-3.5" />
-                    <span>{feature.stats}</span>
-                  </div>
-                </div>
-
-                {/* Hover Effect */}
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary-500/5 to-secondary-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+    <section className="py-16 bg-white">
+      <div className="container mx-auto px-4">
+        <div className="grid lg:grid-cols-12 gap-8">
+          {/* Main Content - 8 columns */}
+          <div className="lg:col-span-8">
+            {/* Header */}
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center space-x-2 bg-blue-100 text-blue-600 px-4 py-2 rounded-full text-sm font-medium mb-6">
+                <Star className="w-4 h-4" />
+                <span>Why Choose Apna Journey?</span>
               </div>
-            )
-          })}
-        </div>
-
-        {/* Bottom CTA */}
-        <div className="text-center">
-          <div className="bg-gradient-to-r from-primary-600 to-secondary-600 rounded-3xl p-12 text-white relative overflow-hidden">
-            {/* Background Pattern */}
-            <div className="absolute inset-0 opacity-30">
-              <div className="w-full h-full" style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-              }}></div>
+              
+              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+                Everything you need to succeed in Bihar
+              </h2>
+              
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Our platform combines cutting-edge technology with local expertise to provide you with 
+                the best job opportunities and news updates across Bihar.
+              </p>
             </div>
-            
-            <div className="relative z-10">
-              <h3 className="text-3xl lg:text-4xl font-bold mb-4">
-                Ready to start your journey?
-              </h3>
-              <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+
+            {/* Features Grid */}
+            <div className="grid md:grid-cols-2 gap-6 mb-8">
+              {features.slice(0, 4).map((feature, index) => {
+                const IconComponent = feature.icon
+                return (
+                  <div 
+                    key={index}
+                    className="group bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:-translate-y-1"
+                  >
+                    {/* Icon */}
+                    <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${feature.color} mb-4 group-hover:scale-105 transition-transform duration-300`}>
+                      <IconComponent className="w-6 h-6 text-white" />
+                    </div>
+
+                    {/* Content */}
+                    <div className="space-y-3">
+                      <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                        {feature.title}
+                      </h3>
+                      
+                      <p className="text-gray-600 leading-relaxed text-sm">
+                        {feature.description}
+                      </p>
+
+                      {/* Stats */}
+                      <div className={`inline-flex items-center space-x-2 ${feature.bgColor} ${feature.textColor} px-3 py-1 rounded-full text-xs font-medium`}>
+                        <TrendingUp className="w-3.5 h-3.5" />
+                        <span>{feature.stats}</span>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* Additional Features */}
+            <div className="grid md:grid-cols-2 gap-6">
+              {features.slice(4).map((feature, index) => {
+                const IconComponent = feature.icon
+                return (
+                  <div 
+                    key={index}
+                    className="group bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:-translate-y-1"
+                  >
+                    {/* Icon */}
+                    <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${feature.color} mb-4 group-hover:scale-105 transition-transform duration-300`}>
+                      <IconComponent className="w-6 h-6 text-white" />
+                    </div>
+
+                    {/* Content */}
+                    <div className="space-y-3">
+                      <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                        {feature.title}
+                      </h3>
+                      
+                      <p className="text-gray-600 leading-relaxed text-sm">
+                        {feature.description}
+                      </p>
+
+                      {/* Stats */}
+                      <div className={`inline-flex items-center space-x-2 ${feature.bgColor} ${feature.textColor} px-3 py-1 rounded-full text-xs font-medium`}>
+                        <TrendingUp className="w-3.5 h-3.5" />
+                        <span>{feature.stats}</span>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Sidebar - 4 columns */}
+          <div className="lg:col-span-4 space-y-6">
+            {/* AdSense Rectangle */}
+            <AdSenseRectangle 
+              slot="1234567892" 
+              className="w-full h-64"
+              placeholder="Features Sidebar Ad"
+            />
+
+            {/* Quick Stats */}
+            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6">
+              <h3 className="text-lg font-bold text-gray-900 mb-4">Platform Stats</h3>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">Active Jobs</span>
+                  <span className="font-bold text-blue-600">500+</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">News Articles</span>
+                  <span className="font-bold text-green-600">1000+</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">Happy Users</span>
+                  <span className="font-bold text-purple-600">5K+</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">Success Rate</span>
+                  <span className="font-bold text-orange-600">95%</span>
+                </div>
+              </div>
+            </div>
+
+            {/* CTA Card */}
+            <div className="bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl p-6 text-white">
+              <h3 className="text-lg font-bold mb-3">Ready to get started?</h3>
+              <p className="text-sm text-blue-100 mb-4">
                 Join thousands of users who have found their dream jobs and stay updated with local news.
               </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button className="group bg-white text-primary-600 px-8 py-4 rounded-xl font-semibold hover:bg-gray-50 hover:shadow-glow-lg transition-all duration-300 inline-flex items-center justify-center space-x-2">
-                  <span>Get Started Free</span>
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </button>
-                
-                <button className="group bg-transparent border-2 border-white/30 text-white px-8 py-4 rounded-xl font-semibold hover:bg-white/10 hover:border-white/50 transition-all duration-300 inline-flex items-center justify-center space-x-2 backdrop-blur-sm">
-                  <span>Learn More</span>
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </button>
-              </div>
+              <button className="w-full bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-50 transition-colors">
+                Get Started Free
+              </button>
             </div>
           </div>
         </div>

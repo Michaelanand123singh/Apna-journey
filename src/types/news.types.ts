@@ -7,7 +7,7 @@ export interface News {
   featuredImage: string
   category: string
   tags: string[]
-  language: 'english' | 'hindi'
+  language: 'en' | 'hi'
   author: {
     _id: string
     name: string
@@ -30,7 +30,7 @@ export interface CreateNewsData {
   featuredImage: string
   category: string
   tags: string[]
-  language: 'english' | 'hindi'
+  language: 'en' | 'hi'
   isFeatured: boolean
   seoTitle: string
   seoDescription: string

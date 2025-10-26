@@ -81,18 +81,21 @@ export const createNewsSchema = z.object({
     .max(200, 'Title cannot exceed 200 characters')
     .trim(),
   excerpt: z.string()
-    .min(50, 'Excerpt must be at least 50 characters')
+    .min(20, 'Excerpt must be at least 20 characters')
     .max(500, 'Excerpt cannot exceed 500 characters'),
   content: z.string()
-    .min(100, 'Content must be at least 100 characters'),
+    .min(50, 'Content must be at least 50 characters'),
   featuredImage: z.string()
-    .url('Please enter a valid image URL'),
+    .min(1, 'Featured image is required'),
   category: z.enum(['politics', 'education', 'crime', 'sports', 'business', 'local-events', 'development', 'health', 'entertainment', 'technology', 'environment', 'other']),
   tags: z.array(z.string().max(30, 'Each tag cannot exceed 30 characters'))
     .optional()
     .default([]),
-  language: z.enum(['english', 'hindi'])
-    .default('english'),
+  language: z.enum(['en', 'hi'])
+    .default('en'),
+  status: z.enum(['draft', 'pending', 'published'])
+    .optional()
+    .default('pending'),
   isFeatured: z.boolean()
     .default(false),
   seoTitle: z.string()

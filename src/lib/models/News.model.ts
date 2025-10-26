@@ -8,8 +8,9 @@ export interface INews extends Document {
   featuredImage: string
   category: string
   tags: string[]
-  language: 'english' | 'hindi'
+  language: 'en' | 'hi'
   author: mongoose.Types.ObjectId
+  authorModel: 'User' | 'Admin'
   status: 'draft' | 'pending' | 'published' | 'rejected'
   isFeatured: boolean
   views: number
@@ -72,14 +73,19 @@ const NewsSchema = new Schema<INews>({
   }],
   language: { 
     type: String, 
-    enum: ['english', 'hindi'], 
+    enum: ['en', 'hi'], 
     required: [true, 'Language is required'],
-    default: 'english'
+    default: 'en'
   },
   author: { 
     type: Schema.Types.ObjectId, 
-    ref: 'Admin', 
+    refPath: 'authorModel', 
     required: true 
+  },
+  authorModel: {
+    type: String,
+    enum: ['User', 'Admin'],
+    required: true
   },
   status: { 
     type: String, 

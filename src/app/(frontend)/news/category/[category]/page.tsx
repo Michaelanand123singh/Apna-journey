@@ -89,10 +89,10 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                 <Link href="/news?featured=true" className="block text-primary-500 hover:text-primary-600 transition-colors">
                   Featured News
                 </Link>
-                <Link href="/news?language=hindi" className="block text-primary-500 hover:text-primary-600 transition-colors">
+                <Link href="/news?language=hi" className="block text-primary-500 hover:text-primary-600 transition-colors">
                   Hindi News
                 </Link>
-                <Link href="/news?language=english" className="block text-primary-500 hover:text-primary-600 transition-colors">
+                <Link href="/news?language=en" className="block text-primary-500 hover:text-primary-600 transition-colors">
                   English News
                 </Link>
               </div>

@@ -55,7 +55,22 @@ export async function PATCH(request: NextRequest) {
         id,
         updateData,
         { new: true }
-      ).populate('author', 'name email')
+      )
+      
+      // Populate author based on authorModel
+      if (content && content.authorModel === 'User') {
+        await content.populate({
+          path: 'author',
+          select: 'name email',
+          model: 'User'
+        })
+      } else if (content && content.authorModel === 'Admin') {
+        await content.populate({
+          path: 'author',
+          select: 'name email',
+          model: 'Admin'
+        })
+      }
     }
 
     if (!content) {

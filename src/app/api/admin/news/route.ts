@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import dbConnect from '@/lib/db/mongodb'
 import News from '@/lib/models/News.model'
 import { verifyAdminTokenFromRequest } from '@/lib/middleware/adminAuth'
+import { createNewsSchema } from '@/lib/utils/validation'
 
 export async function GET(request: NextRequest) {
   try {
@@ -75,45 +76,15 @@ export async function POST(request: NextRequest) {
     await dbConnect()
 
     const body = await request.json()
-    const {
-      title,
-      excerpt,
-      content,
-      featuredImage,
-      category,
-      tags,
-      language,
-      status,
-      isFeatured,
-      seoTitle,
-      seoDescription
-    } = body
-
-    // Validate required fields
-    if (!title || !excerpt || !content || !category || !featuredImage) {
-      return NextResponse.json(
-        { success: false, message: 'Title, excerpt, content, category, and featured image are required' },
-        { status: 400 }
-      )
-    }
+    const validatedData = createNewsSchema.parse(body)
 
     // Create news article
-    const news = new News({
-      title,
-      excerpt,
-      content,
-      featuredImage,
-      category,
-      tags: tags || [],
-      language: language || 'english',
+    const news = await News.create({
+      ...validatedData,
       author: admin.id,
-      status: status || 'draft',
-      isFeatured: isFeatured || false,
-      seoTitle,
-      seoDescription
+      authorModel: 'Admin',
+      publishedAt: validatedData.status === 'published' ? new Date() : null
     })
-
-    await news.save()
 
     return NextResponse.json({
       success: true,
@@ -123,6 +94,20 @@ export async function POST(request: NextRequest) {
 
   } catch (error: any) {
     console.error('Error creating news article:', error)
+    
+    if (error.name === 'ZodError') {
+      return NextResponse.json(
+        { 
+          success: false, 
+          message: 'Validation failed',
+          errors: error.errors.map((err: any) => ({
+            field: err.path.join('.'),
+            message: err.message
+          }))
+        },
+        { status: 400 }
+      )
+    }
     
     // Handle Mongoose validation errors
     if (error.name === 'ValidationError') {

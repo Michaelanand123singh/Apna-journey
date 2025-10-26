@@ -36,6 +36,6 @@ export const JOB_TYPES = [
 ]
 
 export const LANGUAGES = [
-  { value: 'english', label: 'English', hindi: 'अंग्रेजी' },
-  { value: 'hindi', label: 'Hindi', hindi: 'हिंदी' },
+  { value: 'en', label: 'English', hindi: 'अंग्रेजी' },
+  { value: 'hi', label: 'Hindi', hindi: 'हिंदी' },
 ]

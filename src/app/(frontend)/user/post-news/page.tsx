@@ -27,7 +27,7 @@ export default function PostNewsPage() {
     featuredImage: '',
     category: '',
     tags: [] as string[],
-    language: 'english' as 'english' | 'hindi',
+    language: 'en' as 'en' | 'hi',
     status: 'pending' as 'draft' | 'pending' | 'published',
     isFeatured: false,
     seoTitle: '',
@@ -78,7 +78,7 @@ export default function PostNewsPage() {
       formData.append('folder', 'apna-journey/news')
 
       const token = localStorage.getItem('token')
-      const response = await fetch('/api/upload/image', {
+      const response = await fetch('/api/user/upload/image', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -414,8 +414,8 @@ export default function PostNewsPage() {
                       onChange={handleChange}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                     >
-                      <option value="english">English</option>
-                      <option value="hindi">Hindi</option>
+                      <option value="en">English</option>
+                      <option value="hi">Hindi</option>
                     </select>
                   </div>
                 </div>

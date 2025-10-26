@@ -2,21 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import dbConnect from '@/lib/db/mongodb'
 import News from '@/lib/models/News.model'
 import { verifyToken } from '@/lib/utils/jwt'
-import { z } from 'zod'
-
-const createNewsSchema = z.object({
-  title: z.string().min(10, 'Title must be at least 10 characters').max(200, 'Title cannot exceed 200 characters'),
-  excerpt: z.string().min(20, 'Excerpt must be at least 20 characters').max(500, 'Excerpt cannot exceed 500 characters'),
-  content: z.string().min(50, 'Content must be at least 50 characters'),
-  featuredImage: z.string().url('Please provide a valid image URL'),
-  category: z.enum(['politics', 'education', 'crime', 'sports', 'business', 'local-events', 'development', 'health', 'entertainment', 'technology', 'environment', 'other']),
-  tags: z.array(z.string()).optional().default([]),
-  language: z.enum(['english', 'hindi']).default('english'),
-  status: z.enum(['draft', 'pending', 'published']).default('pending'),
-  isFeatured: z.boolean().default(false),
-  seoTitle: z.string().optional(),
-  seoDescription: z.string().optional()
-})
+import { createNewsSchema } from '@/lib/utils/validation'
 
 export async function GET(request: NextRequest) {
   try {
@@ -46,7 +32,7 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get('status') || ''
     
     // Build query for user's news articles
-    const query: any = { author: payload.userId }
+    const query: Record<string, unknown> = { author: payload.userId }
     if (status) {
       query.status = status
     }
@@ -56,11 +42,28 @@ export async function GET(request: NextRequest) {
     
     // Get user's news articles
     const news = await News.find(query)
-      .populate('author', 'name email')
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
       .lean()
+    
+    // Populate author information for each news article
+    for (let i = 0; i < news.length; i++) {
+      const article = news[i]
+      if (article.authorModel === 'User') {
+        const User = await import('@/lib/models/User.model')
+        const user = await User.default.findById(article.author).select('name email').lean()
+        if (user) {
+          article.author = user
+        }
+      } else if (article.authorModel === 'Admin') {
+        const Admin = await import('@/lib/models/Admin.model')
+        const admin = await Admin.default.findById(article.author).select('name email').lean()
+        if (admin) {
+          article.author = admin
+        }
+      }
+    }
     
     const total = await News.countDocuments(query)
     const pages = Math.ceil(total / limit)
@@ -76,7 +79,7 @@ export async function GET(request: NextRequest) {
       }
     })
     
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Get user news error:', error)
     return NextResponse.json(
       { success: false, message: 'Failed to fetch news articles' },
@@ -114,6 +117,7 @@ export async function POST(request: NextRequest) {
     const news = await News.create({
       ...validatedData,
       author: payload.userId,
+      authorModel: 'User',
       publishedAt: validatedData.status === 'published' ? new Date() : null
     })
     
@@ -123,15 +127,15 @@ export async function POST(request: NextRequest) {
       data: news
     }, { status: 201 })
     
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Create news article error:', error)
     
-    if (error.name === 'ZodError') {
+    if (error && typeof error === 'object' && 'name' in error && error.name === 'ZodError') {
       return NextResponse.json(
         { 
           success: false, 
           message: 'Validation failed',
-          errors: error.errors.map((err: any) => ({
+          errors: (error as { errors: Array<{ path: string[]; message: string }> }).errors.map((err) => ({
             field: err.path.join('.'),
             message: err.message
           }))
@@ -141,7 +145,7 @@ export async function POST(request: NextRequest) {
     }
     
     return NextResponse.json(
-      { success: false, message: 'Failed to create news article' },
+      { success: false, message: 'Failed to create news article', error: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     )
   }

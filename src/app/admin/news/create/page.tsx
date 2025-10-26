@@ -27,7 +27,7 @@ export default function CreateNewsPage() {
     featuredImage: '',
     category: '',
     tags: [] as string[],
-    language: 'english' as 'english' | 'hindi',
+    language: 'en' as 'en' | 'hi',
     status: 'draft' as 'draft' | 'published',
     isFeatured: false,
     seoTitle: '',
@@ -459,8 +459,8 @@ export default function CreateNewsPage() {
                   onChange={handleInputChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 >
-                  <option value="english">English</option>
-                  <option value="hindi">Hindi</option>
+                  <option value="en">English</option>
+                  <option value="hi">Hindi</option>
                 </select>
               </div>
 

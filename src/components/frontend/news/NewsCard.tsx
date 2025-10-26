@@ -36,7 +36,7 @@ export default function NewsCard({ article }: NewsCardProps) {
   }
 
   const getLanguageColor = (language: string) => {
-    return language === 'hindi' 
+    return language === 'hi' 
       ? 'bg-orange-50 text-orange-700 border-orange-200' 
       : 'bg-blue-50 text-blue-700 border-blue-200'
   }

@@ -88,7 +88,7 @@ export async function PUT(
         featuredImage,
         category,
         tags: tags || [],
-        language: language || 'english',
+        language: language || 'en',
         status: status || 'draft',
         isFeatured: isFeatured || false,
         seoTitle,
