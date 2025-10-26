@@ -61,6 +61,11 @@ export default function RoleBasedNavbar() {
     return null
   }
 
+  // Don't render navbar for user panel pages (they have their own navbar)
+  if (pathname.startsWith('/user')) {
+    return null
+  }
+
   return (
     <header className={`sticky top-0 z-50 transition-all duration-300 ${
       isScrolled 

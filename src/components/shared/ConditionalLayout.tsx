@@ -14,7 +14,10 @@ export default function ConditionalLayout({ children }: ConditionalLayoutProps) 
   // Don't render Header and Footer for admin pages
   const isAdminPage = pathname.startsWith('/admin')
   
-  if (isAdminPage) {
+  // Don't render Header and Footer for user panel pages (they have their own navbar)
+  const isUserPanelPage = pathname.startsWith('/user')
+  
+  if (isAdminPage || isUserPanelPage) {
     return <>{children}</>
   }
   
