@@ -172,120 +172,118 @@ export default function HeroSection() {
 
           {/* Right Content - Premium Notifications */}
           <div className={`relative transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-            <div className="space-y-4">
+            <div className="space-y-3">
               {/* Latest Jobs Notification */}
-              <div className="relative bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-white/30 overflow-hidden">
+              <div className="relative bg-white/95 backdrop-blur-md rounded-xl shadow-lg border border-white/30 overflow-hidden">
                 {/* Premium Header */}
-                <div className="bg-gradient-to-r from-green-600 to-emerald-600 p-4">
+                <div className="bg-gradient-to-r from-green-600 to-emerald-600 p-2.5">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <Briefcase className="w-5 h-5 text-white" />
-                      <h3 className="font-bold text-white text-sm">Latest Job Opportunities</h3>
+                    <div className="flex items-center space-x-1.5">
+                      <Briefcase className="w-4 h-4 text-white" />
+                      <h3 className="font-bold text-white text-xs">Latest Jobs</h3>
                     </div>
-                    <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                    <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
                   </div>
                 </div>
 
                 {/* Notifications List */}
-                <div className="p-4 space-y-2 max-h-48 overflow-y-auto">
+                <div className="p-2.5 space-y-1.5 max-h-36 overflow-y-auto">
                   {loading ? (
                     Array.from({ length: 3 }).map((_, index) => (
                       <div key={index} className="animate-pulse">
-                        <div className="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
+                        <div className="flex items-center justify-between p-1.5 bg-gray-50 rounded">
                           <div className="flex-1">
-                            <div className="h-3 bg-gray-200 rounded w-3/4 mb-1"></div>
+                            <div className="h-2.5 bg-gray-200 rounded w-3/4 mb-1"></div>
                             <div className="h-2 bg-gray-200 rounded w-1/2"></div>
                           </div>
-                          <div className="w-12 h-6 bg-gray-200 rounded"></div>
+                          <div className="w-8 h-5 bg-gray-200 rounded"></div>
                         </div>
                       </div>
                     ))
                   ) : stats?.recentJobs && stats.recentJobs.length > 0 ? (
-                    stats.recentJobs.slice(0, 5).map((job) => (
+                    stats.recentJobs.slice(0, 3).map((job) => (
                       <Link 
                         key={job._id} 
                         href={`/jobs/${job._id}`}
-                        className="flex items-center justify-between p-2 bg-green-50 hover:bg-green-100 rounded-lg transition-all duration-200 group"
+                        className="flex items-center justify-between p-1.5 bg-green-50 hover:bg-green-100 rounded transition-all duration-200 group"
                       >
                         <div className="flex-1 min-w-0">
-                          <h4 className="text-xs font-semibold text-gray-900 line-clamp-1 group-hover:text-green-700">{job.title}</h4>
-                          <p className="text-[10px] text-gray-600 truncate">{job.company}</p>
+                          <h4 className="text-[10px] font-medium text-gray-900 line-clamp-1 group-hover:text-green-700">{job.title}</h4>
+                          <p className="text-[8px] text-gray-600 truncate">{job.company}</p>
                         </div>
-                        <div className="ml-2 flex-shrink-0">
-                          <span className="bg-green-600 text-white text-[9px] px-2 py-0.5 rounded font-medium">
+                        <div className="ml-1.5 flex-shrink-0">
+                          <span className="bg-green-600 text-white text-[8px] px-1.5 py-0.5 rounded font-medium">
                             View
                           </span>
                         </div>
                       </Link>
                     ))
                   ) : (
-                    <div className="p-3 text-center">
-                      <p className="text-xs text-gray-500">No jobs available</p>
+                    <div className="p-2 text-center">
+                      <p className="text-[9px] text-gray-500">No jobs</p>
                     </div>
                   )}
                 </div>
 
                 <Link 
                   href="/jobs"
-                  className="block text-center py-2 bg-gray-100 hover:bg-green-50 text-green-700 font-semibold text-xs transition-colors"
+                  className="block text-center py-1.5 bg-gray-100 hover:bg-green-50 text-green-700 font-medium text-[10px] transition-colors"
                 >
-                  View All Jobs →
+                  View All →
                 </Link>
               </div>
 
               {/* Latest News Notification */}
-              <div className="relative bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-white/30 overflow-hidden">
+              <div className="relative bg-white/95 backdrop-blur-md rounded-xl shadow-lg border border-white/30 overflow-hidden">
                 {/* Premium Header */}
-                <div className="bg-gradient-to-r from-emerald-600 to-teal-600 p-4">
+                <div className="bg-gradient-to-r from-emerald-600 to-teal-600 p-2.5">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <Newspaper className="w-5 h-5 text-white" />
-                      <h3 className="font-bold text-white text-sm">Latest News & Updates</h3>
+                    <div className="flex items-center space-x-1.5">
+                      <Newspaper className="w-4 h-4 text-white" />
+                      <h3 className="font-bold text-white text-xs">Latest News</h3>
                     </div>
-                    <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                    <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
                   </div>
                 </div>
 
                 {/* Notifications List */}
-                <div className="p-4 space-y-2 max-h-48 overflow-y-auto">
+                <div className="p-2.5 space-y-1.5">
                   {loading ? (
-                    Array.from({ length: 3 }).map((_, index) => (
-                      <div key={index} className="animate-pulse">
-                        <div className="flex items-center p-2 bg-gray-50 rounded-lg">
-                          <div className="flex-1">
-                            <div className="h-3 bg-gray-200 rounded w-full mb-1"></div>
-                            <div className="h-2 bg-gray-200 rounded w-2/3"></div>
-                          </div>
+                    <div className="animate-pulse">
+                      <div className="flex items-center p-1.5 bg-gray-50 rounded">
+                        <div className="flex-1">
+                          <div className="h-2.5 bg-gray-200 rounded w-full mb-1"></div>
+                          <div className="h-2 bg-gray-200 rounded w-2/3"></div>
                         </div>
                       </div>
-                    ))
+                    </div>
                   ) : stats?.latestNews ? (
                     <Link 
                       href={`/news/${stats.latestNews._id}`}
-                      className="block p-2 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-all duration-200 group"
+                      className="block p-1.5 bg-emerald-50 hover:bg-emerald-100 rounded transition-all duration-200 group"
                     >
-                      <p className="text-xs font-semibold text-gray-900 line-clamp-2 group-hover:text-emerald-700 mb-1">
+                      <p className="text-[10px] font-medium text-gray-900 line-clamp-2 group-hover:text-emerald-700 mb-1">
                         {stats.latestNews.title}
                       </p>
                       <div className="flex items-center justify-between">
-                        <span className="text-[9px] text-gray-600">
+                        <span className="text-[8px] text-gray-600">
                           {new Date(stats.latestNews.publishedAt).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })}
                         </span>
-                        <span className="text-[9px] text-emerald-600 font-medium">Read →</span>
+                        <span className="text-[8px] text-emerald-600 font-medium">Read →</span>
                       </div>
                     </Link>
                   ) : (
-                    <div className="p-3 text-center">
-                      <p className="text-xs text-gray-500">No news available</p>
+                    <div className="p-2 text-center">
+                      <p className="text-[9px] text-gray-500">No news</p>
                     </div>
                   )}
                 </div>
 
                 <Link 
                   href="/news"
-                  className="block text-center py-2 bg-gray-100 hover:bg-emerald-50 text-emerald-700 font-semibold text-xs transition-colors"
+                  className="block text-center py-1.5 bg-gray-100 hover:bg-emerald-50 text-emerald-700 font-medium text-[10px] transition-colors"
                 >
-                  View All News →
+                  View All →
                 </Link>
               </div>
             </div>
