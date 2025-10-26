@@ -105,35 +105,35 @@ export default function RecentActivity() {
   }
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow">
-      <h3 className="text-lg font-semibold text-gray-800 mb-4">Recent Activity</h3>
-      <div className="space-y-4">
+    <div className="bg-white p-4 sm:p-4 lg:p-6 rounded-xl shadow-sm border border-gray-100">
+      <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-4 sm:mb-4">Recent Activity</h3>
+      <div className="space-y-4 sm:space-y-4">
         {activities.length === 0 ? (
-          <div className="text-center py-8">
-            <Clock className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-500">No recent activity</p>
+          <div className="text-center py-6 sm:py-8">
+            <Clock className="w-8 h-8 sm:w-12 sm:h-12 text-gray-400 mx-auto mb-3 sm:mb-4" />
+            <p className="text-sm sm:text-base text-gray-500">No recent activity</p>
           </div>
         ) : (
           activities.map((activity) => {
             const Icon = getActivityIcon(activity.type)
             return (
-              <div key={activity.id} className="flex items-start space-x-3">
-                <div className={`p-2 rounded-full ${getActivityColor(activity.type)}`}>
-                  <Icon className="w-4 h-4" />
+              <div key={activity.id} className="flex items-start space-x-3 sm:space-x-3 p-2 rounded-lg hover:bg-gray-50 transition-colors">
+                <div className={`p-2 sm:p-2 rounded-xl ${getActivityColor(activity.type)} flex-shrink-0`}>
+                  <Icon className="w-4 h-4 sm:w-4 sm:h-4" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 truncate">
+                  <p className="text-sm sm:text-sm font-medium text-gray-900 truncate mb-1">
                     {activity.title}
                   </p>
-                  <p className="text-sm text-gray-600 truncate">
+                  <p className="text-xs sm:text-sm text-gray-600 truncate mb-2">
                     {activity.description}
                   </p>
-                  <div className="flex items-center space-x-2 mt-1">
+                  <div className="flex items-center space-x-2">
                     <span className="text-xs text-gray-500">
                       {formatTimeAgo(activity.timestamp)}
                     </span>
                     {activity.status && (
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
                         activity.status === 'pending' 
                           ? 'bg-yellow-100 text-yellow-800'
                           : activity.status === 'approved'

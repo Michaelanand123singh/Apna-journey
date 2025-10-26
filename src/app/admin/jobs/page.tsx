@@ -13,7 +13,8 @@ import {
   Clock,
   MapPin,
   Calendar,
-  Building
+  Building,
+  MoreVertical
 } from 'lucide-react'
 
 interface Job {
@@ -145,12 +146,12 @@ export default function AdminJobsPage() {
 
   if (loading) {
     return (
-      <div className="p-6">
+      <div className="p-3 sm:p-4 lg:p-6">
         <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded w-1/4 mb-6"></div>
-          <div className="space-y-4">
+          <div className="h-6 sm:h-8 bg-gray-200 rounded w-1/3 sm:w-1/4 mb-4 sm:mb-6"></div>
+          <div className="space-y-3 sm:space-y-4">
             {[...Array(5)].map((_, i) => (
-              <div key={i} className="bg-white p-6 rounded-lg shadow">
+              <div key={i} className="bg-white p-4 sm:p-6 rounded-lg shadow">
                 <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
                 <div className="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
                 <div className="h-3 bg-gray-200 rounded w-full mb-2"></div>
@@ -164,32 +165,33 @@ export default function AdminJobsPage() {
   }
 
   return (
-    <div className="p-6">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Job Management</h1>
-        <p className="text-gray-600 mt-2">Manage and moderate job postings</p>
+    <div className="p-3 sm:p-4 lg:p-6">
+      {/* Header */}
+      <div className="mb-6 sm:mb-6 lg:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Job Management</h1>
+        <p className="text-sm sm:text-base text-gray-600 mt-1 sm:mt-2">Manage and moderate job postings</p>
       </div>
 
       {/* Filters */}
-      <div className="bg-white p-6 rounded-lg shadow mb-6">
-        <div className="flex flex-col md:flex-row gap-4">
+      <div className="bg-white p-3 sm:p-4 lg:p-6 rounded-xl shadow-sm border border-gray-100 mb-4 sm:mb-6">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
           <div className="flex-1">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <Search className="absolute left-2 sm:left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
               <input
                 type="text"
                 placeholder="Search jobs..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full pl-8 sm:pl-10 pr-3 sm:pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm sm:text-base"
               />
             </div>
           </div>
-          <div className="md:w-48">
+          <div className="sm:w-48">
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm sm:text-base"
             >
               <option value="">All Status</option>
               <option value="pending">Pending</option>
@@ -201,120 +203,190 @@ export default function AdminJobsPage() {
       </div>
 
       {/* Jobs List */}
-      <div className="space-y-4">
+      <div className="space-y-3 sm:space-y-4">
         {jobs.length === 0 ? (
-          <div className="bg-white p-8 rounded-lg shadow text-center">
-            <Briefcase className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-800 mb-2">No Jobs Found</h3>
-            <p className="text-gray-600">No jobs match your current filters.</p>
+          <div className="bg-white p-6 sm:p-8 rounded-xl shadow-sm border border-gray-100 text-center">
+            <Briefcase className="w-10 h-10 sm:w-12 sm:h-12 text-gray-400 mx-auto mb-3 sm:mb-4" />
+            <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-2">No Jobs Found</h3>
+            <p className="text-sm sm:text-base text-gray-600">No jobs match your current filters.</p>
           </div>
         ) : (
-          jobs.map((job) => {
-            const StatusIcon = getStatusIcon(job.status)
-            return (
-              <div key={job._id} className="bg-white p-6 rounded-lg shadow">
-                <div className="flex justify-between items-start mb-4">
-                  <div className="flex-1">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">{job.title}</h3>
-                    <div className="flex items-center text-gray-600 mb-2">
-                      <Building className="w-4 h-4 mr-2" />
-                      <span className="mr-4">{job.company}</span>
-                      <MapPin className="w-4 h-4 mr-2" />
-                      <span className="mr-4">{job.location}</span>
-                      <Calendar className="w-4 h-4 mr-2" />
-                      <span>{new Date(job.createdAt).toLocaleDateString()}</span>
+          <>
+            {/* Desktop Table View */}
+            <div className="hidden lg:block space-y-4">
+              {jobs.map((job) => {
+                const StatusIcon = getStatusIcon(job.status)
+                return (
+                  <div key={job._id} className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-200">
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="flex-1">
+                        <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">{job.title}</h3>
+                        <div className="flex items-center text-gray-600 mb-2 text-sm sm:text-base">
+                          <Building className="w-4 h-4 mr-2 flex-shrink-0" />
+                          <span className="mr-4 truncate">{job.company}</span>
+                          <MapPin className="w-4 h-4 mr-2 flex-shrink-0" />
+                          <span className="mr-4 truncate">{job.location}</span>
+                          <Calendar className="w-4 h-4 mr-2 flex-shrink-0" />
+                          <span>{new Date(job.createdAt).toLocaleDateString()}</span>
+                        </div>
+                        <div className="flex items-center space-x-4 text-xs sm:text-sm text-gray-500">
+                          <span>Type: {job.jobType}</span>
+                          <span>Salary: {job.salary}</span>
+                          <span>Posted by: {job.postedBy.name}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-2 ml-4">
+                        <span className={`inline-flex items-center px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${getStatusColor(job.status)}`}>
+                          <StatusIcon className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+                          {job.status}
+                        </span>
+                      </div>
                     </div>
-                    <div className="flex items-center space-x-4 text-sm text-gray-500">
-                      <span>Type: {job.jobType}</span>
-                      <span>Salary (INR): {job.salary}</span>
-                      <span>Posted by: {job.postedBy.name}</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(job.status)}`}>
-                      <StatusIcon className="w-4 h-4 mr-1" />
-                      {job.status}
-                    </span>
-                  </div>
-                </div>
 
-                <div className="flex justify-between items-center">
-                  <div className="text-sm text-gray-500">
-                    Deadline: {new Date(job.applicationDeadline).toLocaleDateString()}
-                  </div>
-                  <div className="flex space-x-2">
-                    {job.status === 'pending' && (
-                      <>
-                        <button
-                          onClick={() => updateJobStatus(job._id, 'approved')}
-                          className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors flex items-center"
+                    <div className="flex justify-between items-center">
+                      <div className="text-xs sm:text-sm text-gray-500">
+                        Deadline: {new Date(job.applicationDeadline).toLocaleDateString()}
+                      </div>
+                      <div className="flex space-x-2">
+                        {job.status === 'pending' && (
+                          <>
+                            <button
+                              onClick={() => updateJobStatus(job._id, 'approved')}
+                              className="bg-green-500 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg hover:bg-green-600 transition-colors flex items-center text-xs sm:text-sm"
+                            >
+                              <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+                              Approve
+                            </button>
+                            <button
+                              onClick={() => {
+                                const reason = prompt('Rejection reason (optional):')
+                                updateJobStatus(job._id, 'rejected', reason || undefined)
+                              }}
+                              className="bg-red-500 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg hover:bg-red-600 transition-colors flex items-center text-xs sm:text-sm"
+                            >
+                              <XCircle className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+                              Reject
+                            </button>
+                          </>
+                        )}
+                        <Link
+                          href={`/jobs/${job._id}`}
+                          className="bg-gray-500 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg hover:bg-gray-600 transition-colors flex items-center text-xs sm:text-sm"
                         >
-                          <CheckCircle className="w-4 h-4 mr-1" />
-                          Approve
-                        </button>
-                        <button
-                          onClick={() => {
-                            const reason = prompt('Rejection reason (optional):')
-                            updateJobStatus(job._id, 'rejected', reason || undefined)
-                          }}
-                          className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors flex items-center"
-                        >
-                          <XCircle className="w-4 h-4 mr-1" />
-                          Reject
-                        </button>
-                      </>
-                    )}
-                    <Link
-                      href={`/jobs/${job._id}`}
-                      className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors flex items-center"
-                    >
-                      <Eye className="w-4 h-4 mr-1" />
-                      View
-                    </Link>
+                          <Eye className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+                          View
+                        </Link>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            )
-          })
+                )
+              })}
+            </div>
+
+            {/* Mobile Card View */}
+            <div className="lg:hidden space-y-3">
+              {jobs.map((job) => {
+                const StatusIcon = getStatusIcon(job.status)
+                return (
+                  <div key={job._id} className="bg-white p-3 sm:p-4 rounded-xl shadow-sm border border-gray-100">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-sm sm:text-base font-semibold text-gray-900 line-clamp-2 mb-1">
+                          {job.title}
+                        </h3>
+                        <div className="flex items-center text-xs sm:text-sm text-gray-600 mb-2">
+                          <Building className="w-3 h-3 sm:w-4 sm:h-4 mr-1 flex-shrink-0" />
+                          <span className="truncate">{job.company}</span>
+                        </div>
+                        <div className="flex items-center text-xs sm:text-sm text-gray-600 mb-2">
+                          <MapPin className="w-3 h-3 sm:w-4 sm:h-4 mr-1 flex-shrink-0" />
+                          <span className="truncate">{job.location}</span>
+                        </div>
+                        <div className="flex items-center text-xs sm:text-sm text-gray-500 mb-2">
+                          <Calendar className="w-3 h-3 sm:w-4 sm:h-4 mr-1 flex-shrink-0" />
+                          <span>{new Date(job.createdAt).toLocaleDateString()}</span>
+                        </div>
+                        <div className="text-xs text-gray-500 mb-2">
+                          <span className="block">Type: {job.jobType}</span>
+                          <span className="block">Salary: {job.salary}</span>
+                          <span className="block">Posted by: {job.postedBy.name}</span>
+                        </div>
+                      </div>
+                      <div className="flex-shrink-0 ml-2">
+                        <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(job.status)}`}>
+                          <StatusIcon className="w-3 h-3 mr-1" />
+                          {job.status}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <div className="text-xs text-gray-500">
+                        Deadline: {new Date(job.applicationDeadline).toLocaleDateString()}
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        {job.status === 'pending' && (
+                          <>
+                            <button
+                              onClick={() => updateJobStatus(job._id, 'approved')}
+                              className="bg-green-500 text-white px-2 py-1 rounded text-xs flex items-center"
+                            >
+                              <CheckCircle className="w-3 h-3 mr-1" />
+                              Approve
+                            </button>
+                            <button
+                              onClick={() => {
+                                const reason = prompt('Rejection reason (optional):')
+                                updateJobStatus(job._id, 'rejected', reason || undefined)
+                              }}
+                              className="bg-red-500 text-white px-2 py-1 rounded text-xs flex items-center"
+                            >
+                              <XCircle className="w-3 h-3 mr-1" />
+                              Reject
+                            </button>
+                          </>
+                        )}
+                        <Link
+                          href={`/jobs/${job._id}`}
+                          className="bg-gray-500 text-white px-2 py-1 rounded text-xs flex items-center"
+                        >
+                          <Eye className="w-3 h-3 mr-1" />
+                          View
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </>
         )}
       </div>
 
       {/* Pagination */}
       {pagination.pages > 1 && (
-        <div className="mt-8 flex justify-center">
-          <div className="flex space-x-2">
+        <div className="mt-4 sm:mt-6 flex items-center justify-between">
+          <div className="text-xs sm:text-sm text-gray-700">
+            Showing {((pagination.page - 1) * pagination.limit) + 1} to {Math.min(pagination.page * pagination.limit, pagination.total)} of {pagination.total} results
+          </div>
+          <div className="flex items-center space-x-1 sm:space-x-2">
             {pagination.page > 1 && (
               <button
                 onClick={() => setPagination(prev => ({ ...prev, page: prev.page - 1 }))}
-                className="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+                className="px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
               >
                 Previous
               </button>
             )}
             
-            {[...Array(pagination.pages)].map((_, i) => {
-              const page = i + 1
-              const isCurrentPage = page === pagination.page
-              
-              return (
-                <button
-                  key={page}
-                  onClick={() => setPagination(prev => ({ ...prev, page }))}
-                  className={`px-3 py-2 text-sm font-medium rounded-md ${
-                    isCurrentPage
-                      ? 'bg-primary-500 text-white'
-                      : 'text-gray-500 bg-white border border-gray-300 hover:bg-gray-50'
-                  }`}
-                >
-                  {page}
-                </button>
-              )
-            })}
+            <span className="px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-md">
+              {pagination.page} of {pagination.pages}
+            </span>
             
             {pagination.page < pagination.pages && (
               <button
                 onClick={() => setPagination(prev => ({ ...prev, page: prev.page + 1 }))}
-                className="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+                className="px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
               >
                 Next
               </button>

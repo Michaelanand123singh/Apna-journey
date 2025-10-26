@@ -51,8 +51,8 @@ export default function AdminLayout({
         <AdminSidebar />
         <div className="lg:pl-64">
           <AdminHeader />
-          <main className="py-4 sm:py-6">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <main className="py-2 sm:py-4 lg:py-6">
+            <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
               {children}
             </div>
           </main>

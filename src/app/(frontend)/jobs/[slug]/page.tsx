@@ -43,16 +43,16 @@ export default async function JobPage({ params }: { params: Promise<JobPageParam
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white shadow-sm">
-        <div className="container mx-auto px-4 py-4">
+        <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
           <div className="flex items-center justify-between">
             <Link
               href="/jobs"
-              className="flex items-center text-gray-600 hover:text-primary-500 transition-colors"
+              className="flex items-center text-gray-600 hover:text-primary-500 transition-colors text-sm sm:text-base"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Jobs
             </Link>
-            <button className="flex items-center text-gray-600 hover:text-primary-500 transition-colors">
+            <button className="flex items-center text-gray-600 hover:text-primary-500 transition-colors text-sm sm:text-base">
               <Share2 className="w-4 h-4 mr-2" />
               Share
             </button>
@@ -61,14 +61,14 @@ export default async function JobPage({ params }: { params: Promise<JobPageParam
       </div>
 
       {/* Job Details */}
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-6 lg:py-8">
         <Suspense fallback={
-          <div className="bg-white rounded-lg shadow-sm p-8 animate-pulse">
-            <div className="h-8 bg-gray-200 rounded w-3/4 mb-4"></div>
-            <div className="h-4 bg-gray-200 rounded w-1/2 mb-6"></div>
-            <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
-            <div className="h-4 bg-gray-200 rounded w-2/3 mb-6"></div>
-            <div className="h-32 bg-gray-200 rounded"></div>
+          <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 lg:p-8 animate-pulse">
+            <div className="h-6 sm:h-8 bg-gray-200 rounded w-3/4 mb-3 sm:mb-4"></div>
+            <div className="h-3 sm:h-4 bg-gray-200 rounded w-1/2 mb-4 sm:mb-6"></div>
+            <div className="h-3 sm:h-4 bg-gray-200 rounded w-full mb-2"></div>
+            <div className="h-3 sm:h-4 bg-gray-200 rounded w-2/3 mb-4 sm:mb-6"></div>
+            <div className="h-24 sm:h-32 bg-gray-200 rounded"></div>
           </div>
         }>
           <JobDetails job={job} />

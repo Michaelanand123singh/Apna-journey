@@ -324,49 +324,50 @@ export default function AdminSettingsPage() {
   ]
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+    <div className="p-3 sm:p-4 lg:p-6 max-w-7xl mx-auto">
+      <div className="mb-4 sm:mb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1 sm:mb-2">
           Admin Settings
         </h1>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
           Manage your admin profile, system settings, and platform configuration
         </p>
       </div>
 
       {message && (
-        <div className={`mb-6 p-4 rounded-lg flex items-center space-x-3 ${
+        <div className={`mb-4 sm:mb-6 p-3 sm:p-4 rounded-lg flex items-center space-x-2 sm:space-x-3 text-sm sm:text-base ${
           message.type === 'success' ? 'bg-green-50 border border-green-200 text-green-800' :
           message.type === 'error' ? 'bg-red-50 border border-red-200 text-red-800' :
           'bg-blue-50 border border-blue-200 text-blue-800'
         }`}>
-          {message.type === 'success' ? <CheckCircle className="w-5 h-5" /> :
-           message.type === 'error' ? <AlertCircle className="w-5 h-5" /> :
-           <Info className="w-5 h-5" />}
-          <span>{message.text}</span>
-          <button onClick={clearMessage} className="ml-auto">
+          {message.type === 'success' ? <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" /> :
+           message.type === 'error' ? <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" /> :
+           <Info className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />}
+          <span className="flex-1">{message.text}</span>
+          <button onClick={clearMessage} className="ml-auto flex-shrink-0">
             <X className="w-4 h-4" />
           </button>
         </div>
       )}
 
       {/* Tabs */}
-      <div className="border-b border-gray-200 dark:border-gray-700 mb-6">
-        <nav className="-mb-px flex space-x-8">
+      <div className="border-b border-gray-200 dark:border-gray-700 mb-4 sm:mb-6 overflow-x-auto">
+        <nav className="-mb-px flex space-x-1 sm:space-x-2 lg:space-x-8 min-w-max">
           {tabs.map((tab) => {
             const Icon = tab.icon
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center space-x-2 py-2 px-1 border-b-2 font-medium text-sm ${
+                className={`flex items-center space-x-1 sm:space-x-2 py-2 px-2 sm:px-3 lg:px-1 border-b-2 font-medium text-xs sm:text-sm whitespace-nowrap ${
                   activeTab === tab.id
                     ? 'border-primary-500 text-primary-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
-                <Icon className="w-4 h-4" />
-                <span>{tab.name}</span>
+                <Icon className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+                <span className="hidden sm:inline">{tab.name}</span>
+                <span className="sm:hidden">{tab.name.split(' ')[0]}</span>
               </button>
             )
           })}
@@ -376,9 +377,9 @@ export default function AdminSettingsPage() {
       {/* Tab Content */}
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
         {activeTab === 'profile' && (
-          <div className="p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Admin Profile</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="p-4 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-4 sm:mb-6">Admin Profile</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Full Name
@@ -425,11 +426,11 @@ export default function AdminSettingsPage() {
                 </div>
               </div>
             </div>
-            <div className="mt-6">
+            <div className="mt-4 sm:mt-6">
               <button
                 onClick={saveProfile}
                 disabled={saving}
-                className="flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50"
+                className="w-full sm:w-auto flex items-center justify-center space-x-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50"
               >
                 <Save className="w-4 h-4" />
                 <span>{saving ? 'Saving...' : 'Save Profile'}</span>
@@ -439,13 +440,13 @@ export default function AdminSettingsPage() {
         )}
 
         {activeTab === 'system' && (
-          <div className="p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">System Settings</h2>
-            <div className="space-y-6">
+          <div className="p-4 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-4 sm:mb-6">System Settings</h2>
+            <div className="space-y-4 sm:space-y-6">
               {/* Basic Information */}
               <div>
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Basic Information</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <h3 className="text-base sm:text-lg font-medium text-gray-900 dark:text-white mb-3 sm:mb-4">Basic Information</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Site Name
@@ -484,8 +485,8 @@ export default function AdminSettingsPage() {
 
               {/* Contact Information */}
               <div>
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Contact Information</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <h3 className="text-base sm:text-lg font-medium text-gray-900 dark:text-white mb-3 sm:mb-4">Contact Information</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Contact Email
@@ -524,8 +525,8 @@ export default function AdminSettingsPage() {
 
               {/* SEO Settings */}
               <div>
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">SEO Settings</h3>
-                <div className="space-y-4">
+                <h3 className="text-base sm:text-lg font-medium text-gray-900 dark:text-white mb-3 sm:mb-4">SEO Settings</h3>
+                <div className="space-y-3 sm:space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Meta Title
@@ -571,11 +572,11 @@ export default function AdminSettingsPage() {
                 </div>
               </div>
             </div>
-            <div className="mt-6">
+            <div className="mt-4 sm:mt-6">
               <button
                 onClick={saveSystemSettings}
                 disabled={saving}
-                className="flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50"
+                className="w-full sm:w-auto flex items-center justify-center space-x-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50"
               >
                 <Save className="w-4 h-4" />
                 <span>{saving ? 'Saving...' : 'Save Settings'}</span>
@@ -585,13 +586,13 @@ export default function AdminSettingsPage() {
         )}
 
         {activeTab === 'security' && (
-          <div className="p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Security Settings</h2>
-            <div className="space-y-6">
+          <div className="p-4 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-4 sm:mb-6">Security Settings</h2>
+            <div className="space-y-4 sm:space-y-6">
               {/* Change Password */}
               <div>
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Change Password</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <h3 className="text-base sm:text-lg font-medium text-gray-900 dark:text-white mb-3 sm:mb-4">Change Password</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Current Password
@@ -635,11 +636,11 @@ export default function AdminSettingsPage() {
                     />
                   </div>
                 </div>
-                <div className="mt-4">
+                <div className="mt-3 sm:mt-4">
                   <button
                     onClick={changePassword}
                     disabled={saving}
-                    className="flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50"
+                    className="w-full sm:w-auto flex items-center justify-center space-x-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50"
                   >
                     <Lock className="w-4 h-4" />
                     <span>{saving ? 'Changing...' : 'Change Password'}</span>
@@ -649,8 +650,8 @@ export default function AdminSettingsPage() {
 
               {/* Security Settings */}
               <div>
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Security Configuration</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <h3 className="text-base sm:text-lg font-medium text-gray-900 dark:text-white mb-3 sm:mb-4">Security Configuration</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Session Timeout (minutes)
@@ -715,13 +716,13 @@ export default function AdminSettingsPage() {
         )}
 
         {activeTab === 'notifications' && (
-          <div className="p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Notification Settings</h2>
-            <div className="space-y-4">
-              <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-600 rounded-lg">
+          <div className="p-4 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-4 sm:mb-6">Notification Settings</h2>
+            <div className="space-y-3 sm:space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 border border-gray-200 dark:border-gray-600 rounded-lg gap-2">
                 <div>
                   <h3 className="text-sm font-medium text-gray-900 dark:text-white">Email Notifications</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Receive email notifications for important events</p>
+                  <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">Receive email notifications for important events</p>
                 </div>
                 <input
                   type="checkbox"
@@ -730,13 +731,13 @@ export default function AdminSettingsPage() {
                     ...prev, 
                     notifications: { ...prev.notifications, emailNotifications: e.target.checked }
                   }))}
-                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded flex-shrink-0"
                 />
               </div>
-              <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-600 rounded-lg">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 border border-gray-200 dark:border-gray-600 rounded-lg gap-2">
                 <div>
                   <h3 className="text-sm font-medium text-gray-900 dark:text-white">Job Approval Notifications</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Get notified when jobs need approval</p>
+                  <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">Get notified when jobs need approval</p>
                 </div>
                 <input
                   type="checkbox"
@@ -745,13 +746,13 @@ export default function AdminSettingsPage() {
                     ...prev, 
                     notifications: { ...prev.notifications, jobApprovalNotifications: e.target.checked }
                   }))}
-                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded flex-shrink-0"
                 />
               </div>
-              <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-600 rounded-lg">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 border border-gray-200 dark:border-gray-600 rounded-lg gap-2">
                 <div>
                   <h3 className="text-sm font-medium text-gray-900 dark:text-white">Inquiry Notifications</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Get notified when new inquiries are received</p>
+                  <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">Get notified when new inquiries are received</p>
                 </div>
                 <input
                   type="checkbox"
@@ -760,13 +761,13 @@ export default function AdminSettingsPage() {
                     ...prev, 
                     notifications: { ...prev.notifications, inquiryNotifications: e.target.checked }
                   }))}
-                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded flex-shrink-0"
                 />
               </div>
-              <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-600 rounded-lg">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 border border-gray-200 dark:border-gray-600 rounded-lg gap-2">
                 <div>
                   <h3 className="text-sm font-medium text-gray-900 dark:text-white">System Alerts</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Receive alerts for system issues and maintenance</p>
+                  <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">Receive alerts for system issues and maintenance</p>
                 </div>
                 <input
                   type="checkbox"
@@ -775,15 +776,15 @@ export default function AdminSettingsPage() {
                     ...prev, 
                     notifications: { ...prev.notifications, systemAlerts: e.target.checked }
                   }))}
-                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded flex-shrink-0"
                 />
               </div>
             </div>
-            <div className="mt-6">
+            <div className="mt-4 sm:mt-6">
               <button
                 onClick={saveSystemSettings}
                 disabled={saving}
-                className="flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50"
+                className="w-full sm:w-auto flex items-center justify-center space-x-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50"
               >
                 <Save className="w-4 h-4" />
                 <span>{saving ? 'Saving...' : 'Save Notification Settings'}</span>
@@ -793,78 +794,78 @@ export default function AdminSettingsPage() {
         )}
 
         {activeTab === 'email-templates' && (
-          <div className="p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Email Templates</h2>
-            <div className="space-y-4">
+          <div className="p-4 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-4 sm:mb-6">Email Templates</h2>
+            <div className="space-y-3 sm:space-y-4">
               {emailTemplates.map((template) => (
-                <div key={template.id} className="border border-gray-200 dark:border-gray-600 rounded-lg p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-lg font-medium text-gray-900 dark:text-white">{template.name}</h3>
+                <div key={template.id} className="border border-gray-200 dark:border-gray-600 rounded-lg p-3 sm:p-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2 gap-2">
+                    <h3 className="text-base sm:text-lg font-medium text-gray-900 dark:text-white">{template.name}</h3>
                     <button
                       onClick={() => setEditingTemplate(template)}
-                      className="flex items-center space-x-1 px-3 py-1 text-sm bg-primary-100 text-primary-700 rounded-lg hover:bg-primary-200"
+                      className="flex items-center justify-center space-x-1 px-2 sm:px-3 py-1 text-xs sm:text-sm bg-primary-100 text-primary-700 rounded-lg hover:bg-primary-200"
                     >
-                      <Edit className="w-4 h-4" />
+                      <Edit className="w-3 h-3 sm:w-4 sm:h-4" />
                       <span>Edit</span>
                     </button>
                   </div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Subject: {template.subject}</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-500 line-clamp-2">{template.body}</p>
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1 sm:mb-2">Subject: {template.subject}</p>
+                  <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-500 line-clamp-2">{template.body}</p>
                 </div>
               ))}
             </div>
 
             {/* Edit Template Modal */}
             {editingTemplate && (
-              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                <div className="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                  <div className="p-6">
-                    <div className="flex justify-between items-start mb-6">
-                      <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-3 sm:p-4">
+                <div className="bg-white dark:bg-gray-800 rounded-lg max-w-full sm:max-w-2xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto">
+                  <div className="p-4 sm:p-6">
+                    <div className="flex justify-between items-start mb-4 sm:mb-6">
+                      <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">
                         Edit Email Template
                       </h3>
                       <button
                         onClick={() => setEditingTemplate(null)}
-                        className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                        className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-1"
                       >
-                        <X className="w-6 h-6" />
+                        <X className="w-5 h-5 sm:w-6 sm:h-6" />
                       </button>
                     </div>
-                    <div className="space-y-4">
+                    <div className="space-y-3 sm:space-y-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 sm:mb-2">
                           Subject
                         </label>
                         <input
                           type="text"
                           value={editingTemplate.subject}
                           onChange={(e) => setEditingTemplate(prev => prev ? { ...prev, subject: e.target.value } : null)}
-                          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                          className="w-full px-2 sm:px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 sm:mb-2">
                           Body
                         </label>
                         <textarea
                           value={editingTemplate.body}
                           onChange={(e) => setEditingTemplate(prev => prev ? { ...prev, body: e.target.value } : null)}
-                          rows={10}
-                          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                          rows={8}
+                          className="w-full px-2 sm:px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
                         />
                       </div>
                     </div>
-                    <div className="flex justify-end space-x-3 mt-6">
+                    <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 mt-4 sm:mt-6">
                       <button
                         onClick={() => setEditingTemplate(null)}
-                        className="px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600"
+                        className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600"
                       >
                         Cancel
                       </button>
                       <button
                         onClick={() => saveEmailTemplate(editingTemplate)}
                         disabled={saving}
-                        className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50"
+                        className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50"
                       >
                         {saving ? 'Saving...' : 'Save Template'}
                       </button>
@@ -877,13 +878,13 @@ export default function AdminSettingsPage() {
         )}
 
         {activeTab === 'backup' && (
-          <div className="p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Backup & Export</h2>
-            <div className="space-y-6">
+          <div className="p-4 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-4 sm:mb-6">Backup & Export</h2>
+            <div className="space-y-4 sm:space-y-6">
               {/* Backup Settings */}
               <div>
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Backup Configuration</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <h3 className="text-base sm:text-lg font-medium text-gray-900 dark:text-white mb-3 sm:mb-4">Backup Configuration</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   <div className="flex items-center">
                     <input
                       type="checkbox"
@@ -935,48 +936,48 @@ export default function AdminSettingsPage() {
 
               {/* Export Data */}
               <div>
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Export Data</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <h3 className="text-base sm:text-lg font-medium text-gray-900 dark:text-white mb-3 sm:mb-4">Export Data</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                   <button
                     onClick={() => exportData('users')}
-                    className="flex items-center space-x-2 p-4 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
+                    className="flex items-center justify-center space-x-2 p-3 sm:p-4 text-sm sm:text-base border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
                   >
-                    <Download className="w-5 h-5 text-primary-600" />
+                    <Download className="w-4 h-4 sm:w-5 sm:h-5 text-primary-600 flex-shrink-0" />
                     <span>Export Users</span>
                   </button>
                   <button
                     onClick={() => exportData('jobs')}
-                    className="flex items-center space-x-2 p-4 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
+                    className="flex items-center justify-center space-x-2 p-3 sm:p-4 text-sm sm:text-base border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
                   >
-                    <Download className="w-5 h-5 text-primary-600" />
+                    <Download className="w-4 h-4 sm:w-5 sm:h-5 text-primary-600 flex-shrink-0" />
                     <span>Export Jobs</span>
                   </button>
                   <button
                     onClick={() => exportData('news')}
-                    className="flex items-center space-x-2 p-4 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
+                    className="flex items-center justify-center space-x-2 p-3 sm:p-4 text-sm sm:text-base border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
                   >
-                    <Download className="w-5 h-5 text-primary-600" />
+                    <Download className="w-4 h-4 sm:w-5 sm:h-5 text-primary-600 flex-shrink-0" />
                     <span>Export News</span>
                   </button>
                   <button
                     onClick={() => exportData('inquiries')}
-                    className="flex items-center space-x-2 p-4 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
+                    className="flex items-center justify-center space-x-2 p-3 sm:p-4 text-sm sm:text-base border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
                   >
-                    <Download className="w-5 h-5 text-primary-600" />
+                    <Download className="w-4 h-4 sm:w-5 sm:h-5 text-primary-600 flex-shrink-0" />
                     <span>Export Inquiries</span>
                   </button>
                   <button
                     onClick={() => exportData('applications')}
-                    className="flex items-center space-x-2 p-4 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
+                    className="flex items-center justify-center space-x-2 p-3 sm:p-4 text-sm sm:text-base border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
                   >
-                    <Download className="w-5 h-5 text-primary-600" />
+                    <Download className="w-4 h-4 sm:w-5 sm:h-5 text-primary-600 flex-shrink-0" />
                     <span>Export Applications</span>
                   </button>
                   <button
                     onClick={() => exportData('all')}
-                    className="flex items-center space-x-2 p-4 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
+                    className="flex items-center justify-center space-x-2 p-3 sm:p-4 text-sm sm:text-base border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
                   >
-                    <Download className="w-5 h-5 text-primary-600" />
+                    <Download className="w-4 h-4 sm:w-5 sm:h-5 text-primary-600 flex-shrink-0" />
                     <span>Export All Data</span>
                   </button>
                 </div>
@@ -984,11 +985,11 @@ export default function AdminSettingsPage() {
 
               {/* System Actions */}
               <div>
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">System Actions</h3>
-                <div className="space-y-3">
+                <h3 className="text-base sm:text-lg font-medium text-gray-900 dark:text-white mb-3 sm:mb-4">System Actions</h3>
+                <div className="space-y-2 sm:space-y-3">
                   <button
                     onClick={() => window.location.reload()}
-                    className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                    className="w-full sm:w-auto flex items-center justify-center space-x-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                   >
                     <RefreshCw className="w-4 h-4" />
                     <span>Clear Cache</span>
@@ -1000,7 +1001,7 @@ export default function AdminSettingsPage() {
                         setMessage({ type: 'success', text: 'Logs cleared successfully!' })
                       }
                     }}
-                    className="flex items-center space-x-2 px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700"
+                    className="w-full sm:w-auto flex items-center justify-center space-x-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-yellow-600 text-white rounded-lg hover:bg-yellow-700"
                   >
                     <Trash2 className="w-4 h-4" />
                     <span>Clear System Logs</span>
@@ -1008,11 +1009,11 @@ export default function AdminSettingsPage() {
                 </div>
               </div>
             </div>
-            <div className="mt-6">
+            <div className="mt-4 sm:mt-6">
               <button
                 onClick={saveSystemSettings}
                 disabled={saving}
-                className="flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50"
+                className="w-full sm:w-auto flex items-center justify-center space-x-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50"
               >
                 <Save className="w-4 h-4" />
                 <span>{saving ? 'Saving...' : 'Save Backup Settings'}</span>

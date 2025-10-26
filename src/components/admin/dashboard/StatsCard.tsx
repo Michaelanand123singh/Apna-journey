@@ -36,16 +36,16 @@ export default function StatsCard({
   }
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow">
+    <div className="bg-white p-3 sm:p-4 lg:p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-200">
       <div className="flex items-center">
-        <div className={`p-2 rounded-lg ${colorClasses[color]}`}>
-          <Icon className="w-6 h-6" />
+        <div className={`p-1.5 sm:p-2 rounded-xl ${colorClasses[color]} flex-shrink-0`}>
+          <Icon className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
         </div>
-        <div className="ml-4 flex-1">
-          <p className="text-sm font-medium text-gray-600">{title}</p>
-          <p className="text-2xl font-semibold text-gray-900">{value.toLocaleString()}</p>
+        <div className="ml-2 sm:ml-4 flex-1 min-w-0">
+          <p className="text-xs sm:text-sm font-medium text-gray-600 truncate mb-0.5">{title}</p>
+          <p className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-0.5">{value.toLocaleString()}</p>
           {change && (
-            <p className={`text-sm ${changeColorClasses[changeType]}`}>
+            <p className={`text-xs sm:text-sm font-medium ${changeColorClasses[changeType]}`}>
               {change} from last month
             </p>
           )}
