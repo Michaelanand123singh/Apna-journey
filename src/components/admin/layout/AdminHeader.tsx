@@ -36,7 +36,7 @@ export default function AdminHeader() {
               <input
                 type="text"
                 placeholder="Search..."
-                className="block w-full pl-8 sm:pl-10 pr-3 py-1.5 sm:py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-primary-500 focus:border-primary-500 text-sm"
+                className="block w-full pl-8 sm:pl-10 pr-3 py-1.5 sm:py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-green-500 focus:border-green-500 text-sm"
               />
             </div>
           </div>
@@ -62,8 +62,8 @@ export default function AdminHeader() {
 
             {/* Admin info */}
             <div className="flex items-center space-x-1 sm:space-x-2 lg:space-x-3">
-              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-primary-100 rounded-full flex items-center justify-center">
-                <User className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5 text-primary-600" />
+              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-green-100 rounded-full flex items-center justify-center">
+                <User className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5 text-green-600" />
               </div>
               <div className="hidden sm:block">
                 <p className="text-xs sm:text-sm font-medium text-gray-700">

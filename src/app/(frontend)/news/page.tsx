@@ -4,7 +4,7 @@ import NewsList from '@/components/frontend/news/NewsList'
 import CategoryNav from '@/components/frontend/news/CategoryNav'
 import FeaturedNews from '@/components/frontend/news/FeaturedNews'
 import NewsStats from '@/components/frontend/news/NewsStats'
-import { Newspaper, TrendingUp, Globe, Clock, Users, Eye } from 'lucide-react'
+import { Newspaper, TrendingUp, Globe, Clock, Users, Eye, FolderOpen } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Latest Bihar News | Apna Journey',
@@ -53,13 +53,17 @@ export default function NewsPage() {
           <div className="lg:w-3/4">
             {/* Category Navigation */}
             <div className="mb-6 sm:mb-8">
-              <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                <div className="bg-gradient-to-r from-slate-50 to-slate-100 px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-200">
-                  <h2 className="text-base sm:text-lg font-semibold text-slate-900">Browse by Category</h2>
+              <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6">
+                <div className="flex items-center space-x-2 mb-4 sm:mb-5">
+                  <div className="p-2 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg">
+                    <FolderOpen className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h2 className="text-base sm:text-lg font-semibold text-slate-900">Browse by Category</h2>
+                    <p className="text-xs sm:text-sm text-slate-600">Explore news from different topics</p>
+                  </div>
                 </div>
-                <div className="p-4 sm:p-6">
-              <CategoryNav />
-                </div>
+                <CategoryNav />
               </div>
             </div>
 

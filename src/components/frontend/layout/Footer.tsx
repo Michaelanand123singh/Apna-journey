@@ -9,7 +9,7 @@ export default function Footer() {
           {/* Company Info */}
           <div>
             <div className="flex items-center space-x-2 mb-4">
-              <div className="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">A</span>
               </div>
               <span className="text-xl font-bold">Apna Journey</span>
@@ -99,15 +99,15 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-4">Contact Info</h3>
             <div className="space-y-3">
               <div className="flex items-center space-x-2">
-                <MapPin className="w-4 h-4 text-primary-500" />
+                <MapPin className="w-4 h-4 text-green-500" />
                 <span className="text-gray-400">Gaya, Bihar, India</span>
               </div>
               <div className="flex items-center space-x-2">
-                <Phone className="w-4 h-4 text-primary-500" />
+                <Phone className="w-4 h-4 text-green-500" />
                 <span className="text-gray-400">+91 9876543210</span>
               </div>
               <div className="flex items-center space-x-2">
-                <Mail className="w-4 h-4 text-primary-500" />
+                <Mail className="w-4 h-4 text-green-500" />
                 <span className="text-gray-400">info@apnajourney.com</span>
               </div>
             </div>

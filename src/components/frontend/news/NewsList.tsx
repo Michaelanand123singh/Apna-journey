@@ -97,7 +97,7 @@ function NewsListContent({ category }: NewsListContentProps) {
         <p className="text-gray-600 mb-4">{error}</p>
         <button
           onClick={fetchNews}
-          className="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors"
+          className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
         >
           Try Again
         </button>
@@ -119,7 +119,7 @@ function NewsListContent({ category }: NewsListContentProps) {
         </p>
         <button
           onClick={() => window.location.href = '/news'}
-          className="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors"
+          className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
         >
           View All News
         </button>
@@ -175,7 +175,7 @@ function NewsListContent({ category }: NewsListContentProps) {
                   }}
                   className={`px-3 py-2 text-sm font-medium rounded-md ${
                     isCurrentPage
-                      ? 'bg-primary-500 text-white'
+                      ? 'bg-green-600 text-white'
                       : 'text-gray-500 bg-white border border-gray-300 hover:bg-gray-50'
                   }`}
                 >

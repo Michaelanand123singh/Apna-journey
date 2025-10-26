@@ -106,7 +106,7 @@ export default function ApplicationForm({ job, onClose }: ApplicationFormProps) 
           </p>
           <button
             onClick={onClose}
-            className="bg-primary-500 text-white px-6 py-2 rounded-lg hover:bg-primary-600 transition-colors"
+            className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
           >
             Close
           </button>
@@ -139,7 +139,7 @@ export default function ApplicationForm({ job, onClose }: ApplicationFormProps) 
                 name="applicantName"
                 value={formData.applicantName}
                 onChange={handleChange}
-                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 ${
+                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 ${
                   errors.applicantName ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="Enter your full name"
@@ -158,7 +158,7 @@ export default function ApplicationForm({ job, onClose }: ApplicationFormProps) 
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 ${
+                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 ${
                   errors.email ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="Enter your email address"
@@ -177,7 +177,7 @@ export default function ApplicationForm({ job, onClose }: ApplicationFormProps) 
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 ${
+                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 ${
                   errors.phone ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="Enter your 10-digit phone number"
@@ -197,7 +197,7 @@ export default function ApplicationForm({ job, onClose }: ApplicationFormProps) 
                   name="resumeUrl"
                   value={formData.resumeUrl}
                   onChange={handleChange}
-                  className={`flex-1 px-3 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-primary-500 ${
+                  className={`flex-1 px-3 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-green-500 ${
                     errors.resumeUrl ? 'border-red-500' : 'border-gray-300'
                   }`}
                   placeholder="https://example.com/resume.pdf"
@@ -226,7 +226,7 @@ export default function ApplicationForm({ job, onClose }: ApplicationFormProps) 
                 value={formData.coverLetter}
                 onChange={handleChange}
                 rows={4}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                 placeholder="Tell us why you're interested in this position..."
               />
             </div>
@@ -246,7 +246,7 @@ export default function ApplicationForm({ job, onClose }: ApplicationFormProps) 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex-1 bg-primary-500 text-white px-4 py-2 rounded-md hover:bg-primary-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? 'Submitting...' : 'Submit Application'}
               </button>

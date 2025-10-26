@@ -53,7 +53,7 @@ function JobFiltersContent() {
           value={filters.search}
           onChange={(e) => handleFilterChange('search', e.target.value)}
           placeholder="Job title, company, skills..."
-          className="w-full px-2 sm:px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+          className="w-full px-2 sm:px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
         />
       </div>
 
@@ -65,7 +65,7 @@ function JobFiltersContent() {
         <select
           value={filters.category}
           onChange={(e) => handleFilterChange('category', e.target.value)}
-          className="w-full px-2 sm:px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+          className="w-full px-2 sm:px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
         >
           <option value="">All Categories</option>
           {JOB_CATEGORIES.map((category) => (
@@ -84,7 +84,7 @@ function JobFiltersContent() {
         <select
           value={filters.jobType}
           onChange={(e) => handleFilterChange('jobType', e.target.value)}
-          className="w-full px-2 sm:px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+          className="w-full px-2 sm:px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
         >
           <option value="">All Types</option>
           {JOB_TYPES.map((type) => (
@@ -103,7 +103,7 @@ function JobFiltersContent() {
         <select
           value={filters.location}
           onChange={(e) => handleFilterChange('location', e.target.value)}
-          className="w-full px-2 sm:px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+          className="w-full px-2 sm:px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
         >
           <option value="">All Locations</option>
           {GAYA_LOCATIONS.map((location) => (
@@ -130,44 +130,44 @@ function JobFiltersContent() {
           <h4 className="text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">Active Filters:</h4>
           <div className="flex flex-wrap gap-1.5 sm:gap-2">
             {filters.search && (
-              <span className="inline-flex items-center px-2 py-1 bg-primary-100 text-primary-800 text-xs rounded-full">
+              <span className="inline-flex items-center px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
                 Search: {filters.search.length > 10 ? filters.search.substring(0, 10) + '...' : filters.search}
                 <button
                   onClick={() => handleFilterChange('search', '')}
-                  className="ml-1 text-primary-600 hover:text-primary-800"
+                  className="ml-1 text-green-600 hover:text-green-800"
                 >
                   ×
                 </button>
               </span>
             )}
             {filters.category && (
-              <span className="inline-flex items-center px-2 py-1 bg-primary-100 text-primary-800 text-xs rounded-full">
+              <span className="inline-flex items-center px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
                 {JOB_CATEGORIES.find(c => c.value === filters.category)?.label}
                 <button
                   onClick={() => handleFilterChange('category', '')}
-                  className="ml-1 text-primary-600 hover:text-primary-800"
+                  className="ml-1 text-green-600 hover:text-green-800"
                 >
                   ×
                 </button>
               </span>
             )}
             {filters.jobType && (
-              <span className="inline-flex items-center px-2 py-1 bg-primary-100 text-primary-800 text-xs rounded-full">
+              <span className="inline-flex items-center px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
                 {JOB_TYPES.find(t => t.value === filters.jobType)?.label}
                 <button
                   onClick={() => handleFilterChange('jobType', '')}
-                  className="ml-1 text-primary-600 hover:text-primary-800"
+                  className="ml-1 text-green-600 hover:text-green-800"
                 >
                   ×
                 </button>
               </span>
             )}
             {filters.location && (
-              <span className="inline-flex items-center px-2 py-1 bg-primary-100 text-primary-800 text-xs rounded-full">
+              <span className="inline-flex items-center px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
                 {GAYA_LOCATIONS.find(l => l.value === filters.location)?.label}
                 <button
                   onClick={() => handleFilterChange('location', '')}
-                  className="ml-1 text-primary-600 hover:text-primary-800"
+                  className="ml-1 text-green-600 hover:text-green-800"
                 >
                   ×
                 </button>

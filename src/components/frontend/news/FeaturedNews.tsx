@@ -133,7 +133,7 @@ export default function FeaturedNews() {
           
           <div className="p-6">
             <Link href={`/news/${article.slug}`}>
-              <h3 className="text-xl font-semibold text-gray-800 hover:text-primary-500 transition-colors mb-2 line-clamp-2">
+              <h3 className="text-xl font-semibold text-gray-800 hover:text-green-600 transition-colors mb-2 line-clamp-2">
                 {article.title}
               </h3>
             </Link>
@@ -155,7 +155,7 @@ export default function FeaturedNews() {
               </div>
               <Link
                 href={`/news/${article.slug}`}
-                className="text-primary-500 hover:text-primary-600 font-medium"
+                className="text-green-600 hover:text-green-700 font-medium"
               >
                 Read More →
               </Link>

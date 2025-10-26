@@ -143,7 +143,7 @@ export default function JobDetails({ job }: JobDetailsProps) {
                 <Mail className="w-4 h-4 sm:w-5 sm:h-5 mr-2 flex-shrink-0" />
                 <a 
                   href={`mailto:${job.contactEmail}`}
-                  className="hover:text-primary-500 transition-colors break-all"
+                  className="hover:text-green-600 transition-colors break-all"
                 >
                   {job.contactEmail}
                 </a>
@@ -152,7 +152,7 @@ export default function JobDetails({ job }: JobDetailsProps) {
                 <Phone className="w-4 h-4 sm:w-5 sm:h-5 mr-2 flex-shrink-0" />
                 <a 
                   href={`tel:${job.contactPhone}`}
-                  className="hover:text-primary-500 transition-colors"
+                  className="hover:text-green-600 transition-colors"
                 >
                   {job.contactPhone}
                 </a>
@@ -185,7 +185,7 @@ export default function JobDetails({ job }: JobDetailsProps) {
                 </p>
                 <button
                   onClick={() => setShowApplicationForm(true)}
-                  className="w-full bg-primary-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:bg-primary-600 transition-colors text-sm sm:text-base"
+                  className="w-full bg-green-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors text-sm sm:text-base"
                 >
                   Apply Now
                 </button>
@@ -195,7 +195,7 @@ export default function JobDetails({ job }: JobDetailsProps) {
                 <p className="text-gray-500 text-xs sm:text-sm mb-2">Or apply directly</p>
                 <a
                   href={`mailto:${job.contactEmail}?subject=Application for ${job.title}`}
-                  className="inline-flex items-center text-primary-500 hover:text-primary-600 transition-colors text-sm sm:text-base"
+                  className="inline-flex items-center text-green-600 hover:text-green-700 transition-colors text-sm sm:text-base"
                 >
                   <Mail className="w-4 h-4 mr-1" />
                   Send Email

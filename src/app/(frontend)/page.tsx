@@ -1,8 +1,6 @@
 import { Metadata } from 'next'
 import Script from 'next/script'
 import HeroSection from '@/components/frontend/home/HeroSection'
-import FeaturesSection from '@/components/frontend/home/FeaturesSection'
-import StatsSection from '@/components/frontend/home/StatsSection'
 import LatestJobs from '@/components/frontend/home/LatestJobs'
 import LatestNews from '@/components/frontend/home/LatestNews'
 
@@ -71,12 +69,6 @@ export default function HomePage() {
       <div className="min-h-screen">
         {/* Hero Section */}
         <HeroSection />
-
-        {/* Features Section */}
-        <FeaturesSection />
-
-        {/* Stats Section */}
-        <StatsSection />
 
         {/* Latest Jobs */}
         <LatestJobs />

@@ -154,7 +154,7 @@ export default function RecentActivity() {
         <div className="mt-4 pt-4 border-t border-gray-200">
           <a
             href="#"
-            className="text-sm text-primary-600 hover:text-primary-500 font-medium"
+            className="text-sm text-green-600 hover:text-green-700 font-medium"
           >
             View all activity →
           </a>

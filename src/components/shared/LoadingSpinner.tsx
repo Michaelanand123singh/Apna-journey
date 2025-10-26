@@ -21,7 +21,7 @@ export default function LoadingSpinner({
   }
 
   const colorClasses = {
-    primary: 'border-primary-500',
+    primary: 'border-green-500',
     white: 'border-white',
     gray: 'border-gray-500'
   }

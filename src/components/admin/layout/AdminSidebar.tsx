@@ -71,7 +71,7 @@ export default function AdminSidebar() {
           {/* Logo */}
           <div className="flex items-center justify-between h-14 sm:h-16 px-4 border-b border-gray-200">
             <div className="flex items-center space-x-2">
-              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-primary-500 rounded-lg flex items-center justify-center">
+              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-green-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm sm:text-lg">A</span>
               </div>
               <span className="text-lg sm:text-xl font-bold text-gray-800">Apna Journey</span>
@@ -97,7 +97,7 @@ export default function AdminSidebar() {
                   onClick={() => setIsOpen(false)}
                   className={`flex items-center space-x-2 sm:space-x-3 px-2 sm:px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                     isActive(item.href)
-                      ? 'bg-primary-100 text-primary-700'
+                      ? 'bg-green-100 text-green-700'
                       : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                   }`}
                 >

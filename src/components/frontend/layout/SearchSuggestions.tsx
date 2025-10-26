@@ -183,7 +183,7 @@ export default function SearchSuggestions({ query, isVisible, onClose }: SearchS
             <div className="pt-2 border-t border-gray-200 dark:border-gray-700">
               <Link
                 href={`/search?q=${encodeURIComponent(query)}`}
-                className="block w-full text-center py-2 text-sm text-primary-600 dark:text-primary-400 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                className="block w-full text-center py-2 text-sm text-green-600 dark:text-green-400 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
                 onClick={onClose}
               >
                 View all results ({totalResults})

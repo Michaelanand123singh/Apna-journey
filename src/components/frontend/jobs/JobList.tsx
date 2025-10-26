@@ -91,7 +91,7 @@ function JobListContent() {
         </p>
         <button
           onClick={() => window.location.href = '/jobs'}
-          className="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors"
+          className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
         >
           View All Jobs
         </button>
@@ -147,7 +147,7 @@ function JobListContent() {
                   }}
                   className={`px-3 py-2 text-sm font-medium rounded-md ${
                     isCurrentPage
-                      ? 'bg-primary-500 text-white'
+                      ? 'bg-green-600 text-white'
                       : 'text-gray-500 bg-white border border-gray-300 hover:bg-gray-50'
                   }`}
                 >
