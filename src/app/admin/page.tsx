@@ -28,6 +28,7 @@ interface DashboardStats {
     today: number
     thisWeek: number
     thisMonth: number
+    allTime: number
   }
 }
 
@@ -164,7 +165,18 @@ export default function AdminDashboard() {
       </div>
 
       {/* Page Views */}
-      <div className="grid grid-cols-3 sm:grid-cols-3 gap-2 sm:gap-4 lg:gap-6 mb-6 sm:mb-6 lg:mb-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4 sm:mb-0">Page Views Statistics</h2>
+        <button
+          onClick={fetchStats}
+          disabled={loading}
+          className="px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors disabled:opacity-50"
+        >
+          {loading ? 'Refreshing...' : 'Refresh Stats'}
+        </button>
+      </div>
+      
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 lg:gap-6 mb-6 sm:mb-6 lg:mb-8">
         <div className="bg-white p-3 sm:p-4 lg:p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-200">
           <div className="text-center">
             <div className="p-2 bg-blue-100 rounded-xl mx-auto w-fit mb-2">
@@ -190,6 +202,15 @@ export default function AdminDashboard() {
             </div>
             <p className="text-xs sm:text-sm font-medium text-gray-600 mb-1">This Month</p>
             <p className="text-lg sm:text-xl font-bold text-gray-900">{stats?.pageViews?.thisMonth || 0}</p>
+          </div>
+        </div>
+        <div className="bg-white p-3 sm:p-4 lg:p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-200">
+          <div className="text-center">
+            <div className="p-2 bg-indigo-100 rounded-xl mx-auto w-fit mb-2">
+              <Eye className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-600" />
+            </div>
+            <p className="text-xs sm:text-sm font-medium text-gray-600 mb-1">All Time</p>
+            <p className="text-lg sm:text-xl font-bold text-gray-900">{stats?.pageViews?.allTime || 0}</p>
           </div>
         </div>
       </div>

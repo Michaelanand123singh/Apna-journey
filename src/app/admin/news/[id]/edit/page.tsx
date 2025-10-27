@@ -9,6 +9,7 @@ import {
   X
 } from 'lucide-react'
 import { NEWS_CATEGORIES } from '@/lib/constants/categories'
+import RichTextEditor from '@/components/shared/RichTextEditor'
 
 interface NewsArticle {
   _id: string
@@ -447,19 +448,21 @@ export default function EditNewsPage({ params }: { params: Promise<{ id: string 
             
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Article Content *
+                Article Content * <span className="text-xs text-gray-500 font-normal">(Rich text editor with formatting options)</span>
               </label>
-              <textarea
-                name="content"
-                value={formData.content}
-                onChange={handleInputChange}
-                rows={15}
-                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
-                  errors.content ? 'border-red-500' : 'border-gray-300'
-                }`}
+              <RichTextEditor
+                content={formData.content}
+                onChange={(html) => {
+                  setFormData(prev => ({ ...prev, content: html }))
+                  if (errors.content) {
+                    setErrors(prev => ({ ...prev, content: '' }))
+                  }
+                }}
                 placeholder="Write your article content here..."
+                minHeight="500px"
+                showToolbar={true}
               />
-              {errors.content && <p className="text-red-500 text-sm mt-1">{errors.content}</p>}
+              {errors.content && <p className="text-red-500 text-sm mt-2">{errors.content}</p>}
             </div>
           </div>
 

@@ -16,6 +16,7 @@ import {
 import { JOB_CATEGORIES, JOB_TYPES } from '@/lib/constants/categories'
 import { BIHAR_LOCATIONS } from '@/lib/constants/locations'
 import LoadingButton from '@/components/shared/LoadingButton'
+import RichTextEditor from '@/components/shared/RichTextEditor'
 
 export default function PostJobPage() {
   const router = useRouter()
@@ -91,12 +92,15 @@ export default function PostJobPage() {
       newErrors.company = 'Company name cannot exceed 50 characters'
     }
 
-    if (!formData.description.trim()) {
+    // Strip HTML tags for validation
+    const descriptionText = formData.description.replace(/<[^>]*>/g, '').trim()
+    
+    if (!descriptionText) {
       newErrors.description = 'Job description is required'
-    } else if (formData.description.trim().length < 50) {
-      newErrors.description = 'Description must be at least 50 characters'
-    } else if (formData.description.trim().length > 2000) {
-      newErrors.description = 'Description cannot exceed 2000 characters'
+    } else if (descriptionText.length < 50) {
+      newErrors.description = 'Description must be at least 50 characters (without HTML formatting)'
+    } else if (descriptionText.length > 2000) {
+      newErrors.description = 'Description cannot exceed 2000 characters (without HTML formatting)'
     }
 
     if (!formData.category) {
@@ -309,28 +313,24 @@ export default function PostJobPage() {
                 <div className="space-y-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Job Description *
+                      Job Description * <span className="text-xs text-gray-500 font-normal">(Rich text editor with formatting options)</span>
                     </label>
-                    <textarea
-                      name="description"
-                      rows={6}
-                      value={formData.description}
-                      onChange={handleChange}
-                      maxLength={2000}
-                      className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 ${
-                        errors.description ? 'border-red-300' : 'border-gray-300'
-                      }`}
+                    <RichTextEditor
+                      content={formData.description}
+                      onChange={(html) => {
+                        setFormData(prev => ({ ...prev, description: html }))
+                        if (errors.description) {
+                          setErrors(prev => ({ ...prev, description: '' }))
+                        }
+                      }}
                       placeholder="Describe the job responsibilities, requirements, and what the candidate will be doing..."
+                      minHeight="250px"
+                      showToolbar={true}
                     />
-                    <div className="flex justify-between items-center mt-1">
+                    <div className="flex justify-between items-center mt-2">
                       {errors.description && (
                         <p className="text-sm text-red-600">{errors.description}</p>
                       )}
-                      <p className={`text-sm ml-auto ${
-                        formData.description.length > 1800 ? 'text-red-500' : 'text-gray-500'
-                      }`}>
-                        {formData.description.length}/2000 characters
-                      </p>
                     </div>
                   </div>
 

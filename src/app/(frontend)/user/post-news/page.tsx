@@ -15,6 +15,7 @@ import {
 } from 'lucide-react'
 import { NEWS_CATEGORIES } from '@/lib/constants/categories'
 import LoadingButton from '@/components/shared/LoadingButton'
+import RichTextEditor from '@/components/shared/RichTextEditor'
 
 export default function PostNewsPage() {
   const router = useRouter()
@@ -219,10 +220,13 @@ export default function PostNewsPage() {
       newErrors.excerpt = 'Excerpt must be at least 20 characters'
     }
     
-    if (!formData.content.trim()) {
+    // Strip HTML tags for validation
+    const contentText = formData.content.replace(/<[^>]*>/g, '').trim()
+    
+    if (!contentText) {
       newErrors.content = 'Content is required'
-    } else if (formData.content.trim().length < 50) {
-      newErrors.content = 'Content must be at least 50 characters'
+    } else if (contentText.length < 50) {
+      newErrors.content = 'Content must be at least 50 characters (without HTML formatting)'
     }
     
     if (!formData.category) {
@@ -506,21 +510,22 @@ export default function PostNewsPage() {
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Article Content <span className="text-red-500">*</span>
+                    Article Content <span className="text-red-500">*</span> <span className="text-xs text-gray-500 font-normal">(Rich text editor with formatting options)</span>
                   </label>
-                  <textarea
-                    name="content"
-                    value={formData.content}
-                    onChange={handleChange}
-                    rows={12}
-                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 ${
-                      errors.content ? 'border-red-300' : 'border-gray-300'
-                    }`}
+                  <RichTextEditor
+                    content={formData.content}
+                    onChange={(html) => {
+                      setFormData(prev => ({ ...prev, content: html }))
+                      if (errors.content) {
+                        setErrors(prev => ({ ...prev, content: '' }))
+                      }
+                    }}
                     placeholder="Write your news article content here..."
+                    minHeight="400px"
+                    showToolbar={true}
                   />
-                  <div className="flex justify-between items-center mt-1">
+                  <div className="flex justify-between items-center mt-2">
                     {errors.content && <p className="text-sm text-red-600">{errors.content}</p>}
-                    <p className="text-xs text-gray-500 ml-auto">{formData.content.length} characters</p>
                   </div>
                 </div>
               </div>

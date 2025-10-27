@@ -115,9 +115,10 @@ export default function JobDetails({ job }: JobDetailsProps) {
           {/* Description */}
           <div className="mb-6 sm:mb-8">
             <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-3 sm:mb-4">Job Description</h2>
-            <div className="prose max-w-none text-gray-700 whitespace-pre-wrap text-sm sm:text-base leading-relaxed">
-              {job.description}
-            </div>
+            <div 
+              className="prose prose-sm sm:prose-base max-w-none text-gray-700 text-sm sm:text-base leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: job.description }}
+            />
           </div>
 
           {/* Requirements */}

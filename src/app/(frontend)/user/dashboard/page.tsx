@@ -87,6 +87,8 @@ export default function UserDashboard() {
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState('overview')
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [showPostJobForm, setShowPostJobForm] = useState(false)
+  const [showPostNewsForm, setShowPostNewsForm] = useState(false)
 
   useEffect(() => {
     checkAuth()
@@ -533,26 +535,26 @@ export default function UserDashboard() {
                     <h3 className="text-base sm:text-lg font-semibold text-gray-800">Quick Actions</h3>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-                    <Link
-                      href="/user/post-job"
-                      className="flex items-start sm:items-center p-3 sm:p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                    <button
+                      onClick={() => setShowPostJobForm(true)}
+                      className="flex items-start sm:items-center p-3 sm:p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-left w-full"
                     >
                       <Plus className="w-5 h-5 text-primary-500 mr-3 flex-shrink-0 mt-1 sm:mt-0" />
                       <div className="min-w-0">
                         <h4 className="font-medium text-gray-800 text-sm sm:text-base">Post a New Job</h4>
                         <p className="text-xs sm:text-sm text-gray-600 mt-1">Share job opportunities with the community</p>
                       </div>
-                    </Link>
-                    <Link
-                      href="/user/post-news"
-                      className="flex items-start sm:items-center p-3 sm:p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                    </button>
+                    <button
+                      onClick={() => setShowPostNewsForm(true)}
+                      className="flex items-start sm:items-center p-3 sm:p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-left w-full"
                     >
                       <Newspaper className="w-5 h-5 text-primary-500 mr-3 flex-shrink-0 mt-1 sm:mt-0" />
                       <div className="min-w-0">
                         <h4 className="font-medium text-gray-800 text-sm sm:text-base">Post News Article</h4>
                         <p className="text-xs sm:text-sm text-gray-600 mt-1">Share news with the community</p>
                       </div>
-                    </Link>
+                    </button>
                     <Link
                       href="/jobs"
                       className="flex items-start sm:items-center p-3 sm:p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors col-span-1 sm:col-span-2 lg:col-span-1"
@@ -624,13 +626,13 @@ export default function UserDashboard() {
                 <div className="p-4 sm:p-6 border-b border-gray-200">
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-0">
                     <h3 className="text-base sm:text-lg font-semibold text-gray-800">My Posted Jobs</h3>
-                    <Link
-                      href="/user/post-job"
+                    <button
+                      onClick={() => setShowPostJobForm(true)}
                       className="bg-primary-500 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg hover:bg-primary-600 transition-colors flex items-center justify-center text-sm"
                     >
                       <Plus className="w-4 h-4 mr-2" />
                       Post New Job
-                    </Link>
+                    </button>
                   </div>
                 </div>
                 <div className="p-4 sm:p-6">
@@ -639,12 +641,12 @@ export default function UserDashboard() {
                       <Briefcase className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                       <h4 className="text-lg font-medium text-gray-800 mb-2">No Jobs Posted Yet</h4>
                       <p className="text-gray-600 mb-4">Start by posting your first job opportunity.</p>
-                      <Link
-                        href="/user/post-job"
+                      <button
+                        onClick={() => setShowPostJobForm(true)}
                         className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
                       >
                         Post Your First Job
-                      </Link>
+                      </button>
                     </div>
                   ) : (
                     <div className="space-y-3 sm:space-y-4">
@@ -717,13 +719,13 @@ export default function UserDashboard() {
                 <div className="p-4 sm:p-6 border-b border-gray-200">
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-0">
                     <h3 className="text-base sm:text-lg font-semibold text-gray-800">My News Articles</h3>
-                    <Link
-                      href="/user/post-news"
+                    <button
+                      onClick={() => setShowPostNewsForm(true)}
                       className="inline-flex items-center justify-center px-3 py-2 sm:px-4 sm:py-2 bg-primary-600 text-white text-sm font-medium rounded-md hover:bg-primary-700 transition-colors"
                     >
                       <Plus className="w-4 h-4 mr-2" />
                       Post New Article
-                    </Link>
+                    </button>
                   </div>
                 </div>
                 <div className="p-4 sm:p-6">
@@ -732,13 +734,13 @@ export default function UserDashboard() {
                       <Newspaper className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                       <h3 className="text-lg font-medium text-gray-900 mb-2">No news articles yet</h3>
                       <p className="text-gray-600 mb-6">Start sharing news with the community</p>
-                      <Link
-                        href="/user/post-news"
+                      <button
+                        onClick={() => setShowPostNewsForm(true)}
                         className="inline-flex items-center px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-md hover:bg-primary-700 transition-colors"
                       >
                         <Plus className="w-4 h-4 mr-2" />
                         Post Your First Article
-                      </Link>
+                      </button>
                     </div>
                   ) : (
                     <div className="space-y-3 sm:space-y-4">
@@ -882,6 +884,58 @@ export default function UserDashboard() {
           </div>
         </div>
       </div>
+
+      {/* Post Job Form Modal */}
+      {showPostJobForm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">
+          <div className="min-h-screen px-4 py-8">
+            <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-xl">
+              <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center z-10">
+                <h2 className="text-xl font-bold text-gray-800">Post a New Job</h2>
+                <button
+                  onClick={() => setShowPostJobForm(false)}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+              <div className="p-6">
+                <iframe
+                  src="/user/post-job"
+                  className="w-full h-[calc(100vh-200px)] border-0"
+                  title="Post Job Form"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Post News Form Modal */}
+      {showPostNewsForm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">
+          <div className="min-h-screen px-4 py-8">
+            <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-xl">
+              <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center z-10">
+                <h2 className="text-xl font-bold text-gray-800">Post a News Article</h2>
+                <button
+                  onClick={() => setShowPostNewsForm(false)}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+              <div className="p-6">
+                <iframe
+                  src="/user/post-news"
+                  className="w-full h-[calc(100vh-200px)] border-0"
+                  title="Post News Form"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
