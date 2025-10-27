@@ -149,7 +149,7 @@ export default function NewsArticle({ article }: NewsArticleProps) {
           <div className="prose prose-sm sm:prose-base max-w-none text-gray-700 leading-relaxed">
             <div 
               dangerouslySetInnerHTML={{ __html: article.content }}
-              className="text-sm sm:text-base md:text-lg"
+              className="prose-rich-text text-sm sm:text-base md:text-lg"
             />
           </div>
 

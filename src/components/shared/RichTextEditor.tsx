@@ -531,7 +531,7 @@ export default function RichTextEditor({
         }
         
         .ProseMirror blockquote {
-          border-left: 4umps solid #e5e7eb;
+          border-left: 4px solid #e5e7eb;
           padding-left: 1rem;
           font-style: italic;
           color: #6b7280;

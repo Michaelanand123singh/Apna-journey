@@ -46,4 +46,3 @@ If you prefer to use images from other locations, you can:
 ## Note:
 
 Make sure all three images are uploaded to this folder before deploying the application.
-

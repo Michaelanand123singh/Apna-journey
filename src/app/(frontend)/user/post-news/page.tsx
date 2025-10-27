@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { 
   ArrowLeft,
   Upload,
@@ -326,15 +327,17 @@ export default function PostNewsPage() {
             <div className="bg-white rounded-lg shadow-sm p-8">
               <h1 className="text-3xl font-bold text-gray-900 mb-4">{formData.title || 'Untitled'}</h1>
               {formData.featuredImage && (
-                <img
+                <Image
                   src={formData.featuredImage}
                   alt={formData.title}
+                  width={800}
+                  height={256}
                   className="w-full h-64 object-cover rounded-lg mb-6"
                 />
               )}
               <div className="prose max-w-none">
                 <p className="text-lg text-gray-600 mb-6">{formData.excerpt}</p>
-                <div dangerouslySetInnerHTML={{ __html: formData.content.replace(/\n/g, '<br>') }} />
+                <div className="prose-rich-text" dangerouslySetInnerHTML={{ __html: formData.content }} />
               </div>
             </div>
           ) : (
@@ -473,9 +476,11 @@ export default function PostNewsPage() {
                   {/* Image Preview */}
                   {formData.featuredImage && (
                     <div className="relative">
-                      <img
+                      <Image
                         src={formData.featuredImage}
                         alt="Featured image preview"
+                        width={800}
+                        height={256}
                         className="w-full h-64 object-cover rounded-lg"
                       />
                       <button

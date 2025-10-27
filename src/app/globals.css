@@ -242,3 +242,179 @@ html {
 .animate-scroll-slow {
   animation: scroll-slow 30s linear infinite;
 }
+
+/* Rich Text Content Styling - Consistent for editor and display */
+.prose-rich-text,
+.ProseMirror {
+  /* Ensure consistent rendering */
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.prose-rich-text p,
+.ProseMirror p {
+  margin: 0.75rem 0;
+  line-height: 1.75;
+}
+
+.prose-rich-text ul,
+.prose-rich-text ol,
+.ProseMirror ul,
+.ProseMirror ol {
+  margin: 0.75rem 0;
+  padding-left: 1.5rem;
+}
+
+.prose-rich-text ul,
+.ProseMirror ul {
+  list-style-type: disc;
+}
+
+.prose-rich-text ol,
+.ProseMirror ol {
+  list-style-type: decimal;
+}
+
+.prose-rich-text ul ul,
+.prose-rich-text ol ol,
+.prose-rich-text ul ol,
+.prose-rich-text ol ul,
+.ProseMirror ul ul,
+.ProseMirror ol ol,
+.ProseMirror ul ol,
+.ProseMirror ol ul {
+  margin: 0.5rem 0;
+}
+
+.prose-rich-text li,
+.ProseMirror li {
+  margin: 0.25rem 0;
+  line-height: 1.75;
+}
+
+.prose-rich-text blockquote,
+.ProseMirror blockquote {
+  border-left: 4px solid #e5e7eb;
+  padding-left: 1rem;
+  margin: 1rem 0;
+  font-style: italic;
+  color: #6b7280;
+}
+
+.prose-rich-text h1,
+.ProseMirror h1 {
+  font-weight: bold;
+  font-size: 2em;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.25;
+}
+
+.prose-rich-text h2,
+.ProseMirror h2 {
+  font-weight: bold;
+  font-size: 1.5em;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.prose-rich-text h3,
+.ProseMirror h3 {
+  font-weight: bold;
+  font-size: 1.25em;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.prose-rich-text code,
+.ProseMirror code {
+  background-color: #f3f4f6;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+}
+
+.prose-rich-text pre,
+.ProseMirror pre {
+  background-color: #1f2937;
+  color: #fff;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.prose-rich-text pre code,
+.ProseMirror pre code {
+  background-color: transparent;
+  padding: 0;
+  color: inherit;
+}
+
+.prose-rich-text img,
+.ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1rem auto;
+  display: block;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.prose-rich-text img:hover,
+.ProseMirror img:hover {
+  transform: scale(1.02);
+}
+
+.prose-rich-text a,
+.ProseMirror a {
+  color: #059669;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.prose-rich-text a:hover,
+.ProseMirror a:hover {
+  color: #047857;
+}
+
+.prose-rich-text hr,
+.ProseMirror hr {
+  margin: 1.5rem 0;
+  border: none;
+  border-top: 2px solid #e5e7eb;
+}
+
+/* Empty paragraph spacing fix ::before placeholder */
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #9ca3af;
+  pointer-events: none;
+  height: 0;
+}
+
+/* Text alignment support */
+.prose-rich-text [style*="text-align: left"],
+.ProseMirror [style*="text-align: left"] {
+  text-align: left;
+}
+
+.prose-rich-text [style*="text-align: center"],
+.ProseMirror [style*="text-align: center"] {
+  text-align: center;
+}
+
+.prose-rich-text [style*="text-align: right"],
+.ProseMirror [style*="text-align: right"] {
+  text-align: right;
+}
+
+.prose-rich-text [style*="text-align: justify"],
+.ProseMirror [style*="text-align: justify"] {
+  text-align: justify;
+}

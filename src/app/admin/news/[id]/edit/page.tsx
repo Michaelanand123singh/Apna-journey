@@ -289,7 +289,7 @@ export default function EditNewsPage({ params }: { params: Promise<{ id: string 
             )}
             <p className="text-xl text-gray-600 mb-6">{formData.excerpt || 'Article excerpt...'}</p>
             <div className="prose max-w-none">
-              <div dangerouslySetInnerHTML={{ __html: formData.content.replace(/\n/g, '<br>') }} />
+              <div className="prose-rich-text" dangerouslySetInnerHTML={{ __html: formData.content }} />
             </div>
             {formData.tags.length > 0 && (
               <div className="mt-8 pt-6 border-t border-gray-200">
