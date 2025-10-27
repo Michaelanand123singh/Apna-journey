@@ -326,6 +326,8 @@ export default function PostJobPage() {
                       placeholder="Describe the job responsibilities, requirements, and what the candidate will be doing..."
                       minHeight="250px"
                       showToolbar={true}
+                      userRole="user"
+                      folder="apna-journey/jobs"
                     />
                     <div className="flex justify-between items-center mt-2">
                       {errors.description && (

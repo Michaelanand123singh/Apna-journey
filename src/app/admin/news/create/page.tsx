@@ -666,6 +666,8 @@ export default function CreateNewsPage() {
                 placeholder="Write your article content here..."
                 minHeight="500px"
                 showToolbar={true}
+                userRole="admin"
+                folder="resident-journey/news"
               />
               <div className="flex justify-between items-center mt-2">
                 {errors.content && <p className="text-red-500 text-sm">{errors.content}</p>}

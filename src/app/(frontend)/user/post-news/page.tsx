@@ -523,6 +523,8 @@ export default function PostNewsPage() {
                     placeholder="Write your news article content here..."
                     minHeight="400px"
                     showToolbar={true}
+                    userRole="user"
+                    folder="apna-journey/user-news"
                   />
                   <div className="flex justify-between items-center mt-2">
                     {errors.content && <p className="text-sm text-red-600">{errors.content}</p>}

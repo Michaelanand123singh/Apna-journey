@@ -461,6 +461,8 @@ export default function EditNewsPage({ params }: { params: Promise<{ id: string 
                 placeholder="Write your article content here..."
                 minHeight="500px"
                 showToolbar={true}
+                userRole="admin"
+                folder="apna-journey/news"
               />
               {errors.content && <p className="text-red-500 text-sm mt-2">{errors.content}</p>}
             </div>
