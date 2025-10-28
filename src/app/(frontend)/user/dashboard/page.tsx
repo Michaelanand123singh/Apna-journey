@@ -67,7 +67,11 @@ interface PostedNews {
   _id: string
   title: string
   excerpt: string
+  content: string
   category: string
+  featuredImage: string
+  tags: string[]
+  language: string
   status: 'draft' | 'published' | 'pending' | 'approved' | 'rejected'
   views: number
   isFeatured: boolean
@@ -75,6 +79,12 @@ interface PostedNews {
   reviewedBy?: string
   reviewedAt?: string
   createdAt: string
+}
+
+interface PostedJobWithDetails extends PostedJob {
+  description: string
+  requirements: string[]
+  salary?: string
 }
 
 export default function UserDashboard() {
@@ -87,6 +97,8 @@ export default function UserDashboard() {
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState('overview')
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [previewNews, setPreviewNews] = useState<PostedNews | null>(null)
+  const [previewJob, setPreviewJob] = useState<PostedJobWithDetails | null>(null)
 
   useEffect(() => {
     checkAuth()
@@ -249,6 +261,49 @@ export default function UserDashboard() {
         alert('Failed to delete news article. Please try again.')
       }
     })
+  }
+
+  const handlePreviewNews = async (newsId: string) => {
+    try {
+      const token = localStorage.getItem('token')
+      const response = await fetch(`/api/user/news/${newsId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        if (data.success) {
+          setPreviewNews(data.data)
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching news preview:', error)
+    }
+  }
+
+  const handlePreviewJob = async (jobId: string) => {
+    try {
+      const token = localStorage.getItem('token')
+      const response = await fetch(`/api/user/jobs`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        if (data.success) {
+          const job = data.data.find((j: PostedJobWithDetails) => j._id === jobId)
+          if (job) {
+            setPreviewJob(job)
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching job preview:', error)
+    }
   }
 
   if (loading) {
@@ -686,7 +741,11 @@ export default function UserDashboard() {
                                 )}
                               </div>
                               <div className="flex space-x-1 sm:space-x-2">
-                                <button className="p-1.5 sm:p-1 text-gray-400 hover:text-gray-600 rounded hover:bg-gray-100">
+                                <button
+                                  onClick={() => handlePreviewJob(job._id)}
+                                  className="p-1.5 sm:p-1 text-gray-400 hover:text-gray-600 rounded hover:bg-gray-100"
+                                  title={job.status === 'pending' || job.status === 'rejected' ? 'Preview' : 'View'}
+                                >
                                   <Eye className="w-4 h-4" />
                                 </button>
                                 <button className="p-1.5 sm:p-1 text-gray-400 hover:text-gray-600 rounded hover:bg-gray-100">
@@ -787,11 +846,17 @@ export default function UserDashboard() {
                           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-0">
                             <div className="flex items-center gap-2">
                               <button
-                                onClick={() => window.open(`/news/${news._id}`, '_blank')}
+                                onClick={() => {
+                                  if (news.status === 'pending' || news.status === 'rejected' || news.status === 'draft') {
+                                    handlePreviewNews(news._id)
+                                  } else {
+                                    window.open(`/news/${news._id}`, '_blank')
+                                  }
+                                }}
                                 className="inline-flex items-center px-3 py-1.5 text-xs sm:text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
                               >
                                 <Eye className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
-                                View
+                                {news.status === 'pending' || news.status === 'rejected' || news.status === 'draft' ? 'Preview' : 'View'}
                               </button>
                               <button
                                 onClick={() => {/* TODO: Implement edit functionality */}}
@@ -882,6 +947,122 @@ export default function UserDashboard() {
           </div>
         </div>
       </div>
+
+      {/* News Preview Modal */}
+      {previewNews && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 overflow-y-auto">
+          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex justify-between items-start mb-6">
+                <h2 className="text-2xl font-bold text-gray-900">{previewNews.title}</h2>
+                <button
+                  onClick={() => setPreviewNews(null)}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+              
+              <div className="space-y-4">
+                <div className="flex items-center space-x-4 text-sm text-gray-500 mb-4">
+                  <span>Category: {previewNews.category}</span>
+                  <span>Language: {previewNews.language}</span>
+                  <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">Pending Review</span>
+                </div>
+                
+                {previewNews.featuredImage && (
+                  <Image
+                    src={previewNews.featuredImage}
+                    alt={previewNews.title}
+                    width={800}
+                    height={400}
+                    className="w-full h-64 object-cover rounded-lg mb-6"
+                  />
+                )}
+                
+                <p className="text-xl text-gray-600 mb-6">{previewNews.excerpt}</p>
+                
+                <div className="prose max-w-none">
+                  <div className="prose-rich-text" dangerouslySetInnerHTML={{ __html: previewNews.content }} />
+                </div>
+                
+                {previewNews.tags && previewNews.tags.length > 0 && (
+                  <div className="mt-8 pt-6 border-t border-gray-200">
+                    <div className="flex flex-wrap gap-2">
+                      {previewNews.tags.map((tag, index) => (
+                        <span
+                          key={index}
+                          className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Job Preview Modal */}
+      {previewJob && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 overflow-y-auto">
+          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex justify-between items-start mb-6">
+                <h2 className="text-2xl font-bold text-gray-900">{previewJob.title}</h2>
+                <button
+                  onClick={() => setPreviewJob(null)}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+              
+              <div className="space-y-4 mb-6">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-1">Company</h3>
+                    <p className="text-gray-600">{previewJob.company}</p>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-1">Location</h3>
+                    <p className="text-gray-600">{previewJob.location.replace('-', ' ').toUpperCase()}</p>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-1">Job Type</h3>
+                    <p className="text-gray-600">{previewJob.jobType}</p>
+                  </div>
+                  {previewJob.salary && (
+                    <div>
+                      <h3 className="font-semibold text-gray-900 mb-1">Salary</h3>
+                      <p className="text-gray-600">{previewJob.salary}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              <div className="mb-6">
+                <h3 className="font-semibold text-gray-900 mb-3">Description</h3>
+                <div className="prose prose-sm max-w-none prose-rich-text text-gray-600" dangerouslySetInnerHTML={{ __html: previewJob.description }} />
+              </div>
+              
+              {previewJob.requirements && previewJob.requirements.length > 0 && (
+                <div className="mb-6">
+                  <h3 className="font-semibold text-gray-900 mb-3">Requirements</h3>
+                  <ul className="list-disc list-inside text-gray-600 space-y-1">
+                    {previewJob.requirements.map((req, index) => (
+                      <li key={index}>{req}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

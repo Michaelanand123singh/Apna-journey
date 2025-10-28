@@ -9,10 +9,10 @@ import {
   Eye, 
   User, 
   Calendar,
-  AlertCircle,
-  Filter,
-  Search
+  Search,
+  X
 } from 'lucide-react'
+import Image from 'next/image'
 import LoadingButton from '@/components/shared/LoadingButton'
 
 interface PendingContent {
@@ -47,6 +47,7 @@ export default function ContentApprovalPage() {
   const [rejecting, setRejecting] = useState<string | null>(null)
   const [rejectReason, setRejectReason] = useState('')
   const [showRejectModal, setShowRejectModal] = useState<string | null>(null)
+  const [previewContent, setPreviewContent] = useState<any>(null)
 
   useEffect(() => {
     checkAuth()
@@ -157,6 +158,31 @@ export default function ContentApprovalPage() {
       console.error('Error rejecting content:', error)
     } finally {
       setRejecting(null)
+    }
+  }
+
+  const handlePreview = async (id: string, type: 'job' | 'news') => {
+    try {
+      const token = localStorage.getItem('adminToken')
+      const endpoint = type === 'job' ? `/api/admin/jobs` : `/api/admin/news`
+      
+      const response = await fetch(endpoint, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      
+      if (response.ok) {
+        const data = await response.json()
+        if (data.success) {
+          const item = data.data.find((item: any) => item._id === id)
+          if (item) {
+            setPreviewContent({ ...item, type })
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching preview:', error)
     }
   }
 
@@ -317,7 +343,7 @@ export default function ContentApprovalPage() {
               <div className="flex justify-between items-center">
                 <div className="flex items-center space-x-2">
                   <button
-                    onClick={() => window.open(`/${item.type}s/${item._id}`, '_blank')}
+                    onClick={() => handlePreview(item._id, item.type)}
                     className="inline-flex items-center px-3 py-1.5 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
                   >
                     <Eye className="w-4 h-4 mr-1" />
@@ -405,6 +431,107 @@ export default function ContentApprovalPage() {
               >
                 Reject
               </LoadingButton>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Preview Modal */}
+      {previewContent && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 overflow-y-auto">
+          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex justify-between items-start mb-6">
+                <h2 className="text-2xl font-bold text-gray-900">{previewContent.title}</h2>
+                <button
+                  onClick={() => setPreviewContent(null)}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+              
+              {previewContent.type === 'news' ? (
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-4 text-sm text-gray-500 mb-4">
+                    <span>Category: {previewContent.category}</span>
+                    <span>Language: {previewContent.language}</span>
+                    {previewContent.isFeatured && (
+                      <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">Featured</span>
+                    )}
+                  </div>
+                  
+                  {previewContent.featuredImage && (
+                    <Image
+                      src={previewContent.featuredImage}
+                      alt={previewContent.title}
+                      width={800}
+                      height={400}
+                      className="w-full h-64 object-cover rounded-lg mb-6"
+                    />
+                  )}
+                  
+                  <p className="text-xl text-gray-600 mb-6">{previewContent.excerpt}</p>
+                  
+                  <div className="prose max-w-none">
+                    <div className="prose-rich-text" dangerouslySetInnerHTML={{ __html: previewContent.content }} />
+                  </div>
+                  
+                  {previewContent.tags && previewContent.tags.length > 0 && (
+                    <div className="mt-8 pt-6 border-t border-gray-200">
+                      <div className="flex flex-wrap gap-2">
+                        {previewContent.tags.map((tag: string, index: number) => (
+                          <span
+                            key={index}
+                            className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="space-y-4 mb-6">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <h3 className="font-semibold text-gray-900 mb-1">Company</h3>
+                      <p className="text-gray-600">{previewContent.company}</p>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 mb-1">Location</h3>
+                      <p className="text-gray-600">{previewContent.location?.replace('-', ' ').toUpperCase()}</p>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 mb-1">Job Type</h3>
+                      <p className="text-gray-600">{previewContent.jobType}</p>
+                    </div>
+                    {previewContent.salary && (
+                      <div>
+                        <h3 className="font-semibold text-gray-900 mb-1">Salary</h3>
+                        <p className="text-gray-600">{previewContent.salary}</p>
+                      </div>
+                    )}
+                  </div>
+                  
+                  <div className="mb-6">
+                    <h3 className="font-semibold text-gray-900 mb-3">Description</h3>
+                    <div className="prose prose-sm max-w-none prose-rich-text text-gray-600" dangerouslySetInnerHTML={{ __html: previewContent.description }} />
+                  </div>
+                  
+                  {previewContent.requirements && previewContent.requirements.length > 0 && (
+                    <div className="mb-6">
+                      <h3 className="font-semibold text-gray-900 mb-3">Requirements</h3>
+                      <ul className="list-disc list-inside text-gray-600 space-y-1">
+                        {previewContent.requirements.map((req: string, index: number) => (
+                          <li key={index}>{req}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
