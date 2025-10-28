@@ -4,6 +4,10 @@ import HeroSection from '@/components/frontend/home/HeroSection'
 import LatestJobs from '@/components/frontend/home/LatestJobs'
 import GovernmentJobs from '@/components/frontend/home/GovernmentJobs'
 import LatestNews from '@/components/frontend/home/LatestNews'
+import InternshipJobs from '@/components/frontend/home/InternshipJobs'
+import PrivateSectorJobs from '@/components/frontend/home/PrivateSectorJobs'
+import ITSoftwareJobs from '@/components/frontend/home/ITSoftwareJobs'
+import MarketingSalesJobs from '@/components/frontend/home/MarketingSalesJobs'
 
 // Force dynamic rendering to avoid build issues
 export const dynamic = 'force-dynamic'
@@ -83,6 +87,34 @@ export default function HomePage() {
               {/* Government Jobs */}
               <div className="bg-white rounded-lg shadow-sm p-4 lg:p-5">
                 <GovernmentJobs />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* New Sections: Internship + Private Sector */}
+        <section className="py-12 sm:py-16 bg-gradient-to-br from-slate-50 to-green-50/30">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid lg:grid-cols-2 gap-4 lg:gap-6">
+              <div className="bg-white rounded-lg shadow-sm p-4 lg:p-5">
+                <InternshipJobs />
+              </div>
+              <div className="bg-white rounded-lg shadow-sm p-4 lg:p-5">
+                <PrivateSectorJobs />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* New Sections: IT & Software + Marketing & Sales */}
+        <section className="py-12 sm:py-16 bg-gradient-to-br from-slate-50 to-green-50/30">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid lg:grid-cols-2 gap-4 lg:gap-6">
+              <div className="bg-white rounded-lg shadow-sm p-4 lg:p-5">
+                <ITSoftwareJobs />
+              </div>
+              <div className="bg-white rounded-lg shadow-sm p-4 lg:p-5">
+                <MarketingSalesJobs />
               </div>
             </div>
           </div>
