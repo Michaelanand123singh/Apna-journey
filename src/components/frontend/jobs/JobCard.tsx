@@ -4,17 +4,13 @@ import Link from 'next/link'
 import { Job } from '@/types'
 import { 
   MapPin, 
-  Clock, 
   Building, 
   Calendar, 
   Eye, 
   Bookmark, 
   BookmarkCheck, 
   ArrowRight, 
-  Star, 
-  TrendingUp, 
   Users, 
-  Briefcase, 
   CheckCircle 
 } from 'lucide-react'
 import ShareButton from '@/components/shared/ShareButton'
@@ -70,11 +66,11 @@ export default function JobCard({ job }: JobCardProps) {
   }
 
   return (
-    <div className="group relative bg-white rounded-xl border border-slate-200 hover:border-slate-300 hover:shadow-lg transition-all duration-300 overflow-hidden">
+    <div className="group relative bg-white rounded-lg sm:rounded-xl border border-slate-200 hover:border-slate-300 hover:shadow-lg transition-all duration-300 overflow-hidden">
       {/* Save Button */}
       <button
         onClick={() => setIsSaved(!isSaved)}
-        className="absolute top-3 right-3 sm:top-4 sm:right-4 z-10 p-1.5 sm:p-2 rounded-lg bg-white/90 backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-200 border border-slate-200"
+        className="absolute top-2 right-2 sm:top-3 sm:right-3 z-10 p-1 sm:p-1.5 rounded-md bg-white/90 backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-200 border border-slate-200"
       >
         {isSaved ? (
           <BookmarkCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-600" />
@@ -83,23 +79,23 @@ export default function JobCard({ job }: JobCardProps) {
         )}
       </button>
 
-      <div className="p-4 sm:p-6">
+      <div className="p-3 sm:p-4">
         {/* Header */}
-        <div className="flex items-start justify-between mb-3 sm:mb-4">
+        <div className="flex items-start justify-between mb-2.5 sm:mb-3">
           <div className="flex-1 pr-2 sm:pr-3 min-w-0">
             <div className="flex items-start space-x-2 sm:space-x-3">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 bg-gradient-to-br from-green-600 to-emerald-600 rounded-lg flex items-center justify-center shadow-sm">
-                <Building className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+              <div className="w-8 h-8 sm:w-12 sm:h-12 flex-shrink-0 bg-gradient-to-br from-green-600 to-emerald-600 rounded-md sm:rounded-lg flex items-center justify-center shadow-sm">
+                <Building className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
               </div>
               <div className="flex-1 min-w-0">
                 <Link 
                   href={`/jobs/${job.slug}`}
-                  className="text-base sm:text-lg font-semibold text-slate-900 hover:text-green-600 transition-colors line-clamp-2"
+                  className="text-sm sm:text-lg font-semibold text-slate-900 hover:text-green-600 transition-colors line-clamp-1 sm:line-clamp-2"
                 >
                   {job.title}
                 </Link>
                 
-                <div className="flex items-center mt-1 sm:mt-2 text-xs sm:text-sm text-slate-600">
+                <div className="hidden sm:flex items-center mt-1 sm:mt-2 text-xs sm:text-sm text-slate-600">
                   <Building className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 flex-shrink-0" />
                   <span className="font-medium truncate">{job.company}</span>
                 </div>
@@ -109,59 +105,59 @@ export default function JobCard({ job }: JobCardProps) {
 
           {/* Badges */}
           <div className="flex flex-col items-end space-y-1 sm:space-y-2 flex-shrink-0 ml-2">
-            <span className={`px-2 sm:px-3 py-0.5 sm:py-1 text-xs font-medium rounded-full border whitespace-nowrap ${getJobTypeColor(job.jobType)}`}>
+            <span className={`px-1.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-medium rounded-full border whitespace-nowrap ${getJobTypeColor(job.jobType)}`}>
               <span className="hidden sm:inline">{job.jobType.replace('-', ' ')}</span>
               <span className="sm:hidden">{job.jobType.replace('-', ' ').split(' ')[0]}</span>
             </span>
-            <span className={`px-2 sm:px-3 py-0.5 sm:py-1 text-xs font-medium rounded-full border whitespace-nowrap ${getCategoryColor(job.category)}`}>
+            <span className={`px-1.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-medium rounded-full border whitespace-nowrap ${getCategoryColor(job.category)}`}>
               {job.category.replace('-', ' ').split(' ')[0]}
             </span>
           </div>
         </div>
 
         {/* Description */}
-        <p className="text-slate-600 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2 leading-relaxed">
+        <p className="hidden sm:block text-slate-600 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2 leading-relaxed">
           {job.description}
         </p>
 
         {/* Meta Information */}
-        <div className="grid grid-cols-2 gap-2 sm:gap-3 mb-3 sm:mb-4">
-          <div className="flex items-center text-xs sm:text-sm text-slate-600">
-            <div className="p-1 sm:p-1.5 bg-slate-100 rounded-lg mr-2 sm:mr-3 flex-shrink-0">
+        <div className="grid grid-cols-2 gap-2 sm:gap-3 mb-2.5 sm:mb-3">
+          <div className="flex items-center text-[11px] sm:text-sm text-slate-600">
+            <div className="p-1 sm:p-1.5 bg-slate-100 rounded-md sm:rounded-lg mr-2 sm:mr-3 flex-shrink-0">
               <MapPin className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-slate-600" />
             </div>
-            <span className="truncate text-xs sm:text-sm">{job.location.replace('-', ' ')}</span>
+            <span className="truncate text-[11px] sm:text-sm">{job.location.replace('-', ' ')}</span>
           </div>
           
           {job.salary && (
-            <div className="flex items-center text-xs sm:text-sm text-slate-600">
-              <div className="p-1 sm:p-1.5 bg-green-100 rounded-lg mr-2 sm:mr-3 flex-shrink-0">
-                <span className="text-green-600 font-bold text-xs sm:text-sm">₹</span>
+            <div className="flex items-center text-[11px] sm:text-sm text-slate-600">
+              <div className="p-1 sm:p-1.5 bg-green-100 rounded-md sm:rounded-lg mr-2 sm:mr-3 flex-shrink-0">
+                <span className="text-green-600 font-bold text-[11px] sm:text-sm">₹</span>
               </div>
-              <span className="truncate text-xs sm:text-sm">{job.salary}</span>
+              <span className="truncate text-[11px] sm:text-sm">{job.salary}</span>
             </div>
           )}
           
-          <div className="flex items-center text-xs sm:text-sm">
-            <div className="p-1 sm:p-1.5 bg-orange-100 rounded-lg mr-2 sm:mr-3 flex-shrink-0">
-              <Calendar className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-orange-600" />
+          <div className="hidden sm:flex items-center text-sm">
+            <div className="p-1.5 bg-orange-100 rounded-lg mr-3 flex-shrink-0">
+              <Calendar className="w-3.5 h-3.5 text-orange-600" />
             </div>
-            <span className={`truncate text-xs ${getUrgencyColor(job.expiresAt)} px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md`}>
+            <span className={`truncate text-xs ${getUrgencyColor(job.expiresAt)} px-2 py-1 rounded-md`}>
               Exp: {formatDate(job.expiresAt)}
             </span>
           </div>
           
-          <div className="flex items-center text-xs sm:text-sm text-slate-600">
-            <div className="p-1 sm:p-1.5 bg-green-100 rounded-lg mr-2 sm:mr-3 flex-shrink-0">
-              <Eye className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-green-600" />
+          <div className="hidden sm:flex items-center text-sm text-slate-600">
+            <div className="p-1.5 bg-green-100 rounded-lg mr-3 flex-shrink-0">
+              <Eye className="w-3.5 h-3.5 text-green-600" />
             </div>
-            <span className="text-xs sm:text-sm">{job.views} views</span>
+            <span className="text-sm">{job.views} views</span>
           </div>
         </div>
 
         {/* Requirements */}
         {job.requirements && job.requirements.length > 0 && (
-          <div className="mb-3 sm:mb-4">
+          <div className="hidden sm:block mb-4">
             <div className="flex flex-wrap gap-1.5 sm:gap-2">
               {job.requirements.slice(0, 2).map((req, index) => (
                 <span
@@ -182,8 +178,8 @@ export default function JobCard({ job }: JobCardProps) {
         )}
 
         {/* Footer */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pt-3 sm:pt-4 border-t border-slate-100 gap-3">
-          <div className="flex items-center space-x-2 sm:space-x-4 text-xs text-slate-500">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pt-2.5 sm:pt-3 border-t border-slate-100 gap-2 sm:gap-3">
+          <div className="flex items-center space-x-2 sm:space-x-4 text-[11px] sm:text-xs text-slate-500">
             <span>{formatDate(job.createdAt)}</span>
             <div className="hidden sm:flex items-center space-x-1">
               <Users className="w-3 h-3" />
@@ -195,14 +191,14 @@ export default function JobCard({ job }: JobCardProps) {
             <ShareButton
               url={`https://apnajourney.com/jobs/${job.slug}`}
               title={`${job.title} at ${job.company}`}
-              description={job.description?.replace(/<[^>]*>/g, '').substring(0, 100) || 'Job opportunity in Bihar'}
+              description={job.description?.replace(/<[^>]*>/g, '').substring(0, 100) || 'Bihar-first platform with India-wide job opportunities'}
               type="job"
               showText={false}
-              className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg transition-colors text-sm"
+              className="hidden sm:inline-flex px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg transition-colors text-sm"
             />
             <Link
               href={`/jobs/${job.slug}`}
-              className="flex-1 sm:flex-none bg-gradient-to-r from-green-600 to-emerald-600 text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg text-sm font-medium hover:from-green-700 hover:to-emerald-700 transition-all duration-200 inline-flex items-center justify-center space-x-2 shadow-sm hover:shadow-md"
+              className="flex-1 sm:flex-none bg-gradient-to-r from-green-600 to-emerald-600 text-white px-3 sm:px-5 py-2 sm:py-2.5 rounded-md sm:rounded-lg text-sm font-medium hover:from-green-700 hover:to-emerald-700 transition-all duration-200 inline-flex items-center justify-center space-x-2 shadow-sm hover:shadow-md"
             >
               <span>View Details</span>
               <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />

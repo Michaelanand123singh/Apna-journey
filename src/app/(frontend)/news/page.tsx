@@ -1,10 +1,11 @@
 import { Metadata } from 'next'
 import { Suspense } from 'react'
+import Link from 'next/link'
 import NewsList from '@/components/frontend/news/NewsList'
 import CategoryNav from '@/components/frontend/news/CategoryNav'
 import FeaturedNews from '@/components/frontend/news/FeaturedNews'
 import NewsStats from '@/components/frontend/news/NewsStats'
-import { Newspaper, TrendingUp, Globe, Clock, Users, Eye, FolderOpen } from 'lucide-react'
+import { Newspaper, TrendingUp, Globe, FolderOpen } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Latest Bihar News | Apna Journey',
@@ -140,42 +141,43 @@ export default function NewsPage() {
                 </div>
                 <div className="p-4 sm:p-6">
                   <div className="space-y-2 sm:space-y-3">
-                    <a href="/news?featured=true" className="flex items-center p-2 sm:p-3 rounded-lg hover:bg-slate-50 transition-colors group">
+                    <Link href="/news?featured=true" className="flex items-center p-2 sm:p-3 rounded-lg hover:bg-slate-50 transition-colors group">
                       <div className="p-1.5 sm:p-2 bg-yellow-100 rounded-lg mr-2 sm:mr-3 group-hover:bg-yellow-200 transition-colors flex-shrink-0">
                         <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-yellow-600" />
                       </div>
                       <span className="text-slate-700 font-medium text-sm sm:text-base">Featured News</span>
-                    </a>
-                    <a href="/news?language=hi" className="flex items-center p-2 sm:p-3 rounded-lg hover:bg-slate-50 transition-colors group">
+                    </Link>
+                    <Link href="/news?language=hi" className="flex items-center p-2 sm:p-3 rounded-lg hover:bg-slate-50 transition-colors group">
                       <div className="p-1.5 sm:p-2 bg-orange-100 rounded-lg mr-2 sm:mr-3 group-hover:bg-orange-200 transition-colors flex-shrink-0">
                         <Globe className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-orange-600" />
                       </div>
+
                       <span className="text-slate-700 font-medium text-sm sm:text-base">Hindi News</span>
-                    </a>
-                    <a href="/news?language=en" className="flex items-center p-2 sm:p-3 rounded-lg hover:bg-slate-50 transition-colors group">
+                    </Link>
+                    <Link href="/news?language=en" className="flex items-center p-2 sm:p-3 rounded-lg hover:bg-slate-50 transition-colors group">
                       <div className="p-1.5 sm:p-2 bg-blue-100 rounded-lg mr-2 sm:mr-3 group-hover:bg-blue-200 transition-colors flex-shrink-0">
                         <Globe className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-600" />
                       </div>
                       <span className="text-slate-700 font-medium text-sm sm:text-base">English News</span>
-                    </a>
-                    <a href="/news?category=politics" className="flex items-center p-2 sm:p-3 rounded-lg hover:bg-slate-50 transition-colors group">
+                    </Link>
+                    <Link href="/news?category=politics" className="flex items-center p-2 sm:p-3 rounded-lg hover:bg-slate-50 transition-colors group">
                       <div className="p-1.5 sm:p-2 bg-red-100 rounded-lg mr-2 sm:mr-3 group-hover:bg-red-200 transition-colors flex-shrink-0">
                         <Newspaper className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-600" />
                       </div>
                       <span className="text-slate-700 font-medium text-sm sm:text-base">Politics</span>
-                    </a>
-                    <a href="/news?category=education" className="flex items-center p-2 sm:p-3 rounded-lg hover:bg-slate-50 transition-colors group">
+                    </Link>
+                    <Link href="/news?category=education" className="flex items-center p-2 sm:p-3 rounded-lg hover:bg-slate-50 transition-colors group">
                       <div className="p-1.5 sm:p-2 bg-green-100 rounded-lg mr-2 sm:mr-3 group-hover:bg-green-200 transition-colors flex-shrink-0">
                         <Newspaper className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-600" />
                       </div>
                       <span className="text-slate-700 font-medium text-sm sm:text-base">Education</span>
-                    </a>
-                    <a href="/news?category=business" className="flex items-center p-2 sm:p-3 rounded-lg hover:bg-slate-50 transition-colors group">
+                    </Link>
+                    <Link href="/news?category=business" className="flex items-center p-2 sm:p-3 rounded-lg hover:bg-slate-50 transition-colors group">
                       <div className="p-1.5 sm:p-2 bg-purple-100 rounded-lg mr-2 sm:mr-3 group-hover:bg-purple-200 transition-colors flex-shrink-0">
                         <Newspaper className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-purple-600" />
                       </div>
                       <span className="text-slate-700 font-medium text-sm sm:text-base">Business</span>
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>

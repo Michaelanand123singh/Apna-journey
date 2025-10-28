@@ -61,7 +61,7 @@ export default function GovernmentJobs() {
             </div>
             <h2 className="text-lg sm:text-xl font-bold text-gray-900">Government Jobs</h2>
           </div>
-          <p className="text-xs text-gray-600 pl-7">Sarkari naukri in Bihar</p>
+          <p className="text-xs text-gray-600 pl-7">Sarkari naukri (Bihar-first)</p>
         </div>
         <Link
           href="/jobs?category=government"

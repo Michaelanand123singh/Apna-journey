@@ -65,7 +65,7 @@ export default async function JobPage({ params }: { params: Promise<JobPageParam
       address: {
         '@type': 'PostalAddress',
         addressLocality: job.location,
-        addressRegion: 'Bihar',
+        addressRegion: job.location?.includes('Bihar') ? 'Bihar' : undefined,
         addressCountry: 'IN',
       },
     },
@@ -102,7 +102,7 @@ export default async function JobPage({ params }: { params: Promise<JobPageParam
             <ShareButton
               url={`https://apnajourney.com/jobs/${job.slug}`}
               title={`${job.title} at ${job.company}`}
-              description={job.description?.replace(/<[^>]*>/g, '').substring(0, 160) || 'Job opportunity in Bihar'}
+              description={job.description?.replace(/<[^>]*>/g, '').substring(0, 160) || 'Bihar-first platform with India-wide job opportunities'}
               type="job"
               className="text-sm sm:text-base"
             />
@@ -140,12 +140,12 @@ export async function generateMetadata({ params }: { params: Promise<JobPagePara
     }
   }
 
-  const cleanDescription = job.description?.replace(/<[^>]*>/g, '').substring(0, 160) || 'Job opportunity in Bihar'
+  const cleanDescription = job.description?.replace(/<[^>]*>/g, '').substring(0, 160) || 'Bihar-first platform with India-wide job opportunities'
 
   return {
     title: `${job.title} at ${job.company} - Apna Journey`,
     description: cleanDescription,
-    keywords: `jobs in Bihar, ${job.title}, ${job.company}, ${job.category}, ${job.jobType}, Bihar employment, ${job.location} jobs`,
+    keywords: `Bihar-first jobs, ${job.title}, ${job.company}, ${job.category}, ${job.jobType}, ${job.location} jobs, India-wide opportunities`,
     openGraph: {
       title: `${job.title} at ${job.company}`,
       description: cleanDescription,
@@ -154,12 +154,12 @@ export async function generateMetadata({ params }: { params: Promise<JobPagePara
       modifiedTime: job.updatedAt,
       authors: ['Apna Journey'],
       section: 'Jobs',
-      tags: [job.category, job.jobType, job.location, 'Bihar Jobs'],
+      tags: [job.category, job.jobType, job.location, 'Bihar-first'],
       images: [{
         url: 'https://apnajourney.com/images/job-og-default.jpg',
         width: 1200,
         height: 630,
-        alt: 'Job Opportunity in Bihar - Apna Journey',
+        alt: 'Bihar-first Jobs - Apna Journey',
       }],
       url: `https://apnajourney.com/jobs/${job.slug}`,
       siteName: 'Apna Journey - Bihar Ki Awaaz',

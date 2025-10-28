@@ -5,7 +5,6 @@ import { useSearchParams } from 'next/navigation'
 import JobCard from './JobCard'
 import { Job } from '@/types'
 import { ListLoader } from '@/components/shared/PageLoader'
-import LoadingSpinner from '@/components/shared/LoadingSpinner'
 import LoadingButton from '@/components/shared/LoadingButton'
 
 function JobListContent() {
@@ -20,10 +19,6 @@ function JobListContent() {
   })
 
   const searchParams = useSearchParams()
-
-  useEffect(() => {
-    fetchJobs()
-  }, [searchParams])
 
   const fetchJobs = async () => {
     try {
@@ -51,6 +46,11 @@ function JobListContent() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    fetchJobs()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams])
 
   if (loading) {
     return <ListLoader items={6} />
@@ -87,7 +87,7 @@ function JobListContent() {
         </div>
         <h3 className="text-lg font-semibold text-gray-800 mb-2">No Jobs Found</h3>
         <p className="text-gray-600 mb-4">
-          We couldn't find any jobs matching your criteria. Try adjusting your filters.
+          We couldn&apos;t find any jobs matching your criteria. Try adjusting your filters.
         </p>
         <button
           onClick={() => window.location.href = '/jobs'}
@@ -110,7 +110,7 @@ function JobListContent() {
         </div>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         {jobs.map((job) => (
           <JobCard key={job._id} job={job} />
         ))}
@@ -118,8 +118,8 @@ function JobListContent() {
 
       {/* Pagination */}
       {pagination.pages > 1 && (
-        <div className="mt-6 sm:mt-8 flex justify-center">
-          <div className="flex flex-wrap justify-center gap-2">
+        <div className="mt-5 flex justify-center">
+          <div className="flex flex-wrap justify-center gap-1.5">
             {pagination.page > 1 && (
               <button
                 onClick={() => {

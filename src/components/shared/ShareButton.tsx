@@ -26,11 +26,11 @@ export default function ShareButton({
   const [showShareMenu, setShowShareMenu] = useState(false)
 
   const shareText = `${title} - Apna Journey`
-  const fullDescription = description || (type === 'job' ? 'Job opportunity in Bihar' : 'Latest news from Bihar')
+  const fullDescription = description || (type === 'job' ? 'Bihar-first platform with India-wide job opportunities' : 'Latest news from Bihar')
 
   const shareLinks = {
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
-    twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(shareText)}&hashtags=BiharJobs,BiharNews`,
+    twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(shareText)}&hashtags=BiharFirst,Jobs,News`,
     whatsapp: `https://wa.me/?text=${encodeURIComponent(shareText + ' ' + url)}`,
     linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`
   }

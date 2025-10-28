@@ -5,6 +5,7 @@ import { TrendingUp, Globe, Eye, Clock } from 'lucide-react'
 
 interface NewsStatsProps {
   className?: string
+  variant?: 'grid' | 'compact'
 }
 
 interface NewsStatsData {
@@ -18,7 +19,7 @@ interface NewsStatsData {
   updateFrequency: string
 }
 
-export default function NewsStats({ className = '' }: NewsStatsProps) {
+export default function NewsStats({ className = '', variant = 'grid' }: NewsStatsProps) {
   const [stats, setStats] = useState<NewsStatsData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -49,6 +50,15 @@ export default function NewsStats({ className = '' }: NewsStatsProps) {
   }
 
   if (loading) {
+    if (variant === 'compact') {
+      return (
+        <div className={`flex flex-wrap items-center gap-2 sm:gap-3 ${className}`}>
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="h-8 sm:h-9 w-28 sm:w-32 bg-slate-200/70 rounded-full animate-pulse" />
+          ))}
+        </div>
+      )
+    }
     return (
       <div className={`grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mt-4 sm:mt-6 md:mt-8 ${className}`}>
         {[...Array(4)].map((_, i) => (
@@ -69,6 +79,17 @@ export default function NewsStats({ className = '' }: NewsStatsProps) {
   }
 
   if (error) {
+    if (variant === 'compact') {
+      return (
+        <div className={`flex flex-wrap items-center gap-2 sm:gap-3 ${className}`}>
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="h-8 sm:h-9 w-28 sm:w-32 bg-red-100 text-red-700 rounded-full px-3 flex items-center justify-center text-xs sm:text-sm">
+              Error
+            </div>
+          ))}
+        </div>
+      )
+    }
     return (
       <div className={`grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mt-4 sm:mt-6 md:mt-8 ${className}`}>
         {[...Array(4)].map((_, i) => (
@@ -126,13 +147,27 @@ export default function NewsStats({ className = '' }: NewsStatsProps) {
     }
   ]
 
+  if (variant === 'compact') {
+    return (
+      <div className={`flex flex-wrap items-center gap-2 sm:gap-3 ${className}`}>
+        {statsItems.map((item, index) => (
+          <div key={index} className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-full border border-slate-200 bg-white shadow-sm">
+            <div className={`p-1.5 ${item.iconBg} rounded-md`}>
+              <item.icon className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${item.iconColor}`} />
+            </div>
+            <span className="text-[11px] sm:text-xs font-semibold text-slate-900">{item.value}</span>
+            <span className="hidden sm:inline text-[11px] text-slate-600">{item.label}</span>
+          </div>
+        ))}
+      </div>
+    )
+  }
+
   return (
     <div className={`grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mt-4 sm:mt-6 md:mt-8 ${className}`}>
       {statsItems.map((item, index) => (
         <div key={index} className="group relative bg-gradient-to-br from-white to-slate-50 rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-slate-200/50 shadow-sm hover:shadow-xl hover:border-green-300 transition-all duration-300 overflow-hidden">
-          {/* Decorative gradient overlay */}
           <div className={`absolute inset-0 bg-gradient-to-br ${item.iconColor === 'text-green-600' ? 'from-green-500/5 to-emerald-500/5' : item.iconColor === 'text-emerald-600' ? 'from-emerald-500/5 to-teal-500/5' : item.iconColor === 'text-green-600' ? 'from-green-500/5 to-emerald-500/5' : 'from-orange-500/5 to-amber-500/5'} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
-          
           <div className="relative">
             <div className="flex items-start justify-between mb-3">
               <div className={`p-2.5 sm:p-3 ${item.iconBg} rounded-xl shadow-md group-hover:scale-110 transition-transform duration-300`}>
@@ -142,7 +177,6 @@ export default function NewsStats({ className = '' }: NewsStatsProps) {
                 {item.label === 'Articles' ? '📰' : item.label === 'Languages' ? '🌍' : item.label === 'Readers' ? '👥' : '⚡'}
               </div>
             </div>
-            
             <div className="space-y-1">
               <p className="text-2xl sm:text-3xl font-extrabold text-slate-900 group-hover:scale-105 transition-transform duration-300 inline-block">
                 {item.value}
@@ -150,8 +184,6 @@ export default function NewsStats({ className = '' }: NewsStatsProps) {
               <p className="text-sm sm:text-base font-semibold text-slate-700">{item.label}</p>
               <p className="text-xs sm:text-sm text-slate-500">{item.description}</p>
             </div>
-            
-            {/* Decorative corner accent */}
             <div className={`absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-br ${item.iconBg} opacity-5 rounded-tl-full`}></div>
           </div>
         </div>

@@ -13,11 +13,11 @@ import MarketingSalesJobs from '@/components/frontend/home/MarketingSalesJobs'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Apna Journey - Bihar Ki Awaaz | Jobs & News in Bihar',
-  description: 'Find local jobs and stay updated with Bihar news. Your one-stop platform for opportunities and information across Bihar.',
+  title: 'Apna Journey - Bihar Ki Awaaz | Bihar-first Jobs & News',
+  description: 'Bihar-first platform for jobs and news, with opportunities across India. Find local and national openings, and stay updated with Bihar news.',
   openGraph: {
-    title: 'Apna Journey - Bihar Ki Awaaz | Jobs & News in Bihar',
-    description: 'Find local jobs and stay updated with Bihar news. Your one-stop platform for opportunities and information across Bihar.',
+    title: 'Apna Journey - Bihar Ki Awaaz | Bihar-first Jobs & News',
+    description: 'Bihar-first jobs and news with India-wide opportunities and coverage.',
     url: 'https://apnajourney.com',
     siteName: 'Apna Journey - Bihar Ki Awaaz',
     type: 'website',
@@ -30,7 +30,7 @@ const schemaData = {
   '@type': 'WebSite',
   name: 'Apna Journey - Bihar Ki Awaaz',
   url: 'https://apnajourney.com',
-  description: 'Find local jobs and stay updated with Bihar news',
+  description: 'Bihar-first jobs and news with India-wide opportunities',
   potentialAction: {
     '@type': 'SearchAction',
     target: 'https://apnajourney.com/search?q={search_term_string}',
