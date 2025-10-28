@@ -8,15 +8,16 @@ import {
   Building, 
   Calendar, 
   Eye, 
-  Bookmark,
-  BookmarkCheck,
-  ArrowRight,
-  Star,
-  TrendingUp,
-  Users,
-  Briefcase,
-  CheckCircle
+  Bookmark, 
+  BookmarkCheck, 
+  ArrowRight, 
+  Star, 
+  TrendingUp, 
+  Users, 
+  Briefcase, 
+  CheckCircle 
 } from 'lucide-react'
+import ShareButton from '@/components/shared/ShareButton'
 import { useState } from 'react'
 
 interface JobCardProps {
@@ -190,13 +191,23 @@ export default function JobCard({ job }: JobCardProps) {
             </div>
           </div>
           
-          <Link
-            href={`/jobs/${job.slug}`}
-            className="w-full sm:w-auto bg-gradient-to-r from-green-600 to-emerald-600 text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg text-sm font-medium hover:from-green-700 hover:to-emerald-700 transition-all duration-200 inline-flex items-center justify-center space-x-2 shadow-sm hover:shadow-md"
-          >
-            <span>View Details</span>
-            <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-          </Link>
+          <div className="flex items-center space-x-2 w-full sm:w-auto">
+            <ShareButton
+              url={`https://apnajourney.com/jobs/${job.slug}`}
+              title={`${job.title} at ${job.company}`}
+              description={job.description?.replace(/<[^>]*>/g, '').substring(0, 100) || 'Job opportunity in Bihar'}
+              type="job"
+              showText={false}
+              className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg transition-colors text-sm"
+            />
+            <Link
+              href={`/jobs/${job.slug}`}
+              className="flex-1 sm:flex-none bg-gradient-to-r from-green-600 to-emerald-600 text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg text-sm font-medium hover:from-green-700 hover:to-emerald-700 transition-all duration-200 inline-flex items-center justify-center space-x-2 shadow-sm hover:shadow-md"
+            >
+              <span>View Details</span>
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            </Link>
+          </div>
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { News } from '@/types'
 import { Calendar, Eye, User } from 'lucide-react'
+import ShareButton from '@/components/shared/ShareButton'
 
 interface NewsCardProps {
   article: News
@@ -131,15 +132,26 @@ export default function NewsCard({ article }: NewsCardProps) {
             )}
 
             {/* Read More Button */}
-            <Link
-              href={`/news/${article.slug}`}
-              className="inline-flex items-center text-green-600 hover:text-green-700 font-semibold text-sm sm:text-base group"
-            >
-              Read Full Story
-              <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </Link>
+            <div className="flex items-center justify-between">
+              <Link
+                href={`/news/${article.slug}`}
+                className="inline-flex items-center text-green-600 hover:text-green-700 font-semibold text-sm sm:text-base group"
+              >
+                Read Full Story
+                <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </Link>
+              <ShareButton
+                url={`https://apnajourney.com/news/${article.slug}`}
+                title={article.title}
+                description={article.excerpt || article.content?.substring(0, 100).replace(/<[^>]*>/g, '') || 'Latest news from Bihar'}
+                image={article.featuredImage}
+                type="news"
+                showText={false}
+                className="px-2 py-1 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg transition-colors text-sm"
+              />
+            </div>
           </div>
         </div>
       </div>

@@ -8,12 +8,9 @@ import {
   Tag, 
   Globe, 
   User, 
-  Star,
-  Share2,
-  Facebook,
-  Twitter,
-  MessageCircle
+  Star
 } from 'lucide-react'
+import ShareButton from '@/components/shared/ShareButton'
 
 interface NewsArticleProps {
   article: News
@@ -156,42 +153,14 @@ export default function NewsArticle({ article }: NewsArticleProps) {
           {/* Social Sharing */}
           <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-200">
             <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">Share this article</h3>
-            <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 sm:gap-3">
-              <a
-                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center px-3 py-2 sm:px-4 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
-              >
-                <Facebook className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" />
-                <span className="hidden sm:inline">Facebook</span>
-              </a>
-              <a
-                href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center px-3 py-2 sm:px-4 sm:py-2 bg-blue-400 text-white rounded-lg hover:bg-blue-500 transition-colors text-sm"
-              >
-                <Twitter className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" />
-                <span className="hidden sm:inline">Twitter</span>
-              </a>
-              <a
-                href={`https://wa.me/?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center px-3 py-2 sm:px-4 sm:py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm"
-              >
-                <MessageCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" />
-                <span className="hidden sm:inline">WhatsApp</span>
-              </a>
-              <button
-                onClick={() => navigator.clipboard.writeText(shareUrl)}
-                className="flex items-center justify-center px-3 py-2 sm:px-4 sm:py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm"
-              >
-                <Share2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" />
-                <span className="hidden sm:inline">Copy Link</span>
-              </button>
-            </div>
+            <ShareButton
+              url={shareUrl}
+              title={article.title}
+              description={article.excerpt || article.content?.substring(0, 160).replace(/<[^>]*>/g, '') || 'Latest news from Bihar'}
+              image={article.featuredImage}
+              type="news"
+              showText={true}
+            />
           </div>
 
           {/* Author Info */}

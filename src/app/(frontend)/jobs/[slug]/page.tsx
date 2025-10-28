@@ -2,7 +2,8 @@ import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 import Script from 'next/script'
 import JobDetails from '@/components/frontend/jobs/JobDetails'
-import { ArrowLeft, Share2 } from 'lucide-react'
+import ShareButton from '@/components/shared/ShareButton'
+import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { getApiUrl } from '@/lib/utils/api'
 
@@ -98,10 +99,13 @@ export default async function JobPage({ params }: { params: Promise<JobPageParam
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Jobs
             </Link>
-            <button className="flex items-center text-gray-600 hover:text-primary-500 transition-colors text-sm sm:text-base">
-              <Share2 className="w-4 h-4 mr-2" />
-              Share
-            </button>
+            <ShareButton
+              url={`https://apnajourney.com/jobs/${job.slug}`}
+              title={`${job.title} at ${job.company}`}
+              description={job.description?.replace(/<[^>]*>/g, '').substring(0, 160) || 'Job opportunity in Bihar'}
+              type="job"
+              className="text-sm sm:text-base"
+            />
           </div>
           </div>
         </div>
@@ -147,16 +151,35 @@ export async function generateMetadata({ params }: { params: Promise<JobPagePara
       description: cleanDescription,
       type: 'article',
       publishedTime: job.createdAt,
-      images: job.featuredImage ? [job.featuredImage] : [],
+      modifiedTime: job.updatedAt,
+      authors: ['Apna Journey'],
+      section: 'Jobs',
+      tags: [job.category, job.jobType, job.location, 'Bihar Jobs'],
+      images: [{
+        url: 'https://apnajourney.com/images/job-og-default.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Job Opportunity in Bihar - Apna Journey',
+      }],
       url: `https://apnajourney.com/jobs/${job.slug}`,
+      siteName: 'Apna Journey - Bihar Ki Awaaz',
+      locale: 'en_IN',
     },
     twitter: {
       card: 'summary_large_image',
       title: `${job.title} at ${job.company}`,
       description: cleanDescription,
+      images: ['https://apnajourney.com/images/job-twitter-default.jpg'],
+      creator: '@apnajourney',
+      site: '@apnajourney',
     },
     alternates: {
       canonical: `https://apnajourney.com/jobs/${job.slug}`,
+    },
+    other: {
+      'article:author': 'Apna Journey',
+      'article:section': 'Jobs',
+      'article:tag': [job.category, job.jobType, job.location, 'Bihar Jobs'].join(', '),
     },
   }
 }
