@@ -20,7 +20,7 @@ export default function Footer() {
               <span className="text-xl font-bold">Apna Journey</span>
             </div>
             <p className="text-gray-400 mb-4">
-            बिहार की आवाज़ - Your one-stop platform for local jobs and news in Bihar.
+            इंडिया की आवाज़ - Your one-stop platform for jobs and news in India.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-white transition-colors">
@@ -105,7 +105,7 @@ export default function Footer() {
             <div className="space-y-3">
               <div className="flex items-center space-x-2">
                 <MapPin className="w-4 h-4 text-green-500" />
-                <span className="text-gray-400">Bihar, India</span>
+                <span className="text-gray-400">India</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Phone className="w-4 h-4 text-green-500" />

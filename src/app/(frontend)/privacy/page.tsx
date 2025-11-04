@@ -197,7 +197,7 @@ export default function PrivacyPolicyPage() {
             </p>
             <div className="space-y-2 text-gray-700">
               <p><strong>Email:</strong> privacy@apnajourney.com</p>
-              <p><strong>Address:</strong> Gaya, Bihar, India</p>
+              <p><strong>Address:</strong> New Delhi, India</p>
               <p><strong>Phone:</strong> +91 9876543210</p>
             </div>
           </section>

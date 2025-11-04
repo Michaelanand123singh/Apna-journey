@@ -227,7 +227,7 @@ export default function TermsPage() {
               Governing Law
             </h2>
             <p className="text-gray-700 leading-relaxed">
-              These Terms shall be governed and construed in accordance with the laws of India, without regard to its conflict of law provisions. Any disputes arising out of or relating to these Terms shall be subject to the exclusive jurisdiction of the courts in Bihar, India.
+              These Terms shall be governed and construed in accordance with the laws of India, without regard to its conflict of law provisions. Any disputes arising out of or relating to these Terms shall be subject to the exclusive jurisdiction of the courts in India.
             </p>
           </section>
 
@@ -242,7 +242,7 @@ export default function TermsPage() {
             </p>
             <div className="space-y-2 text-gray-700">
               <p><strong>Email:</strong> legal@apnajourney.com</p>
-              <p><strong>Address:</strong> Gaya, Bihar, India</p>
+              <p><strong>Address:</strong> New Delhi, India</p>
               <p><strong>Phone:</strong> +91 9876543210</p>
             </div>
           </section>

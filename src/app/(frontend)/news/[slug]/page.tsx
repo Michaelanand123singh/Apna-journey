@@ -93,7 +93,7 @@ export default async function NewsPage({ params }: { params: Promise<NewsPagePar
               <ShareButton
                 url={`https://apnajourney.com/news/${article.slug}`}
                 title={article.title}
-                description={article.excerpt || article.content?.substring(0, 160).replace(/<[^>]*>/g, '') || 'Latest news from Bihar'}
+                description={article.excerpt || article.content?.substring(0, 160).replace(/<[^>]*>/g, '') || 'Latest news'}
                 image={article.featuredImage}
                 type="news"
                 className="text-sm sm:text-base"
@@ -132,12 +132,12 @@ export async function generateMetadata({ params }: { params: Promise<NewsPagePar
     }
   }
 
-  const cleanExcerpt = article.excerpt || article.content?.substring(0, 160).replace(/<[^>]*>/g, '') || 'Latest news from Bihar'
+  const cleanExcerpt = article.excerpt || article.content?.substring(0, 160).replace(/<[^>]*>/g, '') || 'Latest news from India'
 
   return {
     title: `${article.title} - Apna Journey`,
     description: cleanExcerpt,
-    keywords: `Bihar news, ${article.category}, ${article.tags?.join(', ') || ''}, local news Bihar, Bihar latest news`,
+    keywords: `India news, ${article.category}, ${article.tags?.join(', ') || ''}, local news India, latest news`,
     openGraph: {
       title: article.title,
       description: cleanExcerpt,
@@ -159,11 +159,11 @@ export async function generateMetadata({ params }: { params: Promise<NewsPagePar
           url: 'https://apnajourney.com/images/news-og-default.jpg',
           width: 1200,
           height: 630,
-          alt: 'Latest News from Bihar - Apna Journey',
+          alt: 'Latest News from India - Apna Journey',
         }
       ],
       url: `https://apnajourney.com/news/${article.slug}`,
-      siteName: 'Apna Journey - Bihar Ki Awaaz',
+      siteName: 'Apna Journey - India Ki Awaaz',
       locale: 'en_IN',
     },
     twitter: {

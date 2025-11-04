@@ -14,8 +14,11 @@ import {
   Calendar,
   Building,
   AlertCircle,
-  X
+  X,
+  Trash2
 } from 'lucide-react'
+import LoadingButton from '@/components/shared/LoadingButton'
+import { useLoading } from '@/hooks/useLoading'
 
 interface Job {
   _id: string
@@ -38,6 +41,7 @@ interface Job {
 
 export default function PendingJobsPage() {
   const router = useRouter()
+  const { isLoading, withLoading } = useLoading()
   const [jobs, setJobs] = useState<Job[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedJob, setSelectedJob] = useState<Job | null>(null)
@@ -108,6 +112,42 @@ export default function PendingJobsPage() {
   const openJobDetails = (job: Job) => {
     setSelectedJob(job)
     setShowModal(true)
+  }
+
+  const deleteJob = async (jobId: string) => {
+    if (!confirm('Are you sure you want to delete this job? This action cannot be undone.')) {
+      return
+    }
+
+    await withLoading('deleteJob', async () => {
+      try {
+        const token = localStorage.getItem('adminToken')
+        
+        const response = await fetch(`/api/admin/jobs/${jobId}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+
+        if (response.ok) {
+          const data = await response.json()
+          if (data.success) {
+            fetchPendingJobs() // Refresh the list
+            setShowModal(false)
+            setSelectedJob(null)
+          } else {
+            alert(data.message || 'Failed to delete job. Please try again.')
+          }
+        } else {
+          const data = await response.json()
+          alert(data.message || 'Failed to delete job. Please try again.')
+        }
+      } catch (error) {
+        console.error('Error deleting job:', error)
+        alert('Failed to delete job. Please try again.')
+      }
+    })
   }
 
   if (loading) {
@@ -243,6 +283,16 @@ export default function PendingJobsPage() {
                         <XCircle className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
                         Reject
                       </button>
+                      <LoadingButton
+                        onClick={() => deleteJob(job._id)}
+                        loading={isLoading('deleteJob')}
+                        variant="danger"
+                        size="sm"
+                        className="bg-red-600 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg hover:bg-red-700 transition-colors flex items-center text-xs sm:text-sm"
+                      >
+                        <Trash2 className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+                        Delete
+                      </LoadingButton>
                     </div>
                   </div>
                 </div>
@@ -316,6 +366,16 @@ export default function PendingJobsPage() {
                         <XCircle className="w-3 h-3 mr-1" />
                         Reject
                       </button>
+                      <LoadingButton
+                        onClick={() => deleteJob(job._id)}
+                        loading={isLoading('deleteJob')}
+                        variant="danger"
+                        size="sm"
+                        className="bg-red-600 text-white px-2 py-1 rounded text-xs flex items-center"
+                      >
+                        <Trash2 className="w-3 h-3 mr-1" />
+                        Delete
+                      </LoadingButton>
                     </div>
                   </div>
                 </div>
@@ -420,12 +480,21 @@ export default function PendingJobsPage() {
                     Reject
                   </button>
                   <button
-                    onClick={() => updateJobStatus(selectedJob._id, 'active')}
+                    onClick={() => updateJobStatus(selectedJob._id, 'approved')}
                     className="px-4 sm:px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center text-sm sm:text-base"
                   >
                     <CheckCircle className="w-4 h-4 mr-2" />
                     Approve
                   </button>
+                  <LoadingButton
+                    onClick={() => deleteJob(selectedJob._id)}
+                    loading={isLoading('deleteJob')}
+                    variant="danger"
+                    className="px-4 sm:px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center justify-center text-sm sm:text-base"
+                  >
+                    <Trash2 className="w-4 h-4 mr-2" />
+                    Delete
+                  </LoadingButton>
                 </div>
               </div>
             </div>

@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { JOB_CATEGORIES, JOB_TYPES } from '@/lib/constants/categories'
-import { GAYA_LOCATIONS } from '@/lib/constants/locations'
+import { ALL_LOCATIONS } from '@/lib/constants/locations'
 
 function JobFiltersContent() {
   const router = useRouter()
@@ -106,7 +106,7 @@ function JobFiltersContent() {
           className="w-full px-2 sm:px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
         >
           <option value="">All Locations</option>
-          {GAYA_LOCATIONS.map((location) => (
+          {ALL_LOCATIONS.map((location) => (
             <option key={location.value} value={location.value}>
               {location.label}
             </option>
@@ -164,7 +164,7 @@ function JobFiltersContent() {
             )}
             {filters.location && (
               <span className="inline-flex items-center px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
-                {GAYA_LOCATIONS.find(l => l.value === filters.location)?.label}
+                {ALL_LOCATIONS.find(l => l.value === filters.location)?.label}
                 <button
                   onClick={() => handleFilterChange('location', '')}
                   className="ml-1 text-green-600 hover:text-green-800"

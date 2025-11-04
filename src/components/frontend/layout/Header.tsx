@@ -91,7 +91,7 @@ export default function Header() {
                 Apna Journey
               </span>
               <span className="text-xs text-gray-500 dark:text-gray-400 font-hindi">
-                बिहार की आवाज़
+                इंडिया की आवाज़
               </span>
             </div>
           </Link>

@@ -191,7 +191,7 @@ export default function JobCard({ job }: JobCardProps) {
             <ShareButton
               url={`https://apnajourney.com/jobs/${job.slug}`}
               title={`${job.title} at ${job.company}`}
-              description={job.description?.replace(/<[^>]*>/g, '').substring(0, 100) || 'Bihar-first platform with India-wide job opportunities'}
+              description={job.description?.replace(/<[^>]*>/g, '').substring(0, 100) || 'India-first platform with nationwide job opportunities'}
               type="job"
               showText={false}
               className="hidden sm:inline-flex px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg transition-colors text-sm"

@@ -8,14 +8,14 @@ import NewsStats from '@/components/frontend/news/NewsStats'
 import { Newspaper, TrendingUp, Globe, FolderOpen } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Latest Bihar News | Apna Journey',
-  description: 'Stay updated with the latest news from Bihar. Get news on politics, business, education, sports, and more from across Bihar. Read news in English and Hindi.',
-  keywords: 'Bihar news, latest news Bihar, Bihar politics, Bihar business news, Bihar education news, Patna news, Bihar hindi news, Bihar english news, Bihar current affairs, Bihar local news',
+  title: 'Latest India News | Apna Journey',
+  description: 'Stay updated with the latest news from India. Get news on politics, business, education, sports, and more from across the country. Read news in English and Hindi.',
+  keywords: 'India news, latest news India, India politics, India business news, India education news, India hindi news, India english news, India current affairs, local news India',
   openGraph: {
-    title: 'Latest Bihar News | Apna Journey',
-    description: 'Stay updated with the latest news from Bihar. Read news in English and Hindi.',
+    title: 'Latest India News | Apna Journey',
+    description: 'Stay updated with the latest news from India. Read news in English and Hindi.',
     url: 'https://apnajourney.com/news',
-    siteName: 'Apna Journey - Bihar Ki Awaaz',
+    siteName: 'Apna Journey - India Ki Awaaz',
     type: 'website',
     locale: 'en_IN',
   },
@@ -37,8 +37,8 @@ export default function NewsPage() {
                 <Newspaper className="w-5 h-5 sm:w-6 sm:h-7 lg:w-8 lg:h-8 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 tracking-tight">Bihar News</h1>
-                <p className="text-slate-600 text-sm sm:text-base lg:text-lg mt-1 sm:mt-2">Stay informed with the latest developments across Bihar</p>
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 tracking-tight">India News</h1>
+                <p className="text-slate-600 text-sm sm:text-base lg:text-lg mt-1 sm:mt-2">Stay informed with the latest developments across India</p>
               </div>
             </div>
             

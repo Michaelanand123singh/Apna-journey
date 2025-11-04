@@ -14,8 +14,11 @@ import {
   MapPin,
   Calendar,
   Building,
-  MoreVertical
+  MoreVertical,
+  Trash2
 } from 'lucide-react'
+import LoadingButton from '@/components/shared/LoadingButton'
+import { useLoading } from '@/hooks/useLoading'
 
 interface Job {
   _id: string
@@ -35,6 +38,7 @@ interface Job {
 
 export default function AdminJobsPage() {
   const router = useRouter()
+  const { isLoading, withLoading } = useLoading()
   const [jobs, setJobs] = useState<Job[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
@@ -112,6 +116,40 @@ export default function AdminJobsPage() {
     } catch (error) {
       console.error('Error updating job status:', error)
     }
+  }
+
+  const deleteJob = async (jobId: string) => {
+    if (!confirm('Are you sure you want to delete this job? This action cannot be undone.')) {
+      return
+    }
+
+    await withLoading('deleteJob', async () => {
+      try {
+        const token = localStorage.getItem('adminToken')
+        
+        const response = await fetch(`/api/admin/jobs/${jobId}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+
+        if (response.ok) {
+          const data = await response.json()
+          if (data.success) {
+            fetchJobs() // Refresh the list
+          } else {
+            alert(data.message || 'Failed to delete job. Please try again.')
+          }
+        } else {
+          const data = await response.json()
+          alert(data.message || 'Failed to delete job. Please try again.')
+        }
+      } catch (error) {
+        console.error('Error deleting job:', error)
+        alert('Failed to delete job. Please try again.')
+      }
+    })
   }
 
   const getStatusColor = (status: string) => {
@@ -276,6 +314,16 @@ export default function AdminJobsPage() {
                           <Eye className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
                           View
                         </Link>
+                        <LoadingButton
+                          onClick={() => deleteJob(job._id)}
+                          loading={isLoading('deleteJob')}
+                          variant="danger"
+                          size="sm"
+                          className="bg-red-500 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg hover:bg-red-600 transition-colors flex items-center text-xs sm:text-sm"
+                        >
+                          <Trash2 className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+                          Delete
+                        </LoadingButton>
                       </div>
                     </div>
                   </div>
@@ -324,7 +372,7 @@ export default function AdminJobsPage() {
                       <div className="text-xs text-gray-500">
                         Deadline: {new Date(job.applicationDeadline).toLocaleDateString()}
                       </div>
-                      <div className="flex items-center space-x-1">
+                      <div className="flex items-center space-x-1 flex-wrap">
                         {job.status === 'pending' && (
                           <>
                             <button
@@ -353,6 +401,16 @@ export default function AdminJobsPage() {
                           <Eye className="w-3 h-3 mr-1" />
                           View
                         </Link>
+                        <LoadingButton
+                          onClick={() => deleteJob(job._id)}
+                          loading={isLoading('deleteJob')}
+                          variant="danger"
+                          size="sm"
+                          className="bg-red-500 text-white px-2 py-1 rounded text-xs flex items-center"
+                        >
+                          <Trash2 className="w-3 h-3 mr-1" />
+                          Delete
+                        </LoadingButton>
                       </div>
                     </div>
                   </div>

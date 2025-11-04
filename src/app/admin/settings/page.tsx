@@ -97,16 +97,16 @@ export default function AdminSettingsPage() {
   // System settings state
   const [systemSettings, setSystemSettings] = useState<SystemSettings>({
     siteName: 'Apna Journey',
-    siteDescription: 'Bihar Ki Awaaz - Jobs & News Platform',
+    siteDescription: 'India Ki Awaaz - Jobs & News Platform',
     siteUrl: 'https://apnajourney.com',
     contactEmail: 'info@apnajourney.com',
     contactPhone: '+91 98765 43210',
-    address: 'Patna, Bihar, India',
+    address: 'New Delhi, India',
     socialMedia: {},
     seo: {
-      metaTitle: 'Apna Journey - Bihar Ki Awaaz | Jobs & News in Bihar',
-      metaDescription: 'Find local jobs and stay updated with Bihar news. Your one-stop platform for opportunities and information across Bihar.',
-      metaKeywords: 'Bihar jobs, Bihar news, local jobs, Bihar employment, jobs in Bihar, government jobs Bihar, part time jobs Bihar'
+      metaTitle: 'Apna Journey - India Ki Awaaz | Jobs & News in India',
+      metaDescription: 'Find local jobs and stay updated with India news. Your one-stop platform for opportunities and information across India.',
+      metaKeywords: 'India jobs, India news, local jobs, India employment, jobs in India, government jobs India, part time jobs India'
     },
     notifications: {
       emailNotifications: true,

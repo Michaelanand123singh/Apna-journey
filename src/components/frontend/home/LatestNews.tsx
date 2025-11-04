@@ -87,7 +87,7 @@ export default function LatestNews() {
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6">
           <div className="flex-1">
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Latest News & Updates</h2>
-            <p className="text-xs sm:text-sm text-gray-600">Stay informed across Bihar</p>
+            <p className="text-xs sm:text-sm text-gray-600">Stay informed across India</p>
           </div>
           <Link
             href="/news"

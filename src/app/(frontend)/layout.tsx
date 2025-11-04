@@ -9,19 +9,19 @@ const notoSansDevanagari = Noto_Sans_Devanagari({
 })
 
 export const metadata: Metadata = {
-  title: 'Apna Journey - Bihar Ki Awaaz | Jobs & News in Bihar',
-  description: 'Find local jobs and stay updated with Bihar news. Your one-stop platform for opportunities and information across Bihar.',
-  keywords: 'Bihar jobs, Bihar news, local jobs, Bihar employment, jobs in Bihar, government jobs Bihar, part time jobs Bihar',
+  title: 'Apna Journey - India Ki Awaaz | Jobs & News in India',
+  description: 'Find local jobs and stay updated with India news. Your one-stop platform for opportunities and information across India.',
+  keywords: 'India jobs, India news, local jobs, India employment, jobs in India, government jobs India, part time jobs India',
   openGraph: {
-    title: 'Apna Journey - Bihar Ki Awaaz',
-    description: 'Find local jobs and stay updated with Bihar news',
+    title: 'Apna Journey - India Ki Awaaz',
+    description: 'Find local jobs and stay updated with India news',
     type: 'website',
     locale: 'en_IN',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Apna Journey - Bihar Ki Awaaz',
-    description: 'Find local jobs and stay updated with Bihar news',
+    title: 'Apna Journey - India Ki Awaaz',
+    description: 'Find local jobs and stay updated with India news',
   },
   robots: {
     index: true,

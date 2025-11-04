@@ -47,11 +47,11 @@ class EmailService {
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h1 style="color: #2563eb;">Welcome to Apna Journey!</h1>
         <p>Dear ${userName},</p>
-        <p>Thank you for joining Apna Journey - Bihar's premier platform for jobs and news!</p>
+        <p>Thank you for joining Apna Journey - India's premier platform for jobs and news!</p>
         <p>You can now:</p>
         <ul>
-          <li>Browse and apply for local job opportunities</li>
-          <li>Stay updated with the latest news from Bihar</li>
+          <li>Browse and apply for job opportunities</li>
+          <li>Stay updated with the latest news from India</li>
           <li>Post job openings for your business</li>
           <li>Connect with the local community</li>
         </ul>

@@ -156,7 +156,7 @@ export default function NewsArticle({ article }: NewsArticleProps) {
             <ShareButton
               url={shareUrl}
               title={article.title}
-              description={article.excerpt || article.content?.substring(0, 160).replace(/<[^>]*>/g, '') || 'Latest news from Bihar'}
+              description={article.excerpt || article.content?.substring(0, 160).replace(/<[^>]*>/g, '') || 'Latest news'}
               image={article.featuredImage}
               type="news"
               showText={true}

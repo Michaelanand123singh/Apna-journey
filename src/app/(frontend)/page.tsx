@@ -13,13 +13,13 @@ import MarketingSalesJobs from '@/components/frontend/home/MarketingSalesJobs'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Apna Journey - Bihar Ki Awaaz | Bihar-first Jobs & News',
-  description: 'Bihar-first platform for jobs and news, with opportunities across India. Find local and national openings, and stay updated with Bihar news.',
+  title: 'Apna Journey - India Ki Awaaz | India-first Jobs & News',
+  description: 'India-first platform for jobs and news. Find local and national openings, and stay updated with India news.',
   openGraph: {
-    title: 'Apna Journey - Bihar Ki Awaaz | Bihar-first Jobs & News',
-    description: 'Bihar-first jobs and news with India-wide opportunities and coverage.',
+    title: 'Apna Journey - India Ki Awaaz | India-first Jobs & News',
+    description: 'India-first jobs and news with nationwide opportunities and coverage.',
     url: 'https://apnajourney.com',
-    siteName: 'Apna Journey - Bihar Ki Awaaz',
+    siteName: 'Apna Journey - India Ki Awaaz',
     type: 'website',
     locale: 'en_IN',
   },
@@ -28,9 +28,9 @@ export const metadata: Metadata = {
 const schemaData = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'Apna Journey - Bihar Ki Awaaz',
+  name: 'Apna Journey - India Ki Awaaz',
   url: 'https://apnajourney.com',
-  description: 'Bihar-first jobs and news with India-wide opportunities',
+  description: 'India-first jobs and news with nationwide opportunities',
   potentialAction: {
     '@type': 'SearchAction',
     target: 'https://apnajourney.com/search?q={search_term_string}',
@@ -53,7 +53,7 @@ const organizationSchema = {
     '@type': 'ContactPoint',
     contactType: 'Customer Service',
     email: 'info@apnajourney.com',
-    areaServed: 'IN-BR',
+    areaServed: 'IN',
     availableLanguage: ['English', 'Hindi'],
   },
 }

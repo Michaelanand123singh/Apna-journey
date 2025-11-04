@@ -1,4 +1,4 @@
-export const BIHAR_LOCATIONS = [
+export const ALL_LOCATIONS = [
   { value: 'patna', label: 'Patna', hindi: 'पटना' },
   { value: 'gaya', label: 'Gaya', hindi: 'गया' },
   { value: 'bhagalpur', label: 'Bhagalpur', hindi: 'भागलपुर' },
@@ -39,9 +39,9 @@ export const BIHAR_LOCATIONS = [
 ]
 
 // Keep GAYA_LOCATIONS for backward compatibility
-export const GAYA_LOCATIONS = BIHAR_LOCATIONS
+export const GAYA_LOCATIONS = ALL_LOCATIONS
 
-export const BIHAR_DISTRICTS = [
+export const ALL_DISTRICTS = [
   'Patna', 'Gaya', 'Bhagalpur', 'Muzaffarpur', 'Darbhanga', 'Purnia',
   'Bihar Sharif', 'Arrah', 'Begusarai', 'Katihar', 'Munger', 'Chapra',
   'Saharsa', 'Sasaram', 'Hajipur', 'Dehri', 'Bettiah', 'Motihari',

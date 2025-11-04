@@ -145,7 +145,7 @@ export default function NewsCard({ article }: NewsCardProps) {
               <ShareButton
                 url={`https://apnajourney.com/news/${article.slug}`}
                 title={article.title}
-                description={article.excerpt || article.content?.substring(0, 100).replace(/<[^>]*>/g, '') || 'Latest news from Bihar'}
+                description={article.excerpt || article.content?.substring(0, 100).replace(/<[^>]*>/g, '') || 'Latest news from India'}
                 image={article.featuredImage}
                 type="news"
                 showText={false}

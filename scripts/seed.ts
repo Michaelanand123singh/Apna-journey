@@ -68,10 +68,10 @@ async function seedDatabase() {
       {
         title: 'Software Developer - React/Node.js',
         company: 'Tech Solutions Pvt Ltd',
-        location: 'Gaya, Bihar',
+        location: 'New Delhi, India',
         jobType: 'full-time',
         salary: '₹4,00,000 - ₹6,00,000 per year',
-        description: 'We are looking for an experienced software developer with expertise in React and Node.js to join our growing team in Gaya.',
+        description: 'We are looking for an experienced software developer with expertise in React and Node.js to join our growing team.',
         requirements: [
           'Bachelor\'s degree in Computer Science or related field',
           '2+ years of experience with React and Node.js',
@@ -91,10 +91,10 @@ async function seedDatabase() {
       {
         title: 'Marketing Executive',
         company: 'Local Business Hub',
-        location: 'Gaya, Bihar',
+        location: 'New Delhi, India',
         jobType: 'full-time',
         salary: '₹2,50,000 - ₹3,50,000 per year',
-        description: 'Join our marketing team to promote local businesses and help them grow in the Gaya market.',
+        description: 'Join our marketing team to promote local businesses and help them grow.',
         requirements: [
           'Bachelor\'s degree in Marketing or related field',
           '1+ years of marketing experience',
@@ -113,8 +113,8 @@ async function seedDatabase() {
       },
       {
         title: 'English Teacher',
-        company: 'Gaya Public School',
-        location: 'Gaya, Bihar',
+        company: 'Public School',
+        location: 'New Delhi, India',
         jobType: 'part-time',
         salary: '₹15,000 - ₹20,000 per month',
         description: 'We need an experienced English teacher to teach students from classes 6-10.',
@@ -140,12 +140,12 @@ async function seedDatabase() {
     // Create sample news articles
     const newsArticles = await News.create([
       {
-        title: 'New IT Park Inaugurated in Gaya',
-        excerpt: 'A new IT park has been inaugurated in Gaya, promising to bring hundreds of job opportunities for local youth.',
-        content: 'The new IT park in Gaya was inaugurated today by the Chief Minister of Bihar. This state-of-the-art facility is expected to create over 500 direct jobs and 1000+ indirect employment opportunities. The park will house various IT companies and startups, focusing on software development, digital marketing, and IT services. Local officials are optimistic that this will boost the economy of Gaya and surrounding areas.',
+        title: 'New IT Park Inaugurated',
+        excerpt: 'A new IT park has been inaugurated, promising to bring hundreds of job opportunities for local youth.',
+        content: 'A new IT park was inaugurated today. This state-of-the-art facility is expected to create over 500 direct jobs and 1000+ indirect employment opportunities. The park will house various IT companies and startups, focusing on software development, digital marketing, and IT services. Local officials are optimistic that this will boost the economy of the region.',
         featuredImage: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=400&fit=crop',
         category: 'development',
-        tags: ['IT', 'Jobs', 'Development', 'Gaya'],
+        tags: ['IT', 'Jobs', 'Development'],
         language: 'english',
         author: admin._id,
         status: 'published',

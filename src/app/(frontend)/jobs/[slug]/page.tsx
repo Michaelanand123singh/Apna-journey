@@ -65,7 +65,7 @@ export default async function JobPage({ params }: { params: Promise<JobPageParam
       address: {
         '@type': 'PostalAddress',
         addressLocality: job.location,
-        addressRegion: job.location?.includes('Bihar') ? 'Bihar' : undefined,
+        addressRegion: undefined,
         addressCountry: 'IN',
       },
     },
@@ -102,7 +102,7 @@ export default async function JobPage({ params }: { params: Promise<JobPageParam
             <ShareButton
               url={`https://apnajourney.com/jobs/${job.slug}`}
               title={`${job.title} at ${job.company}`}
-              description={job.description?.replace(/<[^>]*>/g, '').substring(0, 160) || 'Bihar-first platform with India-wide job opportunities'}
+              description={job.description?.replace(/<[^>]*>/g, '').substring(0, 160) || 'India-first platform with nationwide job opportunities'}
               type="job"
               className="text-sm sm:text-base"
             />
@@ -140,12 +140,12 @@ export async function generateMetadata({ params }: { params: Promise<JobPagePara
     }
   }
 
-  const cleanDescription = job.description?.replace(/<[^>]*>/g, '').substring(0, 160) || 'Bihar-first platform with India-wide job opportunities'
+  const cleanDescription = job.description?.replace(/<[^>]*>/g, '').substring(0, 160) || 'India-first platform with nationwide job opportunities'
 
   return {
     title: `${job.title} at ${job.company} - Apna Journey`,
     description: cleanDescription,
-    keywords: `Bihar-first jobs, ${job.title}, ${job.company}, ${job.category}, ${job.jobType}, ${job.location} jobs, India-wide opportunities`,
+    keywords: `India-first jobs, ${job.title}, ${job.company}, ${job.category}, ${job.jobType}, ${job.location} jobs, nationwide opportunities`,
     openGraph: {
       title: `${job.title} at ${job.company}`,
       description: cleanDescription,
@@ -154,15 +154,15 @@ export async function generateMetadata({ params }: { params: Promise<JobPagePara
       modifiedTime: job.updatedAt,
       authors: ['Apna Journey'],
       section: 'Jobs',
-      tags: [job.category, job.jobType, job.location, 'Bihar-first'],
+      tags: [job.category, job.jobType, job.location, 'India-first'],
       images: [{
         url: 'https://apnajourney.com/images/job-og-default.jpg',
         width: 1200,
         height: 630,
-        alt: 'Bihar-first Jobs - Apna Journey',
+        alt: 'India-first Jobs - Apna Journey',
       }],
       url: `https://apnajourney.com/jobs/${job.slug}`,
-      siteName: 'Apna Journey - Bihar Ki Awaaz',
+      siteName: 'Apna Journey - India Ki Awaaz',
       locale: 'en_IN',
     },
     twitter: {
@@ -179,7 +179,7 @@ export async function generateMetadata({ params }: { params: Promise<JobPagePara
     other: {
       'article:author': 'Apna Journey',
       'article:section': 'Jobs',
-      'article:tag': [job.category, job.jobType, job.location, 'Bihar Jobs'].join(', '),
+      'article:tag': [job.category, job.jobType, job.location, 'India Jobs'].join(', '),
     },
   }
 }

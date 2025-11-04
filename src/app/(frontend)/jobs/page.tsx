@@ -6,14 +6,14 @@ import JobsStats from '@/components/frontend/jobs/JobsStats'
 import { Briefcase, Search } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Find Jobs in Bihar | Apna Journey',
-  description: 'Discover job opportunities across Bihar. Browse government jobs, private sector jobs, part-time jobs, and more in Bihar. Latest job listings updated daily.',
-  keywords: 'jobs in Bihar, Bihar employment, government jobs Bihar, private jobs Bihar, Patna jobs, Bihar careers, Bihar job portal, job search Bihar, Bihar vacancies, Bihar recruitment',
+  title: 'Find Jobs in India | Apna Journey',
+  description: 'Discover job opportunities across India. Browse government jobs, private sector jobs, part-time jobs, and more nationwide. Latest job listings updated daily.',
+  keywords: 'jobs in India, employment India, government jobs India, private jobs India, careers India, job portal India, job search India, vacancies India, recruitment India',
   openGraph: {
-    title: 'Find Jobs in Bihar | Apna Journey',
-    description: 'Discover job opportunities across Bihar. Browse latest job listings in Bihar.',
+    title: 'Find Jobs in India | Apna Journey',
+    description: 'Discover job opportunities across India. Browse the latest job listings nationwide.',
     url: 'https://apnajourney.com/jobs',
-    siteName: 'Apna Journey - Bihar Ki Awaaz',
+    siteName: 'Apna Journey - India Ki Awaaz',
     type: 'website',
     locale: 'en_IN',
   },
@@ -37,7 +37,7 @@ export default function JobsPage() {
               </div>
               <div>
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 tracking-tight">Career Opportunities</h1>
-                <p className="text-slate-600 text-sm sm:text-base lg:text-lg mt-1 sm:mt-2">Discover your next professional journey in Bihar</p>
+                <p className="text-slate-600 text-sm sm:text-base lg:text-lg mt-1 sm:mt-2">Discover your next professional journey across India</p>
               </div>
               </div>
             </div>

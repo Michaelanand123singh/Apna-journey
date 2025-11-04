@@ -15,7 +15,7 @@ export default function FeaturesSection() {
     {
       icon: Briefcase,
       title: "Verified Job Listings",
-      description: "Find authentic job opportunities from verified employers across Bihar.",
+      description: "Find authentic job opportunities from verified employers across India.",
       stats: "500+ Active Jobs",
       color: "from-blue-500 to-blue-600",
       bgColor: "bg-blue-50 dark:bg-blue-900/20",
@@ -24,7 +24,7 @@ export default function FeaturesSection() {
     {
       icon: Newspaper,
       title: "Real-time News",
-      description: "Stay updated with the latest news, events, and developments across Bihar.",
+      description: "Stay updated with the latest news, events, and developments across India.",
       stats: "50+ News Daily",
       color: "from-green-500 to-green-600",
       bgColor: "bg-green-50 dark:bg-green-900/20",
@@ -33,7 +33,7 @@ export default function FeaturesSection() {
     {
       icon: Users,
       title: "Community Driven",
-      description: "Built by locals, for locals. Connect with the Bihar community and share experiences.",
+      description: "Built by locals, for locals. Connect with the Indian community and share experiences.",
       stats: "10K+ Members",
       color: "from-purple-500 to-purple-600",
       bgColor: "bg-purple-50 dark:bg-purple-900/20",
@@ -79,12 +79,12 @@ export default function FeaturesSection() {
           </div>
           
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
-            Everything you need to succeed in Bihar
+            Everything you need to succeed in India
           </h2>
           
           <p className="text-sm sm:text-base lg:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Our platform combines cutting-edge technology with local expertise to provide you with 
-            the best job opportunities and news updates across Bihar.
+            the best job opportunities and news updates across India.
           </p>
         </div>
 

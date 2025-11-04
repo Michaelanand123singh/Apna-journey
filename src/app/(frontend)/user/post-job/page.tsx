@@ -14,7 +14,7 @@ import {
   CheckCircle
 } from 'lucide-react'
 import { JOB_CATEGORIES, JOB_TYPES } from '@/lib/constants/categories'
-import { BIHAR_LOCATIONS } from '@/lib/constants/locations'
+import { ALL_LOCATIONS } from '@/lib/constants/locations'
 import LoadingButton from '@/components/shared/LoadingButton'
 import RichTextEditor from '@/components/shared/RichTextEditor'
 
@@ -398,7 +398,7 @@ export default function PostJobPage() {
                         }`}
                       >
                         <option value="">Select Location</option>
-                        {BIHAR_LOCATIONS.map((location) => (
+                        {ALL_LOCATIONS.map((location) => (
                           <option key={location.value} value={location.value}>
                             {location.label}
                           </option>

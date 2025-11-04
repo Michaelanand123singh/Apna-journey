@@ -141,7 +141,7 @@ Updated `src/app/sitemap.ts` to include new pages:
 - **Prohibited Activities**: Comprehensive list of forbidden actions
 - **Content Ownership**: Clear rules about posted content
 - **Liability Protection**: Proper disclaimers and limitations
-- **Governing Law**: Bihar, India jurisdiction
+- **Governing Law**: India jurisdiction
 
 ## Testing URLs
 

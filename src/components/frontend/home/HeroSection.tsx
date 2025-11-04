@@ -99,16 +99,16 @@ export default function HeroSection() {
             {/* Main Heading */}
             <div className="space-y-1">
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-white">
-                Your Gateway to Success in Bihar
+                Your Gateway to Success in India
               </h1>
               <p className="text-sm md:text-base text-white/90">
-                बिहार की आवाज़
+                इंडिया की आवाज़
               </p>
             </div>
 
             {/* Description */}
             <p className="text-sm text-white/85 max-w-xl">
-              Find verified jobs, stay updated with latest news, and connect with opportunities across Bihar.
+              Find verified jobs, stay updated with the latest news, and connect with opportunities across India.
             </p>
 
             {/* Features List */}
