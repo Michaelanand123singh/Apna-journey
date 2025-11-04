@@ -2,12 +2,6 @@
 
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { 
-  Newspaper, 
-  Briefcase, 
-  ArrowRight,
-  CheckCircle
-} from 'lucide-react'
 
 interface Job {
   _id: string
@@ -63,25 +57,28 @@ export default function HeroSection() {
   }, [])
 
   return (
-    <section className="relative min-h-[50vh] md:min-h-[60vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 w-full pt-16 md:pt-20 pb-36 mb-2" style={{ marginLeft: 'calc(-50vw + 50%)', marginRight: 'calc(-50vw + 50%)', width: '100vw' }}>
-      {/* Animated Background Images */}
+    <section className="relative min-h-[70vh] md:min-h-[80vh] lg:min-h-[85vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 w-full py-12 md:py-20 lg:py-24 mb-2" style={{ marginLeft: 'calc(-50vw + 50%)', marginRight: 'calc(-50vw + 50%)', width: '100vw' }}>
+      {/* Animated Background Images - Jobs Platform Theme */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-black/40 z-10"></div>
+        {/* Professional team meeting/collaboration */}
         <div className="absolute inset-0 opacity-30">
           <div className="w-full h-full bg-cover bg-center bg-no-repeat animate-scroll" style={{
-            backgroundImage: `url("https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80")`,
+            backgroundImage: `url("https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80")`,
             animation: 'scroll 20s linear infinite'
           }}></div>
         </div>
+        {/* Modern office workspace */}
         <div className="absolute inset-0 opacity-20">
           <div className="w-full h-full bg-cover bg-center bg-no-repeat animate-scroll-reverse" style={{
-            backgroundImage: `url("https://images.unsplash.com/photo-1587474260584-136574528ed5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80")`,
+            backgroundImage: `url("https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80")`,
             animation: 'scroll-reverse 25s linear infinite'
           }}></div>
         </div>
+        {/* Business professional networking/career growth */}
         <div className="absolute inset-0 opacity-15">
           <div className="w-full h-full bg-cover bg-center bg-no-repeat animate-scroll-slow" style={{
-            backgroundImage: `url("https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80")`,
+            backgroundImage: `url("https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2092&q=80")`,
             animation: 'scroll-slow 30s linear infinite'
           }}></div>
         </div>
@@ -92,199 +89,55 @@ export default function HeroSection() {
       <div className="absolute top-48 right-20 w-16 h-16 bg-secondary-500/20 rounded-full animate-float" style={{animationDelay: '1s'}}></div>
       <div className="absolute bottom-20 left-1/4 w-12 h-12 bg-white/10 rounded-full animate-float" style={{animationDelay: '2s'}}></div>
 
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
-        <div className="grid lg:grid-cols-2 gap-6 items-center">
-          {/* Left Content */}
-          <div className={`text-white space-y-3 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+      <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
+        <div className="text-center">
+          <div className={`text-white space-y-10 md:space-y-12 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             {/* Main Heading */}
-            <div className="space-y-1">
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-white">
+            <div className="space-y-5 md:space-y-6">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight">
                 Your Gateway to Success in India
               </h1>
-              <p className="text-sm md:text-base text-white/90">
-                इंडिया की आवाज़
+              <p className="text-lg md:text-xl lg:text-2xl text-white/90 max-w-3xl mx-auto">
+                Find verified jobs and stay updated with the latest news across India
               </p>
             </div>
 
-            {/* Description */}
-            <p className="text-sm text-white/85 max-w-xl">
-              Find verified jobs, stay updated with the latest news, and connect with opportunities across India.
-            </p>
-
-            {/* Features List */}
-            <div className="grid grid-cols-2 gap-x-6 gap-y-1">
-              {[
-                "Verified Jobs",
-                "Latest News",
-                "Free Platform",
-                "Hindi & English"
-              ].map((feature, index) => (
-                <div key={index} className="flex items-center space-x-1.5">
-                  <CheckCircle className="w-3.5 h-3.5 text-green-400 flex-shrink-0" />
-                  <span className="text-xs text-white/85">{feature}</span>
-                </div>
-              ))}
-            </div>
-
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-2">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
             <Link 
               href="/jobs" 
-                className="group bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center justify-center space-x-2 text-sm"
+                className="bg-green-600 hover:bg-green-700 text-white px-12 py-4 rounded-lg font-medium text-lg transition-colors"
             >
-                <Briefcase className="w-4 h-4" />
-                <span>Explore Jobs</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                Explore Jobs
             </Link>
               
             <Link 
               href="/news" 
-                className="group bg-transparent border-2 border-white/40 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-white/15 hover:border-white/60 transition-all duration-300 inline-flex items-center justify-center space-x-2 backdrop-blur-sm"
+                className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/30 text-white px-12 py-4 rounded-lg font-medium text-lg transition-colors"
             >
-                <Newspaper className="w-4 h-4" />
-                <span>Latest News</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                Latest News
             </Link>
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-3 pt-3 border-t border-white/20">
-              <div className="text-center">
-                <div className="text-base md:text-lg font-bold text-white">
+            <div className="grid grid-cols-3 gap-8 md:gap-12 pt-16 md:pt-20 max-w-2xl mx-auto">
+              <div>
+                <div className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2">
                   {loading ? '...' : `${stats?.activeJobs || 0}+`}
                 </div>
-                <div className="text-[10px] md:text-xs text-white/70">Jobs</div>
+                <div className="text-lg md:text-xl text-white/70">Jobs</div>
               </div>
-              <div className="text-center">
-                <div className="text-base md:text-lg font-bold text-white">
+              <div>
+                <div className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2">
                   {loading ? '...' : `${Math.floor((stats?.totalUsers || 0) / 1000)}K+`}
                 </div>
-                <div className="text-[10px] md:text-xs text-white/70">Users</div>
+                <div className="text-lg md:text-xl text-white/70">Users</div>
               </div>
-              <div className="text-center">
-                <div className="text-base md:text-lg font-bold text-white">
+              <div>
+                <div className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2">
                   {loading ? '...' : `${stats?.publishedNews || 0}+`}
                 </div>
-                <div className="text-[10px] md:text-xs text-white/70">Stories</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Content - Premium Notifications */}
-          <div className={`relative transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'} w-full max-w-xs mx-auto`}>
-            <div className="space-y-3">
-              {/* Latest Jobs Notification */}
-              <div className="relative bg-white/95 backdrop-blur-md rounded-xl shadow-lg border border-white/30 overflow-hidden">
-                {/* Premium Header */}
-                <div className="bg-gradient-to-r from-green-600 to-emerald-600 p-2.5">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-1.5">
-                      <Briefcase className="w-4 h-4 text-white" />
-                      <h3 className="font-bold text-white text-xs">Latest Jobs</h3>
-                    </div>
-                    <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
-                  </div>
-                </div>
-
-                {/* Notifications List */}
-                <div className="p-2.5 space-y-1.5 max-h-36 overflow-y-auto">
-                  {loading ? (
-                    Array.from({ length: 3 }).map((_, index) => (
-                      <div key={index} className="animate-pulse">
-                        <div className="flex items-center justify-between p-1.5 bg-gray-50 rounded">
-                          <div className="flex-1">
-                            <div className="h-2.5 bg-gray-200 rounded w-3/4 mb-1"></div>
-                            <div className="h-2 bg-gray-200 rounded w-1/2"></div>
-                          </div>
-                          <div className="w-8 h-5 bg-gray-200 rounded"></div>
-                        </div>
-                      </div>
-                    ))
-                  ) : stats?.recentJobs && stats.recentJobs.length > 0 ? (
-                    stats.recentJobs.slice(0, 3).map((job) => (
-                      <Link 
-                        key={job._id} 
-                        href={`/jobs/${job._id}`}
-                        className="flex items-center justify-between p-1.5 bg-green-50 hover:bg-green-100 rounded transition-all duration-200 group"
-                      >
-                        <div className="flex-1 min-w-0">
-                          <h4 className="text-[10px] font-medium text-gray-900 line-clamp-1 group-hover:text-green-700">{job.title}</h4>
-                          <p className="text-[8px] text-gray-600 truncate">{job.company}</p>
-                        </div>
-                        <div className="ml-1.5 flex-shrink-0">
-                          <span className="bg-green-600 text-white text-[8px] px-1.5 py-0.5 rounded font-medium">
-                            View
-                          </span>
-                        </div>
-                      </Link>
-                    ))
-                  ) : (
-                    <div className="p-2 text-center">
-                      <p className="text-[9px] text-gray-500">No jobs</p>
-                    </div>
-                  )}
-                </div>
-
-                <Link 
-                  href="/jobs"
-                  className="block text-center py-1.5 bg-gray-100 hover:bg-green-50 text-green-700 font-medium text-[10px] transition-colors"
-                >
-                  View All →
-                </Link>
-              </div>
-
-              {/* Latest News Notification */}
-              <div className="relative bg-white/95 backdrop-blur-md rounded-xl shadow-lg border border-white/30 overflow-hidden">
-                {/* Premium Header */}
-                <div className="bg-gradient-to-r from-emerald-600 to-teal-600 p-2.5">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-1.5">
-                      <Newspaper className="w-4 h-4 text-white" />
-                      <h3 className="font-bold text-white text-xs">Latest News</h3>
-                    </div>
-                    <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
-                  </div>
-                </div>
-
-                {/* Notifications List */}
-                <div className="p-2.5 space-y-1.5">
-                  {loading ? (
-                    <div className="animate-pulse">
-                      <div className="flex items-center p-1.5 bg-gray-50 rounded">
-                        <div className="flex-1">
-                          <div className="h-2.5 bg-gray-200 rounded w-full mb-1"></div>
-                          <div className="h-2 bg-gray-200 rounded w-2/3"></div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : stats?.latestNews ? (
-                    <Link 
-                      href={`/news/${stats.latestNews._id}`}
-                      className="block p-1.5 bg-emerald-50 hover:bg-emerald-100 rounded transition-all duration-200 group"
-                    >
-                      <p className="text-[10px] font-medium text-gray-900 line-clamp-2 group-hover:text-emerald-700 mb-1">
-                        {stats.latestNews.title}
-                      </p>
-                      <div className="flex items-center justify-between">
-                        <span className="text-[8px] text-gray-600">
-                          {new Date(stats.latestNews.publishedAt).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })}
-                        </span>
-                        <span className="text-[8px] text-emerald-600 font-medium">Read →</span>
-                      </div>
-                    </Link>
-                  ) : (
-                    <div className="p-2 text-center">
-                      <p className="text-[9px] text-gray-500">No news</p>
-                    </div>
-                  )}
-                </div>
-
-                <Link 
-                  href="/news"
-                  className="block text-center py-1.5 bg-gray-100 hover:bg-emerald-50 text-emerald-700 font-medium text-[10px] transition-colors"
-                >
-                  View All →
-                </Link>
+                <div className="text-lg md:text-xl text-white/70">Stories</div>
               </div>
             </div>
           </div>

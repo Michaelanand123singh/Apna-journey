@@ -1,5 +1,4 @@
 import { 
-  Users, 
   Target, 
   Heart, 
   Shield, 
@@ -16,9 +15,12 @@ import {
 import Link from 'next/link'
 import StructuredData from '@/components/shared/StructuredData'
 import dbConnect from '@/lib/db/mongodb'
+import mongoose from 'mongoose'
 import Job from '@/lib/models/Job.model'
 import News from '@/lib/models/News.model'
-import User from '@/lib/models/User.model'
+
+// Force dynamic rendering to ensure fresh data
+export const dynamic = 'force-dynamic'
 
 export const metadata = {
   title: 'About Us | Apna Journey',
@@ -29,25 +31,30 @@ export const metadata = {
 async function getStats() {
   try {
     await dbConnect()
+
+    // Ensure models are registered
+    if (!mongoose.models.Job) {
+      mongoose.model('Job', Job.schema)
+    }
+    if (!mongoose.models.News) {
+      mongoose.model('News', News.schema)
+    }
     
-    const [activeJobs, publishedNews, totalUsers] = await Promise.all([
+    const [activeJobs, publishedNews] = await Promise.all([
       Job.countDocuments({ status: 'approved' }),
-      News.countDocuments({ status: 'published' }),
-      User.countDocuments()
+      News.countDocuments({ status: 'published' })
     ])
 
     return {
       activeJobs,
-      publishedNews,
-      totalUsers
+      publishedNews
     }
   } catch (error) {
-    console.error('Error fetching stats:', error)
+    console.error('Error fetching stats in About page:', error)
     // Return fallback values on error
     return {
       activeJobs: 0,
-      publishedNews: 0,
-      totalUsers: 0
+      publishedNews: 0
     }
   }
 }
@@ -69,12 +76,6 @@ export default async function AboutPage() {
       value: formatStatValue(statsData.activeJobs), 
       icon: Target,
       rawValue: statsData.activeJobs
-    },
-    { 
-      label: 'Registered Users', 
-      value: formatStatValue(statsData.totalUsers), 
-      icon: Users,
-      rawValue: statsData.totalUsers
     },
     { 
       label: 'News Articles', 
@@ -151,7 +152,7 @@ export default async function AboutPage() {
       {/* Light stats */}
       <section className="py-12">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl">
+          <div className="grid grid-cols-2 gap-6 max-w-3xl">
             {stats.map((stat, i) => {
               const Icon = stat.icon
               return (
