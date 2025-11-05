@@ -15,7 +15,9 @@ import {
   Calendar,
   Building,
   MoreVertical,
-  Trash2
+  Trash2,
+  Plus,
+  Edit
 } from 'lucide-react'
 import LoadingButton from '@/components/shared/LoadingButton'
 import { useLoading } from '@/hooks/useLoading'
@@ -206,8 +208,19 @@ export default function AdminJobsPage() {
     <div className="p-3 sm:p-4 lg:p-6">
       {/* Header */}
       <div className="mb-6 sm:mb-6 lg:mb-8">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Job Management</h1>
-        <p className="text-sm sm:text-base text-gray-600 mt-1 sm:mt-2">Manage and moderate job postings</p>
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-4">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Job Management</h1>
+            <p className="text-sm sm:text-base text-gray-600 mt-1 sm:mt-2">Manage and moderate job postings</p>
+          </div>
+          <Link
+            href="/admin/jobs/create"
+            className="bg-primary-500 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors flex items-center justify-center sm:justify-start text-sm sm:text-base"
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            Create Job
+          </Link>
+        </div>
       </div>
 
       {/* Filters */}
@@ -281,7 +294,7 @@ export default function AdminJobsPage() {
                       </div>
                     </div>
 
-                    <div className="flex justify-between items-center">
+                      <div className="flex justify-between items-center">
                       <div className="text-xs sm:text-sm text-gray-500">
                         Deadline: {new Date(job.applicationDeadline).toLocaleDateString()}
                       </div>
@@ -307,6 +320,13 @@ export default function AdminJobsPage() {
                             </button>
                           </>
                         )}
+                        <Link
+                          href={`/admin/jobs/${job._id}/edit`}
+                          className="bg-blue-500 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg hover:bg-blue-600 transition-colors flex items-center text-xs sm:text-sm"
+                        >
+                          <Edit className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+                          Edit
+                        </Link>
                         <Link
                           href={`/jobs/${job._id}`}
                           className="bg-gray-500 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg hover:bg-gray-600 transition-colors flex items-center text-xs sm:text-sm"
@@ -394,6 +414,13 @@ export default function AdminJobsPage() {
                             </button>
                           </>
                         )}
+                        <Link
+                          href={`/admin/jobs/${job._id}/edit`}
+                          className="bg-blue-500 text-white px-2 py-1 rounded text-xs flex items-center"
+                        >
+                          <Edit className="w-3 h-3 mr-1" />
+                          Edit
+                        </Link>
                         <Link
                           href={`/jobs/${job._id}`}
                           className="bg-gray-500 text-white px-2 py-1 rounded text-xs flex items-center"
