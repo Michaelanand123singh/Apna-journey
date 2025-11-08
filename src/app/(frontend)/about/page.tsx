@@ -6,7 +6,6 @@ import {
   CheckCircle,
   ArrowRight,
   MapPin,
-  Phone,
   Mail,
   Building2,
   TrendingUp,
@@ -125,7 +124,6 @@ export default async function AboutPage() {
             '@type': 'ContactPoint',
             contactType: 'customer support',
             email: 'info@apnajourney.com',
-            telephone: '+91 98765 43210',
             areaServed: 'IN',
             availableLanguage: ['en', 'hi'],
           },
@@ -255,20 +253,13 @@ export default async function AboutPage() {
       {/* Contact Info (minimal) */}
       <section className="pb-24">
         <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl">
+          <div className="grid md:grid-cols-2 gap-6 max-w-4xl">
             <div className="rounded-xl border border-slate-200 p-6 bg-white">
               <div className="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center mb-3">
                 <MapPin className="w-5 h-5" />
               </div>
               <div className="text-sm text-slate-500">Address</div>
               <div className="mt-1 font-semibold text-slate-900">New Delhi, India</div>
-            </div>
-            <div className="rounded-xl border border-slate-200 p-6 bg-white">
-              <div className="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center mb-3">
-                <Phone className="w-5 h-5" />
-              </div>
-              <div className="text-sm text-slate-500">Phone</div>
-              <div className="mt-1 font-semibold text-slate-900">+91 98765 43210</div>
             </div>
             <div className="rounded-xl border border-slate-200 p-6 bg-white">
               <div className="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center mb-3">

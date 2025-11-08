@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { 
   MapPin, 
-  Phone, 
   Mail, 
   Clock, 
   Send, 
@@ -12,7 +11,6 @@ import {
   MessageSquare,
   User,
   Mail as MailIcon,
-  Phone as PhoneIcon,
   FileText,
   Building2,
   Headphones,
@@ -27,7 +25,6 @@ import StructuredData from '@/components/shared/StructuredData'
 interface FormData {
   name: string
   email: string
-  phone: string
   subject: string
   message: string
   type: string
@@ -37,7 +34,6 @@ export default function ContactPage() {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
-    phone: '',
     subject: '',
     message: '',
     type: 'general'
@@ -92,7 +88,6 @@ export default function ContactPage() {
         setFormData({
           name: '',
           email: '',
-          phone: '',
           subject: '',
           message: '',
           type: 'general'
@@ -116,8 +111,7 @@ export default function ContactPage() {
   const nameValid = useMemo(() => formData.name.trim().length >= 2, [formData.name])
   const subjectValid = useMemo(() => formData.subject.trim().length >= 4, [formData.subject])
   const messageValid = useMemo(() => formData.message.trim().length >= 10, [formData.message])
-  const phoneValid = useMemo(() => !formData.phone || /^\+?[0-9 ()-]{7,15}$/.test(formData.phone), [formData.phone])
-  const isFormValid = nameValid && emailValid && subjectValid && messageValid && phoneValid
+  const isFormValid = nameValid && emailValid && subjectValid && messageValid
 
   useEffect(() => {
     document.title = 'Contact Us | Apna Journey'
@@ -143,14 +137,13 @@ export default function ContactPage() {
           mainEntity: {
             '@type': 'Organization',
             name: 'Apna Journey',
-            contactPoint: {
-              '@type': 'ContactPoint',
-              contactType: 'customer support',
-              email: 'info@apnajourney.com',
-              telephone: '+91 98765 43210',
-              areaServed: 'IN',
-              availableLanguage: ['en', 'hi'],
-            },
+              contactPoint: {
+                '@type': 'ContactPoint',
+                contactType: 'customer support',
+                email: 'info@apnajourney.com',
+                areaServed: 'IN',
+                availableLanguage: ['en', 'hi'],
+              },
           },
         }}
       />
@@ -205,20 +198,6 @@ export default function ContactPage() {
                 <div className="rounded-xl border border-slate-200 p-5 bg-white">
                   <div className="flex items-start">
                     <div className="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0">
-                      <Phone className="w-5 h-5" />
-                    </div>
-                    <div className="ml-4">
-                      <div className="text-sm font-semibold text-slate-900 mb-1">Phone</div>
-                      <div className="text-sm text-slate-600">
-                        +91 98765 43210
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="rounded-xl border border-slate-200 p-5 bg-white">
-                  <div className="flex items-start">
-                    <div className="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0">
                       <Mail className="w-5 h-5" />
                     </div>
                     <div className="ml-4">
@@ -253,7 +232,7 @@ export default function ContactPage() {
                   <div className="text-sm font-semibold text-slate-900">Quick Response</div>
                 </div>
                 <p className="text-sm text-slate-700">
-                  We typically respond to all inquiries within 24 hours. For urgent matters, please call us directly.
+                  We typically respond to all inquiries within 24 hours. For urgent matters, please email us directly.
                 </p>
               </div>
             </div>
@@ -349,49 +328,24 @@ export default function ContactPage() {
                     </div>
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-5">
-                    <div>
-                      <label htmlFor="phone" className="block text-sm font-medium text-slate-700 mb-2">
-                        Phone Number
-                      </label>
-                      <div className="relative">
-                        <PhoneIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
-                        <input
-                          type="tel"
-                          id="phone"
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleInputChange}
-                          aria-invalid={!phoneValid}
-                          aria-describedby="phone-help"
-                          className={`w-full pl-10 pr-4 py-3 border ${phoneValid ? 'border-slate-300' : 'border-red-400'} rounded-lg bg-slate-50 text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all`}
-                          placeholder="Enter your phone number"
-                        />
-                      </div>
-                      {!phoneValid && formData.phone && (
-                        <p id="phone-help" className="mt-1.5 text-xs text-red-600">Enter a valid phone number</p>
-                      )}
-                    </div>
-
-                    <div>
-                      <label htmlFor="type" className="block text-sm font-medium text-slate-700 mb-2">
-                        Inquiry Type *
-                      </label>
-                      <select
-                        id="type"
-                        name="type"
-                        value={formData.type}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-4 py-3 border border-slate-300 rounded-lg bg-slate-50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-                      >
-                        {inquiryTypes.map((type) => (
-                          <option key={type.value} value={type.value}>
-                            {type.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                  <div>
+                    <label htmlFor="type" className="block text-sm font-medium text-slate-700 mb-2">
+                      Inquiry Type *
+                    </label>
+                    <select
+                      id="type"
+                      name="type"
+                      value={formData.type}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full px-4 py-3 border border-slate-300 rounded-lg bg-slate-50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                    >
+                      {inquiryTypes.map((type) => (
+                        <option key={type.value} value={type.value}>
+                          {type.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
                   <div>
