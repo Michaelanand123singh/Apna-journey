@@ -134,7 +134,7 @@ export default function JobDetails({ job }: JobDetailsProps) {
                     <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">Location</span>
                   </div>
                   <p className="text-sm font-semibold text-slate-900 ml-11">
-                    {job.location.replace('-', ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                    {job.location}
                   </p>
                 </div>
 

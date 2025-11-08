@@ -16,7 +16,6 @@ import {
   ArrowLeft
 } from 'lucide-react'
 import { JOB_CATEGORIES, JOB_TYPES } from '@/lib/constants/categories'
-import { ALL_LOCATIONS } from '@/lib/constants/locations'
 import LoadingButton from '@/components/shared/LoadingButton'
 import RichTextEditor from '@/components/shared/RichTextEditor'
 
@@ -125,8 +124,12 @@ export default function CreateJobPage() {
     }
 
     // Location validation
-    if (!formData.location) {
-      newErrors.location = 'Please select a location'
+    if (!formData.location.trim()) {
+      newErrors.location = 'Location is required'
+    } else if (formData.location.trim().length < 2) {
+      newErrors.location = 'Location must be at least 2 characters'
+    } else if (formData.location.trim().length > 100) {
+      newErrors.location = 'Location cannot exceed 100 characters'
     }
 
     // Requirements validation
@@ -432,23 +435,29 @@ export default function CreateJobPage() {
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Location *
                       </label>
-                      <select
-                        name="location"
-                        value={formData.location}
-                        onChange={handleChange}
-                        className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 ${
-                          errors.location ? 'border-red-300' : 'border-gray-300'
-                        }`}
-                      >
-                        <option value="">Select Location</option>
-                        {ALL_LOCATIONS.map((location) => (
-                          <option key={location.value} value={location.value}>
-                            {location.label}
-                          </option>
-                        ))}
-                      </select>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <MapPin className="h-5 w-5 text-gray-400" />
+                        </div>
+                        <input
+                          type="text"
+                          name="location"
+                          value={formData.location}
+                          onChange={handleChange}
+                          maxLength={100}
+                          className={`w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 ${
+                            errors.location ? 'border-red-300' : 'border-gray-300'
+                          }`}
+                          placeholder="e.g., Patna, Bihar or Remote"
+                        />
+                      </div>
                       {errors.location && (
                         <p className="mt-1 text-sm text-red-600">{errors.location}</p>
+                      )}
+                      {!errors.location && formData.location && (
+                        <p className="mt-1 text-xs text-gray-500">
+                          {formData.location.length}/100 characters
+                        </p>
                       )}
                     </div>
                   </div>

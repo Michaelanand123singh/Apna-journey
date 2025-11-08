@@ -42,7 +42,10 @@ export const createJobSchema = z.object({
     .max(2000, 'Description cannot exceed 2000 characters'),
   category: z.enum(['government', 'private', 'part-time', 'internship', 'work-from-home', 'freelance', 'education', 'healthcare', 'banking', 'it', 'marketing', 'other']),
   jobType: z.enum(['full-time', 'part-time', 'contract', 'internship']),
-  location: z.enum(['patna', 'gaya', 'bhagalpur', 'muzaffarpur', 'darbhanga', 'purnia', 'bihar-sharif', 'arrah', 'begusarai', 'katihar', 'munger', 'chapra', 'saharsa', 'sasaram', 'hajipur', 'dehri', 'bettiah', 'motihari', 'buxar', 'kishanganj', 'sitamarhi', 'gopalganj', 'madhubani', 'siwan', 'jehanabad', 'aurangabad', 'nawada', 'jamui', 'lakhisarai', 'sheikhpura', 'banka', 'arwal', 'sheohar', 'kaimur', 'rohtas', 'bhojpur', 'other']),
+  location: z.string()
+    .min(2, 'Location must be at least 2 characters')
+    .max(100, 'Location cannot exceed 100 characters')
+    .trim(),
   salary: z.string()
     .max(50, 'Salary cannot exceed 50 characters')
     .optional(),

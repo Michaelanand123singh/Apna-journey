@@ -144,7 +144,7 @@ function JobCard({ job }: JobCardProps) {
             <div className="p-1 sm:p-1.5 bg-slate-100 rounded-md sm:rounded-lg mr-2 sm:mr-3 flex-shrink-0">
               <MapPin className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-slate-600" />
             </div>
-            <span className="truncate text-[11px] sm:text-sm">{job.location.replace('-', ' ')}</span>
+            <span className="truncate text-[11px] sm:text-sm">{job.location}</span>
           </div>
           
           {job.salary && (
