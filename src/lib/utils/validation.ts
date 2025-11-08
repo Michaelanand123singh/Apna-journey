@@ -49,11 +49,25 @@ export const createJobSchema = z.object({
   requirements: z.array(z.string().max(200, 'Each requirement cannot exceed 200 characters'))
     .min(1, 'At least one requirement is required'),
   contactEmail: z.string()
-    .email('Please enter a valid contact email'),
+    .optional()
+    .refine((val) => !val || val === '' || /^\S+@\S+\.\S+$/.test(val), {
+      message: 'Please enter a valid contact email'
+    })
+    .transform((val) => val === '' ? undefined : val),
   contactPhone: z.string()
-    .regex(/^[6-9]\d{9}$/, 'Please enter a valid 10-digit phone number'),
+    .optional()
+    .refine((val) => !val || val === '' || /^[6-9]\d{9}$/.test(val), {
+      message: 'Please enter a valid 10-digit phone number'
+    })
+    .transform((val) => val === '' ? undefined : val),
   expiresAt: z.string()
     .refine((date) => new Date(date) > new Date(), 'Expiry date must be in the future'),
+  allowApplication: z.boolean()
+    .optional()
+    .default(false),
+  allowDirectMail: z.boolean()
+    .optional()
+    .default(false),
 })
 
 export const jobApplicationSchema = z.object({

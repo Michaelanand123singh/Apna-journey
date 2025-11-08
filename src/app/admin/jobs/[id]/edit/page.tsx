@@ -6,7 +6,6 @@ import Link from 'next/link'
 import { 
   Briefcase, 
   Building, 
-  MapPin, 
   Calendar,
   Mail,
   Phone,
@@ -35,7 +34,9 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
     requirements: [''],
     contactEmail: '',
     contactPhone: '',
-    expiresAt: ''
+    expiresAt: '',
+    allowApplication: false,
+    allowDirectMail: false
   })
   const [isLoading, setIsLoading] = useState(false)
   const [fetching, setFetching] = useState(true)
@@ -51,6 +52,7 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
       fetchJob(id)
     }
     getParams()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const checkAuth = () => {
@@ -86,14 +88,15 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
             requirements: job.requirements && job.requirements.length > 0 ? job.requirements : [''],
             contactEmail: job.contactEmail || '',
             contactPhone: job.contactPhone || '',
-            expiresAt: job.expiresAt ? new Date(job.expiresAt).toISOString().split('T')[0] : ''
+            expiresAt: job.expiresAt ? new Date(job.expiresAt).toISOString().split('T')[0] : '',
+            allowApplication: job.allowApplication ?? false,
+            allowDirectMail: job.allowDirectMail ?? false
           })
         }
       } else {
         setError('Failed to load job. Please try again.')
       }
-    } catch (err) {
-      console.error('Error fetching job:', err)
+    } catch {
       setError('Failed to load job. Please try again.')
     } finally {
       setFetching(false)
@@ -101,8 +104,12 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
+    const { name, value, type } = e.target
+    const checked = (e.target as HTMLInputElement).checked
+    setFormData(prev => ({ 
+      ...prev, 
+      [name]: type === 'checkbox' ? checked : value 
+    }))
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }))
     }
@@ -177,16 +184,18 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
       }
     }
 
-    if (!formData.contactEmail.trim()) {
-      newErrors.contactEmail = 'Contact email is required'
-    } else if (!/\S+@\S+\.\S+/.test(formData.contactEmail)) {
-      newErrors.contactEmail = 'Please enter a valid email'
+    // Contact email validation (optional)
+    if (formData.contactEmail.trim()) {
+      if (!/\S+@\S+\.\S+/.test(formData.contactEmail)) {
+        newErrors.contactEmail = 'Please enter a valid email address'
+      }
     }
 
-    if (!formData.contactPhone.trim()) {
-      newErrors.contactPhone = 'Contact phone is required'
-    } else if (!/^[6-9]\d{9}$/.test(formData.contactPhone)) {
-      newErrors.contactPhone = 'Please enter a valid 10-digit phone number'
+    // Contact phone validation (optional)
+    if (formData.contactPhone.trim()) {
+      if (!/^[6-9]\d{9}$/.test(formData.contactPhone)) {
+        newErrors.contactPhone = 'Please enter a valid 10-digit phone number'
+      }
     }
 
     if (!formData.expiresAt) {
@@ -219,7 +228,9 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
         },
         body: JSON.stringify({
           ...formData,
-          requirements: formData.requirements.filter(req => req.trim())
+          requirements: formData.requirements.filter(req => req.trim()),
+          contactEmail: formData.contactEmail.trim() || undefined,
+          contactPhone: formData.contactPhone.trim() || undefined
         })
       })
 
@@ -232,7 +243,7 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
           // Convert array of errors to object format
           const errorObj: Record<string, string> = {}
           if (Array.isArray(data.errors)) {
-            data.errors.forEach((err: any) => {
+            data.errors.forEach((err: { field: string; message: string }) => {
               errorObj[err.field] = err.message
             })
           }
@@ -241,7 +252,7 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
           setError(data.message || 'Failed to update job')
         }
       }
-    } catch (err) {
+    } catch {
       setError('Failed to update job. Please try again.')
     } finally {
       setIsLoading(false)
@@ -548,13 +559,19 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
                 )}
               </div>
 
-              {/* Contact Information */}
+              {/* Contact Information - Optional */}
               <div>
-                <h2 className="text-lg font-semibold text-gray-800 mb-4">Contact Information</h2>
+                <h2 className="text-lg font-semibold text-gray-800 mb-4">Contact Information (Optional)</h2>
+                <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg mb-4">
+                  <p className="text-sm text-blue-800">
+                    <strong>Note:</strong> Contact information is optional. If provided, it will be displayed on the job listing page. If not provided, candidates can still apply through the application form (if enabled) or contact you through other channels.
+                  </p>
+                </div>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Contact Email *
+                      Contact Email
+                      <span className="text-xs text-gray-500 font-normal ml-1">(Optional)</span>
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -568,17 +585,21 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
                         className={`w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 ${
                           errors.contactEmail ? 'border-red-300' : 'border-gray-300'
                         }`}
-                        placeholder="hr@company.com"
+                        placeholder="hr@company.com (optional)"
                       />
                     </div>
                     {errors.contactEmail && (
                       <p className="mt-1 text-sm text-red-600">{errors.contactEmail}</p>
                     )}
+                    {!errors.contactEmail && formData.contactEmail && (
+                      <p className="mt-1 text-xs text-gray-500">This email will be visible to candidates</p>
+                    )}
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Contact Phone *
+                      Contact Phone
+                      <span className="text-xs text-gray-500 font-normal ml-1">(Optional)</span>
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -589,14 +610,18 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
                         name="contactPhone"
                         value={formData.contactPhone}
                         onChange={handleChange}
+                        maxLength={10}
                         className={`w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 ${
                           errors.contactPhone ? 'border-red-300' : 'border-gray-300'
                         }`}
-                        placeholder="9876543210"
+                        placeholder="9876543210 (optional)"
                       />
                     </div>
                     {errors.contactPhone && (
                       <p className="mt-1 text-sm text-red-600">{errors.contactPhone}</p>
+                    )}
+                    {!errors.contactPhone && formData.contactPhone && (
+                      <p className="mt-1 text-xs text-gray-500">This phone number will be visible to candidates</p>
                     )}
                   </div>
                 </div>
@@ -626,6 +651,62 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
                   </div>
                   {errors.expiresAt && (
                     <p className="mt-1 text-sm text-red-600">{errors.expiresAt}</p>
+                  )}
+                </div>
+              </div>
+
+              {/* Application Options */}
+              <div>
+                <h2 className="text-lg font-semibold text-gray-800 mb-4">Application Options</h2>
+                <div className="space-y-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                  <p className="text-sm text-gray-600 mb-4">
+                    Choose how candidates can apply for this job. You can enable one or both options, or leave both disabled if you prefer to handle applications through other channels.
+                  </p>
+                  
+                  <div className="space-y-3">
+                    <label className="flex items-start space-x-3 cursor-pointer group">
+                      <input
+                        type="checkbox"
+                        name="allowApplication"
+                        checked={formData.allowApplication}
+                        onChange={handleChange}
+                        className="mt-1 w-4 h-4 text-primary-500 border-gray-300 rounded focus:ring-primary-500 focus:ring-2"
+                      />
+                      <div className="flex-1">
+                        <div className="font-medium text-gray-700 group-hover:text-primary-600 transition-colors">
+                          Enable &quot;Apply Now&quot; Button
+                        </div>
+                        <p className="text-sm text-gray-500 mt-1">
+                          Allow candidates to apply directly through the website using the application form. This will show an &quot;Apply Now&quot; button on the job details page.
+                        </p>
+                      </div>
+                    </label>
+
+                    <label className="flex items-start space-x-3 cursor-pointer group">
+                      <input
+                        type="checkbox"
+                        name="allowDirectMail"
+                        checked={formData.allowDirectMail}
+                        onChange={handleChange}
+                        className="mt-1 w-4 h-4 text-primary-500 border-gray-300 rounded focus:ring-primary-500 focus:ring-2"
+                      />
+                      <div className="flex-1">
+                        <div className="font-medium text-gray-700 group-hover:text-primary-600 transition-colors">
+                          Enable &quot;Send Direct Email&quot; Option
+                        </div>
+                        <p className="text-sm text-gray-500 mt-1">
+                          Allow candidates to send applications directly via email. This will show a &quot;Send Email&quot; link on the job details page that opens their email client.
+                        </p>
+                      </div>
+                    </label>
+                  </div>
+
+                  {!formData.allowApplication && !formData.allowDirectMail && (
+                    <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-md">
+                      <p className="text-sm text-amber-800">
+                        <strong>Note:</strong> Both options are disabled. Candidates will only be able to view the job details and contact information, but no application options will be displayed.
+                      </p>
+                    </div>
                   )}
                 </div>
               </div>

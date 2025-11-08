@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import { 
   Briefcase, 
   Building, 
-  MapPin, 
   Calendar,
   Mail,
   Phone,
@@ -31,7 +30,9 @@ export default function PostJobPage() {
     requirements: [''],
     contactEmail: '',
     contactPhone: '',
-    expiresAt: ''
+    expiresAt: '',
+    allowApplication: false,
+    allowDirectMail: false
   })
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
@@ -40,6 +41,7 @@ export default function PostJobPage() {
 
   useEffect(() => {
     checkAuth()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const checkAuth = () => {
@@ -50,8 +52,12 @@ export default function PostJobPage() {
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
+    const { name, value, type } = e.target
+    const checked = (e.target as HTMLInputElement).checked
+    setFormData(prev => ({ 
+      ...prev, 
+      [name]: type === 'checkbox' ? checked : value 
+    }))
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }))
     }
@@ -78,6 +84,7 @@ export default function PostJobPage() {
   const validateForm = () => {
     const newErrors: Record<string, string> = {}
 
+    // Title validation
     if (!formData.title.trim()) {
       newErrors.title = 'Job title is required'
     } else if (formData.title.trim().length < 5) {
@@ -86,15 +93,17 @@ export default function PostJobPage() {
       newErrors.title = 'Title cannot exceed 100 characters'
     }
 
+    // Company validation
     if (!formData.company.trim()) {
       newErrors.company = 'Company name is required'
+    } else if (formData.company.trim().length < 2) {
+      newErrors.company = 'Company name must be at least 2 characters'
     } else if (formData.company.trim().length > 50) {
       newErrors.company = 'Company name cannot exceed 50 characters'
     }
 
-    // Strip HTML tags for validation
+    // Description validation
     const descriptionText = formData.description.replace(/<[^>]*>/g, '').trim()
-    
     if (!descriptionText) {
       newErrors.description = 'Job description is required'
     } else if (descriptionText.length < 50) {
@@ -103,45 +112,58 @@ export default function PostJobPage() {
       newErrors.description = 'Description cannot exceed 2000 characters (without HTML formatting)'
     }
 
+    // Category validation
     if (!formData.category) {
       newErrors.category = 'Please select a category'
     }
 
+    // Job type validation
     if (!formData.jobType) {
       newErrors.jobType = 'Please select a job type'
     }
 
+    // Location validation
     if (!formData.location) {
       newErrors.location = 'Please select a location'
     }
 
-    if (formData.requirements.filter(req => req.trim()).length === 0) {
+    // Requirements validation
+    const validRequirements = formData.requirements.filter(req => req.trim())
+    if (validRequirements.length === 0) {
       newErrors.requirements = 'At least one requirement is needed'
     } else {
-      // Check individual requirement lengths
-      for (let i = 0; i < formData.requirements.length; i++) {
-        if (formData.requirements[i].trim() && formData.requirements[i].length > 200) {
-          newErrors[`requirement_${i}`] = 'Each requirement cannot exceed 200 characters'
+      validRequirements.forEach((req) => {
+        const originalIndex = formData.requirements.indexOf(req)
+        if (req.length > 200) {
+          newErrors[`requirement_${originalIndex}`] = 'Each requirement cannot exceed 200 characters'
         }
+      })
+    }
+
+    // Contact email validation (optional)
+    if (formData.contactEmail.trim()) {
+      if (!/\S+@\S+\.\S+/.test(formData.contactEmail)) {
+        newErrors.contactEmail = 'Please enter a valid email address'
       }
     }
 
-    if (!formData.contactEmail.trim()) {
-      newErrors.contactEmail = 'Contact email is required'
-    } else if (!/\S+@\S+\.\S+/.test(formData.contactEmail)) {
-      newErrors.contactEmail = 'Please enter a valid email'
+    // Contact phone validation (optional)
+    if (formData.contactPhone.trim()) {
+      if (!/^[6-9]\d{9}$/.test(formData.contactPhone)) {
+        newErrors.contactPhone = 'Please enter a valid 10-digit phone number'
+      }
     }
 
-    if (!formData.contactPhone.trim()) {
-      newErrors.contactPhone = 'Contact phone is required'
-    } else if (!/^[6-9]\d{9}$/.test(formData.contactPhone)) {
-      newErrors.contactPhone = 'Please enter a valid 10-digit phone number'
-    }
-
+    // Expiry date validation
     if (!formData.expiresAt) {
       newErrors.expiresAt = 'Expiry date is required'
-    } else if (new Date(formData.expiresAt) <= new Date()) {
-      newErrors.expiresAt = 'Expiry date must be in the future'
+    } else {
+      const expiryDate = new Date(formData.expiresAt)
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+      if (expiryDate <= today) {
+        newErrors.expiresAt = 'Expiry date must be in the future'
+      }
     }
 
     setErrors(newErrors)
@@ -168,7 +190,9 @@ export default function PostJobPage() {
         },
         body: JSON.stringify({
           ...formData,
-          requirements: formData.requirements.filter(req => req.trim())
+          requirements: formData.requirements.filter(req => req.trim()),
+          contactEmail: formData.contactEmail.trim() || undefined,
+          contactPhone: formData.contactPhone.trim() || undefined
         })
       })
 
@@ -183,7 +207,7 @@ export default function PostJobPage() {
           setError(data.message || 'Failed to post job')
         }
       }
-    } catch (err) {
+    } catch {
       setError('Failed to post job. Please try again.')
     } finally {
       setIsLoading(false)
@@ -199,7 +223,7 @@ export default function PostJobPage() {
           </div>
           <h2 className="text-2xl font-bold text-gray-800 mb-2">Job Posted Successfully!</h2>
           <p className="text-gray-600 mb-6">
-            Your job posting has been submitted and is pending approval. You'll be notified once it's published.
+            Your job posting has been submitted and is pending approval. You&apos;ll be notified once it&apos;s published.
           </p>
           <div className="space-y-3">
             <button
@@ -222,7 +246,9 @@ export default function PostJobPage() {
                   requirements: [''],
                   contactEmail: '',
                   contactPhone: '',
-                  expiresAt: ''
+                  expiresAt: '',
+                  allowApplication: false,
+                  allowDirectMail: false
                 })
               }}
               className="w-full bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors"
@@ -483,13 +509,19 @@ export default function PostJobPage() {
                 )}
               </div>
 
-              {/* Contact Information */}
+              {/* Contact Information - Optional */}
               <div>
-                <h2 className="text-lg font-semibold text-gray-800 mb-4">Contact Information</h2>
+                <h2 className="text-lg font-semibold text-gray-800 mb-4">Contact Information (Optional)</h2>
+                <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg mb-4">
+                  <p className="text-sm text-blue-800">
+                    <strong>Note:</strong> Contact information is optional. If provided, it will be displayed on the job listing page. If not provided, candidates can still apply through the application form (if enabled) or contact you through your profile.
+                  </p>
+                </div>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Contact Email *
+                      Contact Email
+                      <span className="text-xs text-gray-500 font-normal ml-1">(Optional)</span>
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -503,17 +535,21 @@ export default function PostJobPage() {
                         className={`w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 ${
                           errors.contactEmail ? 'border-red-300' : 'border-gray-300'
                         }`}
-                        placeholder="hr@company.com"
+                        placeholder="hr@company.com (optional)"
                       />
                     </div>
                     {errors.contactEmail && (
                       <p className="mt-1 text-sm text-red-600">{errors.contactEmail}</p>
                     )}
+                    {!errors.contactEmail && formData.contactEmail && (
+                      <p className="mt-1 text-xs text-gray-500">This email will be visible to candidates</p>
+                    )}
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Contact Phone *
+                      Contact Phone
+                      <span className="text-xs text-gray-500 font-normal ml-1">(Optional)</span>
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -524,14 +560,18 @@ export default function PostJobPage() {
                         name="contactPhone"
                         value={formData.contactPhone}
                         onChange={handleChange}
+                        maxLength={10}
                         className={`w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 ${
                           errors.contactPhone ? 'border-red-300' : 'border-gray-300'
                         }`}
-                        placeholder="9876543210"
+                        placeholder="9876543210 (optional)"
                       />
                     </div>
                     {errors.contactPhone && (
                       <p className="mt-1 text-sm text-red-600">{errors.contactPhone}</p>
+                    )}
+                    {!errors.contactPhone && formData.contactPhone && (
+                      <p className="mt-1 text-xs text-gray-500">This phone number will be visible to candidates</p>
                     )}
                   </div>
                 </div>
@@ -561,6 +601,62 @@ export default function PostJobPage() {
                   </div>
                   {errors.expiresAt && (
                     <p className="mt-1 text-sm text-red-600">{errors.expiresAt}</p>
+                  )}
+                </div>
+              </div>
+
+              {/* Application Options */}
+              <div>
+                <h2 className="text-lg font-semibold text-gray-800 mb-4">Application Options</h2>
+                <div className="space-y-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                  <p className="text-sm text-gray-600 mb-4">
+                    Choose how candidates can apply for this job. You can enable one or both options, or leave both disabled if you prefer to handle applications through other channels.
+                  </p>
+                  
+                  <div className="space-y-3">
+                    <label className="flex items-start space-x-3 cursor-pointer group">
+                      <input
+                        type="checkbox"
+                        name="allowApplication"
+                        checked={formData.allowApplication}
+                        onChange={handleChange}
+                        className="mt-1 w-4 h-4 text-primary-500 border-gray-300 rounded focus:ring-primary-500 focus:ring-2"
+                      />
+                      <div className="flex-1">
+                        <div className="font-medium text-gray-700 group-hover:text-primary-600 transition-colors">
+                          Enable &quot;Apply Now&quot; Button
+                        </div>
+                        <p className="text-sm text-gray-500 mt-1">
+                          Allow candidates to apply directly through the website using the application form. This will show an &quot;Apply Now&quot; button on the job details page.
+                        </p>
+                      </div>
+                    </label>
+
+                    <label className="flex items-start space-x-3 cursor-pointer group">
+                      <input
+                        type="checkbox"
+                        name="allowDirectMail"
+                        checked={formData.allowDirectMail}
+                        onChange={handleChange}
+                        className="mt-1 w-4 h-4 text-primary-500 border-gray-300 rounded focus:ring-primary-500 focus:ring-2"
+                      />
+                      <div className="flex-1">
+                        <div className="font-medium text-gray-700 group-hover:text-primary-600 transition-colors">
+                          Enable &quot;Send Direct Email&quot; Option
+                        </div>
+                        <p className="text-sm text-gray-500 mt-1">
+                          Allow candidates to send applications directly via email. This will show a &quot;Send Email&quot; link on the job details page that opens their email client.
+                        </p>
+                      </div>
+                    </label>
+                  </div>
+
+                  {!formData.allowApplication && !formData.allowDirectMail && (
+                    <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-md">
+                      <p className="text-sm text-amber-800">
+                        <strong>Note:</strong> Both options are disabled. Candidates will only be able to view the job details and contact information, but no application options will be displayed.
+                      </p>
+                    </div>
                   )}
                 </div>
               </div>

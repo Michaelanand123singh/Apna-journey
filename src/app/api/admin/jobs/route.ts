@@ -44,6 +44,7 @@ export async function GET(request: NextRequest) {
     // Get jobs with pagination
     const skip = (page - 1) * limit
     const jobs = await Job.find(query)
+      .select('title slug company description category jobType location salary requirements contactEmail contactPhone views applicationCount expiresAt allowApplication allowDirectMail status createdAt updatedAt postedBy')
       .populate('postedBy', 'name email')
       .sort({ createdAt: -1 })
       .skip(skip)

@@ -9,13 +9,15 @@ export interface Job {
   location: string
   salary?: string
   requirements: string[]
-  contactEmail: string
-  contactPhone: string
+  contactEmail?: string
+  contactPhone?: string
   postedBy: string
   status: 'pending' | 'approved' | 'rejected'
   views: number
   applicationCount: number
   expiresAt: Date
+  allowApplication: boolean
+  allowDirectMail: boolean
   createdAt: Date
   updatedAt: Date
 }
@@ -29,9 +31,11 @@ export interface CreateJobData {
   location: string
   salary?: string
   requirements: string[]
-  contactEmail: string
-  contactPhone: string
+  contactEmail?: string
+  contactPhone?: string
   expiresAt: Date
+  allowApplication?: boolean
+  allowDirectMail?: boolean
 }
 
 export interface JobFilters {

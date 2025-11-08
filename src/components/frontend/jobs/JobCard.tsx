@@ -14,56 +14,74 @@ import {
   CheckCircle 
 } from 'lucide-react'
 import ShareButton from '@/components/shared/ShareButton'
-import { useState } from 'react'
+import { useState, useMemo, memo } from 'react'
+import { stripHtmlAndTruncate } from '@/lib/utils/text'
 
 interface JobCardProps {
   job: Job
 }
 
-export default function JobCard({ job }: JobCardProps) {
+// Color mapping constants (moved outside component to avoid recreation)
+const JOB_TYPE_COLORS: Record<string, string> = {
+  'full-time': 'bg-emerald-50 text-emerald-700 border-emerald-200',
+  'part-time': 'bg-emerald-50 text-emerald-700 border-emerald-200',
+  'contract': 'bg-amber-50 text-amber-700 border-amber-200',
+  'internship': 'bg-purple-50 text-purple-700 border-purple-200'
+}
+
+const CATEGORY_COLORS: Record<string, string> = {
+  'government': 'bg-red-50 text-red-700 border-red-200',
+  'private': 'bg-emerald-50 text-emerald-700 border-emerald-200',
+  'part-time': 'bg-green-50 text-green-700 border-green-200',
+  'internship': 'bg-teal-50 text-teal-700 border-teal-200',
+  'work-from-home': 'bg-green-50 text-green-700 border-green-200',
+  'freelance': 'bg-yellow-50 text-yellow-700 border-yellow-200',
+  'education': 'bg-pink-50 text-pink-700 border-pink-200',
+  'healthcare': 'bg-teal-50 text-teal-700 border-teal-200',
+  'banking': 'bg-emerald-50 text-emerald-700 border-emerald-200',
+  'it': 'bg-cyan-50 text-cyan-700 border-cyan-200',
+  'marketing': 'bg-rose-50 text-rose-700 border-rose-200',
+  'other': 'bg-slate-50 text-slate-700 border-slate-200'
+}
+
+function JobCard({ job }: JobCardProps) {
   const [isSaved, setIsSaved] = useState(false)
 
-  const formatDate = (date: string | Date) => {
-    return new Date(date).toLocaleDateString('en-IN', {
+  // Memoize formatted description to avoid re-computation on every render
+  const cleanDescription = useMemo(() => {
+    return stripHtmlAndTruncate(job.description || '', 150)
+  }, [job.description])
+
+  // Memoize formatted date
+  const formattedDate = useMemo(() => {
+    return new Date(job.createdAt).toLocaleDateString('en-IN', {
       month: 'short',
       day: 'numeric'
     })
-  }
+  }, [job.createdAt])
 
-  const getJobTypeColor = (jobType: string) => {
-    const colors = {
-      'full-time': 'bg-emerald-50 text-emerald-700 border-emerald-200',
-      'part-time': 'bg-emerald-50 text-emerald-700 border-emerald-200',
-      'contract': 'bg-amber-50 text-amber-700 border-amber-200',
-      'internship': 'bg-purple-50 text-purple-700 border-purple-200'
-    }
-    return colors[jobType as keyof typeof colors] || 'bg-slate-50 text-slate-700 border-slate-200'
-  }
+  // Memoize expiry date calculation and urgency color
+  const expiryInfo = useMemo(() => {
+    const daysLeft = Math.ceil((new Date(job.expiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))
+    const formattedExpiry = new Date(job.expiresAt).toLocaleDateString('en-IN', {
+      month: 'short',
+      day: 'numeric'
+    })
+    let urgencyColor = 'text-slate-600 bg-slate-50'
+    if (daysLeft <= 3) urgencyColor = 'text-red-600 bg-red-50'
+    else if (daysLeft <= 7) urgencyColor = 'text-orange-600 bg-orange-50'
+    
+    return { daysLeft, formattedExpiry, urgencyColor }
+  }, [job.expiresAt])
 
-  const getCategoryColor = (category: string) => {
-    const colors = {
-      'government': 'bg-red-50 text-red-700 border-red-200',
-      'private': 'bg-emerald-50 text-emerald-700 border-emerald-200',
-      'part-time': 'bg-green-50 text-green-700 border-green-200',
-      'internship': 'bg-teal-50 text-teal-700 border-teal-200',
-      'work-from-home': 'bg-green-50 text-green-700 border-green-200',
-      'freelance': 'bg-yellow-50 text-yellow-700 border-yellow-200',
-      'education': 'bg-pink-50 text-pink-700 border-pink-200',
-      'healthcare': 'bg-teal-50 text-teal-700 border-teal-200',
-      'banking': 'bg-emerald-50 text-emerald-700 border-emerald-200',
-      'it': 'bg-cyan-50 text-cyan-700 border-cyan-200',
-      'marketing': 'bg-rose-50 text-rose-700 border-rose-200',
-      'other': 'bg-slate-50 text-slate-700 border-slate-200'
-    }
-    return colors[category as keyof typeof colors] || 'bg-slate-50 text-slate-700 border-slate-200'
-  }
+  // Memoize color classes
+  const jobTypeColor = useMemo(() => {
+    return JOB_TYPE_COLORS[job.jobType] || 'bg-slate-50 text-slate-700 border-slate-200'
+  }, [job.jobType])
 
-  const getUrgencyColor = (expiresAt: string | Date) => {
-    const daysLeft = Math.ceil((new Date(expiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))
-    if (daysLeft <= 3) return 'text-red-600 bg-red-50'
-    if (daysLeft <= 7) return 'text-orange-600 bg-orange-50'
-    return 'text-slate-600 bg-slate-50'
-  }
+  const categoryColor = useMemo(() => {
+    return CATEGORY_COLORS[job.category] || 'bg-slate-50 text-slate-700 border-slate-200'
+  }, [job.category])
 
   return (
     <div className="group relative bg-white rounded-lg sm:rounded-xl border border-slate-200 hover:border-slate-300 hover:shadow-lg transition-all duration-300 overflow-hidden">
@@ -105,11 +123,11 @@ export default function JobCard({ job }: JobCardProps) {
 
           {/* Badges */}
           <div className="flex flex-col items-end space-y-1 sm:space-y-2 flex-shrink-0 ml-2">
-            <span className={`px-1.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-medium rounded-full border whitespace-nowrap ${getJobTypeColor(job.jobType)}`}>
+            <span className={`px-1.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-medium rounded-full border whitespace-nowrap ${jobTypeColor}`}>
               <span className="hidden sm:inline">{job.jobType.replace('-', ' ')}</span>
               <span className="sm:hidden">{job.jobType.replace('-', ' ').split(' ')[0]}</span>
             </span>
-            <span className={`px-1.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-medium rounded-full border whitespace-nowrap ${getCategoryColor(job.category)}`}>
+            <span className={`px-1.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-medium rounded-full border whitespace-nowrap ${categoryColor}`}>
               {job.category.replace('-', ' ').split(' ')[0]}
             </span>
           </div>
@@ -117,7 +135,7 @@ export default function JobCard({ job }: JobCardProps) {
 
         {/* Description */}
         <p className="hidden sm:block text-slate-600 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2 leading-relaxed">
-          {job.description}
+          {cleanDescription}
         </p>
 
         {/* Meta Information */}
@@ -142,8 +160,8 @@ export default function JobCard({ job }: JobCardProps) {
             <div className="p-1.5 bg-orange-100 rounded-lg mr-3 flex-shrink-0">
               <Calendar className="w-3.5 h-3.5 text-orange-600" />
             </div>
-            <span className={`truncate text-xs ${getUrgencyColor(job.expiresAt)} px-2 py-1 rounded-md`}>
-              Exp: {formatDate(job.expiresAt)}
+            <span className={`truncate text-xs ${expiryInfo.urgencyColor} px-2 py-1 rounded-md`}>
+              Exp: {expiryInfo.formattedExpiry}
             </span>
           </div>
           
@@ -180,10 +198,10 @@ export default function JobCard({ job }: JobCardProps) {
         {/* Footer */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pt-2.5 sm:pt-3 border-t border-slate-100 gap-2 sm:gap-3">
           <div className="flex items-center space-x-2 sm:space-x-4 text-[11px] sm:text-xs text-slate-500">
-            <span>{formatDate(job.createdAt)}</span>
+            <span>{formattedDate}</span>
             <div className="hidden sm:flex items-center space-x-1">
               <Users className="w-3 h-3" />
-              <span>50+ applicants</span>
+              <span>{job.applicationCount > 0 ? `${job.applicationCount}+` : '0'} applicants</span>
             </div>
           </div>
           
@@ -191,7 +209,7 @@ export default function JobCard({ job }: JobCardProps) {
             <ShareButton
               url={`https://apnajourney.com/jobs/${job.slug}`}
               title={`${job.title} at ${job.company}`}
-              description={job.description?.replace(/<[^>]*>/g, '').substring(0, 100) || 'India-first platform with nationwide job opportunities'}
+              description={cleanDescription.substring(0, 100) || 'India-first platform with nationwide job opportunities'}
               type="job"
               showText={false}
               className="hidden sm:inline-flex px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg transition-colors text-sm"
@@ -209,3 +227,6 @@ export default function JobCard({ job }: JobCardProps) {
     </div>
   )
 }
+
+// Memoize the component to prevent unnecessary re-renders
+export default memo(JobCard)

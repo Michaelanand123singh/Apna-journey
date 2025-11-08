@@ -6,6 +6,7 @@ import ShareButton from '@/components/shared/ShareButton'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { getApiUrl } from '@/lib/utils/api'
+import { stripHtmlAndTruncate } from '@/lib/utils/text'
 
 type JobPageParams = { slug: string }
 
@@ -87,31 +88,31 @@ export default async function JobPage({ params }: { params: Promise<JobPageParam
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jobSchema) }}
       />
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
         {/* Header */}
-        <div className="bg-white shadow-sm">
-          <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
-          <div className="flex items-center justify-between">
-            <Link
-              href="/jobs"
-              className="flex items-center text-gray-600 hover:text-primary-500 transition-colors text-sm sm:text-base"
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Jobs
-            </Link>
-            <ShareButton
-              url={`https://apnajourney.com/jobs/${job.slug}`}
-              title={`${job.title} at ${job.company}`}
-              description={job.description?.replace(/<[^>]*>/g, '').substring(0, 160) || 'India-first platform with nationwide job opportunities'}
-              type="job"
-              className="text-sm sm:text-base"
-            />
-          </div>
+        <div className="bg-white border-b border-slate-200 shadow-sm">
+          <div className="container mx-auto px-4 sm:px-6 py-4">
+            <div className="flex items-center justify-between">
+              <Link
+                href="/jobs"
+                className="flex items-center text-slate-600 hover:text-green-600 transition-colors text-sm sm:text-base font-medium group"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+                Back to Jobs
+              </Link>
+              <ShareButton
+                url={`https://apnajourney.com/jobs/${job.slug}`}
+                title={`${job.title} at ${job.company}`}
+                description={stripHtmlAndTruncate(job.description || '', 160)}
+                type="job"
+                className="text-sm sm:text-base"
+              />
+            </div>
           </div>
         </div>
 
         {/* Job Details */}
-        <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-6 lg:py-8">
+        <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 lg:py-10">
           <Suspense fallback={
             <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 lg:p-8 animate-pulse">
               <div className="h-6 sm:h-8 bg-gray-200 rounded w-3/4 mb-3 sm:mb-4"></div>
@@ -140,7 +141,7 @@ export async function generateMetadata({ params }: { params: Promise<JobPagePara
     }
   }
 
-  const cleanDescription = job.description?.replace(/<[^>]*>/g, '').substring(0, 160) || 'India-first platform with nationwide job opportunities'
+  const cleanDescription = stripHtmlAndTruncate(job.description || '', 160)
 
   return {
     title: `${job.title} at ${job.company} - Apna Journey`,

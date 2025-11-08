@@ -10,13 +10,15 @@ export interface IJob extends Document {
   location: string
   salary?: string
   requirements: string[]
-  contactEmail: string
-  contactPhone: string
+  contactEmail?: string
+  contactPhone?: string
   postedBy: mongoose.Types.ObjectId
   status: 'pending' | 'approved' | 'rejected'
   views: number
   applicationCount: number
   expiresAt: Date
+  allowApplication: boolean
+  allowDirectMail: boolean
   createdAt: Date
   updatedAt: Date
 }
@@ -71,13 +73,15 @@ const JobSchema = new Schema<IJob>({
   }],
   contactEmail: { 
     type: String, 
-    required: [true, 'Contact email is required'],
-    match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Please enter a valid email']
+    required: false,
+    match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Please enter a valid email'],
+    default: null
   },
   contactPhone: { 
     type: String, 
-    required: [true, 'Contact phone is required'],
-    match: [/^[6-9]\d{9}$/, 'Please enter a valid 10-digit phone number']
+    required: false,
+    match: [/^[6-9]\d{9}$/, 'Please enter a valid 10-digit phone number'],
+    default: null
   },
   postedBy: { 
     type: Schema.Types.ObjectId, 
@@ -109,6 +113,14 @@ const JobSchema = new Schema<IJob>({
       message: 'Expiry date must be in the future'
     }
   },
+  allowApplication: {
+    type: Boolean,
+    default: false
+  },
+  allowDirectMail: {
+    type: Boolean,
+    default: false
+  },
 }, {
   timestamps: true
 })
@@ -129,6 +141,7 @@ JobSchema.pre('save', async function(next) {
     // Check for duplicates and add counter if needed
     let finalSlug = baseSlug
     let counter = 1
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const JobModel = this.constructor as any
     while (await JobModel.findOne({ slug: finalSlug, _id: { $ne: this._id } })) {
       finalSlug = `${baseSlug}-${counter}`

@@ -21,8 +21,8 @@ export async function GET(request: NextRequest) {
       limit = '10'
     } = validatedFilters
     
-    // Build query
-    const query: any = { status: 'approved' } // Only show approved jobs
+    // Build query efficiently
+    const query: Record<string, unknown> = { status: 'approved' } // Only show approved jobs
     
     if (category) {
       query.category = category
@@ -40,14 +40,15 @@ export async function GET(request: NextRequest) {
       query.$text = { $search: search }
     }
     
-    // Pagination
-    const pageNum = parseInt(page)
-    const limitNum = parseInt(limit)
+    // Pagination - ensure valid values
+    const pageNum = Math.max(1, parseInt(page) || 1)
+    const limitNum = Math.min(100, Math.max(1, parseInt(limit) || 10)) // Cap at 100, min 1
     const skip = (pageNum - 1) * limitNum
     
-    // Execute query
+    // Execute query with optimized projection (only fetch needed fields)
     const [jobs, total] = await Promise.all([
       Job.find(query)
+        .select('title slug company description category jobType location salary requirements contactEmail contactPhone views applicationCount expiresAt allowApplication allowDirectMail createdAt updatedAt postedBy')
         .populate('postedBy', 'name email')
         .sort({ createdAt: -1 })
         .skip(skip)
@@ -57,7 +58,7 @@ export async function GET(request: NextRequest) {
     ])
     
     // Calculate pagination info
-    const pages = Math.ceil(total / limitNum)
+    const pages = Math.ceil(total / limitNum) || 1
     
     return NextResponse.json({
       success: true,
@@ -131,9 +132,14 @@ export async function POST(request: NextRequest) {
     })
     
     // Get user details separately to avoid population issues
-    console.log('Looking for user with ID:', payload.userId)
     const user = await User.findById(payload.userId).select('name email').lean()
-    console.log('Found user:', user)
+    
+    if (!user) {
+      return NextResponse.json(
+        { success: false, message: 'User not found' },
+        { status: 404 }
+      )
+    }
     
     return NextResponse.json({
       success: true,

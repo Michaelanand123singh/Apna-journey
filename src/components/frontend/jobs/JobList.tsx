@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useState, useEffect, Suspense, useCallback, useMemo } from 'react'
+import { useSearchParams, useRouter } from 'next/navigation'
 import JobCard from './JobCard'
 import { Job } from '@/types'
 import { ListLoader } from '@/components/shared/PageLoader'
@@ -19,38 +19,60 @@ function JobListContent() {
   })
 
   const searchParams = useSearchParams()
+  const router = useRouter()
 
-  const fetchJobs = async () => {
+  // Memoize the query string to avoid unnecessary re-fetches
+  const queryString = useMemo(() => {
+    const params = new URLSearchParams()
+    searchParams.forEach((value, key) => {
+      params.append(key, value)
+    })
+    return params.toString()
+  }, [searchParams])
+
+  const fetchJobs = useCallback(async () => {
     try {
       setLoading(true)
       setError(null)
 
-      const params = new URLSearchParams()
-      searchParams.forEach((value, key) => {
-        params.append(key, value)
-      })
+      const response = await fetch(`/api/jobs?${queryString}`)
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
 
-      const response = await fetch(`/api/jobs?${params.toString()}`)
       const data = await response.json()
 
       if (data.success) {
-        setJobs(data.data)
-        setPagination(data.pagination)
+        setJobs(data.data || [])
+        setPagination(data.pagination || {
+          page: 1,
+          limit: 15,
+          total: 0,
+          pages: 0
+        })
       } else {
         setError(data.message || 'Failed to fetch jobs')
       }
     } catch (err) {
-      setError('Failed to fetch jobs')
+      setError('Failed to fetch jobs. Please try again.')
       console.error('Error fetching jobs:', err)
+      // Reset to empty state on error
+      setJobs([])
+      setPagination({
+        page: 1,
+        limit: 15,
+        total: 0,
+        pages: 0
+      })
     } finally {
       setLoading(false)
     }
-  }
+  }, [queryString])
 
   useEffect(() => {
     fetchJobs()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams])
+  }, [fetchJobs])
 
   if (loading) {
     return <ListLoader items={6} />
@@ -90,7 +112,7 @@ function JobListContent() {
           We couldn&apos;t find any jobs matching your criteria. Try adjusting your filters.
         </p>
         <button
-          onClick={() => window.location.href = '/jobs'}
+          onClick={() => router.push('/jobs')}
           className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
         >
           View All Jobs
@@ -125,45 +147,91 @@ function JobListContent() {
                 onClick={() => {
                   const params = new URLSearchParams(searchParams)
                   params.set('page', (pagination.page - 1).toString())
-                  window.location.href = `/jobs?${params.toString()}`
+                  router.push(`/jobs?${params.toString()}`)
                 }}
                 className="px-2 sm:px-3 py-2 text-xs sm:text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                aria-label="Previous page"
               >
                 Previous
               </button>
             )}
             
-            {[...Array(pagination.pages)].map((_, i) => {
-              const page = i + 1
-              const isCurrentPage = page === pagination.page
+            {/* Show page numbers with smart pagination (show first, last, current, and nearby pages) */}
+            {(() => {
+              const pages: (number | string)[] = []
+              const totalPages = pagination.pages
+              const currentPage = pagination.page
               
-              return (
-                <button
-                  key={page}
-                  onClick={() => {
-                    const params = new URLSearchParams(searchParams)
-                    params.set('page', page.toString())
-                    window.location.href = `/jobs?${params.toString()}`
-                  }}
-                  className={`px-3 py-2 text-sm font-medium rounded-md ${
-                    isCurrentPage
-                      ? 'bg-green-600 text-white'
-                      : 'text-gray-500 bg-white border border-gray-300 hover:bg-gray-50'
-                  }`}
-                >
-                  {page}
-                </button>
-              )
-            })}
+              // Always show first page
+              if (totalPages > 0) {
+                pages.push(1)
+              }
+              
+              // Add ellipsis if needed
+              if (currentPage > 3) {
+                pages.push('...')
+              }
+              
+              // Show pages around current page
+              for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+                if (!pages.includes(i)) {
+                  pages.push(i)
+                }
+              }
+              
+              // Add ellipsis if needed
+              if (currentPage < totalPages - 2) {
+                pages.push('...')
+              }
+              
+              // Always show last page
+              if (totalPages > 1 && !pages.includes(totalPages)) {
+                pages.push(totalPages)
+              }
+              
+              return pages.map((page, index) => {
+                if (page === '...') {
+                  return (
+                    <span key={`ellipsis-${index}`} className="px-2 py-2 text-gray-500">
+                      ...
+                    </span>
+                  )
+                }
+                
+                const pageNum = page as number
+                const isCurrentPage = pageNum === currentPage
+                
+                return (
+                  <button
+                    key={pageNum}
+                    onClick={() => {
+                      const params = new URLSearchParams(searchParams)
+                      params.set('page', pageNum.toString())
+                      router.push(`/jobs?${params.toString()}`)
+                    }}
+                    className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                      isCurrentPage
+                        ? 'bg-green-600 text-white'
+                        : 'text-gray-500 bg-white border border-gray-300 hover:bg-gray-50'
+                    }`}
+                    aria-label={`Go to page ${pageNum}`}
+                    aria-current={isCurrentPage ? 'page' : undefined}
+                  >
+                    {pageNum}
+                  </button>
+                )
+              })
+            })()}
             
             {pagination.page < pagination.pages && (
               <button
                 onClick={() => {
                   const params = new URLSearchParams(searchParams)
                   params.set('page', (pagination.page + 1).toString())
-                  window.location.href = `/jobs?${params.toString()}`
+                  router.push(`/jobs?${params.toString()}`)
                 }}
                 className="px-2 sm:px-3 py-2 text-xs sm:text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                aria-label="Next page"
               >
                 Next
               </button>
