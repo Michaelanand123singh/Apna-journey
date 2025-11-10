@@ -157,8 +157,8 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
       newErrors.description = 'Job description is required'
     } else if (descriptionText.length < 50) {
       newErrors.description = 'Description must be at least 50 characters (without HTML formatting)'
-    } else if (descriptionText.length > 2000) {
-      newErrors.description = 'Description cannot exceed 2000 characters (without HTML formatting)'
+    } else if (descriptionText.length > 20000) {
+      newErrors.description = 'Description cannot exceed 20000 characters (without HTML formatting)'
     }
 
     if (!formData.category) {
@@ -411,9 +411,21 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
                       folder="apna-journey/jobs"
                     />
                     <div className="flex justify-between items-center mt-2">
-                      {errors.description && (
-                        <p className="text-sm text-red-600">{errors.description}</p>
-                      )}
+                      <div className="flex-1">
+                        {errors.description && (
+                          <p className="text-sm text-red-600">{errors.description}</p>
+                        )}
+                      </div>
+                      <p className={`text-xs ml-auto ${
+                        (() => {
+                          const textLength = formData.description.replace(/<[^>]*>/g, '').trim().length
+                          if (textLength > 20000) return 'text-red-600 font-semibold'
+                          if (textLength > 18000) return 'text-amber-600'
+                          return 'text-gray-500'
+                        })()
+                      }`}>
+                        {formData.description.replace(/<[^>]*>/g, '').trim().length.toLocaleString()}/20,000 characters
+                      </p>
                     </div>
                   </div>
 

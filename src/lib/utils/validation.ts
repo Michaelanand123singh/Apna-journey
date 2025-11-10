@@ -39,7 +39,7 @@ export const createJobSchema = z.object({
     .trim(),
   description: z.string()
     .min(50, 'Description must be at least 50 characters')
-    .max(2000, 'Description cannot exceed 2000 characters'),
+    .max(20000, 'Description cannot exceed 20000 characters'),
   category: z.enum(['government', 'private', 'part-time', 'internship', 'work-from-home', 'freelance', 'education', 'healthcare', 'banking', 'it', 'marketing', 'other']),
   jobType: z.enum(['full-time', 'part-time', 'contract', 'internship']),
   location: z.string()

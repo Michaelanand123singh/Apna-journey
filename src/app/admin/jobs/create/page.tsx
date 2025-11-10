@@ -43,6 +43,7 @@ export default function CreateJobPage() {
 
   useEffect(() => {
     checkAuth()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const checkAuth = () => {
@@ -109,8 +110,8 @@ export default function CreateJobPage() {
       newErrors.description = 'Job description is required'
     } else if (descriptionText.length < 50) {
       newErrors.description = 'Description must be at least 50 characters (without HTML formatting)'
-    } else if (descriptionText.length > 2000) {
-      newErrors.description = 'Description cannot exceed 2000 characters (without HTML formatting)'
+    } else if (descriptionText.length > 20000) {
+      newErrors.description = 'Description cannot exceed 20000 characters (without HTML formatting)'
     }
 
     // Category validation
@@ -210,7 +211,7 @@ export default function CreateJobPage() {
           // Convert array of errors to object format
           const errorObj: Record<string, string> = {}
           if (Array.isArray(data.errors)) {
-            data.errors.forEach((err: any) => {
+            data.errors.forEach((err: { field: string; message: string }) => {
               errorObj[err.field] = err.message
             })
           }
@@ -219,7 +220,7 @@ export default function CreateJobPage() {
           setError(data.message || 'Failed to create job')
         }
       }
-    } catch (err) {
+    } catch {
       setError('Failed to create job. Please try again.')
     } finally {
       setIsLoading(false)
@@ -376,9 +377,21 @@ export default function CreateJobPage() {
                       folder="apna-journey/jobs"
                     />
                     <div className="flex justify-between items-center mt-2">
-                      {errors.description && (
-                        <p className="text-sm text-red-600">{errors.description}</p>
-                      )}
+                      <div className="flex-1">
+                        {errors.description && (
+                          <p className="text-sm text-red-600">{errors.description}</p>
+                        )}
+                      </div>
+                      <p className={`text-xs ml-auto ${
+                        (() => {
+                          const textLength = formData.description.replace(/<[^>]*>/g, '').trim().length
+                          if (textLength > 20000) return 'text-red-600 font-semibold'
+                          if (textLength > 18000) return 'text-amber-600'
+                          return 'text-gray-500'
+                        })()
+                      }`}>
+                        {formData.description.replace(/<[^>]*>/g, '').trim().length.toLocaleString()}/20,000 characters
+                      </p>
                     </div>
                   </div>
 
@@ -650,10 +663,10 @@ export default function CreateJobPage() {
                       />
                       <div className="flex-1">
                         <div className="font-medium text-gray-700 group-hover:text-primary-600 transition-colors">
-                          Enable "Apply Now" Button
+                          Enable &quot;Apply Now&quot; Button
                         </div>
                         <p className="text-sm text-gray-500 mt-1">
-                          Allow candidates to apply directly through the website using the application form. This will show an "Apply Now" button on the job details page.
+                          Allow candidates to apply directly through the website using the application form. This will show an &quot;Apply Now&quot; button on the job details page.
                         </p>
                       </div>
                     </label>
@@ -668,10 +681,10 @@ export default function CreateJobPage() {
                       />
                       <div className="flex-1">
                         <div className="font-medium text-gray-700 group-hover:text-primary-600 transition-colors">
-                          Enable "Send Direct Email" Option
+                          Enable &quot;Send Direct Email&quot; Option
                         </div>
                         <p className="text-sm text-gray-500 mt-1">
-                          Allow candidates to send applications directly via email. This will show a "Send Email" link on the job details page that opens their email client.
+                          Allow candidates to send applications directly via email. This will show a &quot;Send Email&quot; link on the job details page that opens their email client.
                         </p>
                       </div>
                     </label>

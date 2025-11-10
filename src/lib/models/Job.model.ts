@@ -46,7 +46,7 @@ const JobSchema = new Schema<IJob>({
     type: String, 
     required: [true, 'Job description is required'],
     minlength: [50, 'Description must be at least 50 characters'],
-    maxlength: [2000, 'Description cannot exceed 2000 characters']
+    maxlength: [20000, 'Description cannot exceed 20000 characters']
   },
   category: { 
     type: String, 
