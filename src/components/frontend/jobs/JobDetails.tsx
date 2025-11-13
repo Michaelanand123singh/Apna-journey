@@ -186,6 +186,11 @@ export default function JobDetails({ job }: JobDetailsProps) {
             <div 
               className="prose prose-slate prose-sm sm:prose-base max-w-none text-slate-700 leading-relaxed prose-headings:text-slate-900 prose-headings:font-bold prose-a:text-green-600 prose-a:no-underline hover:prose-a:underline prose-strong:text-slate-900 prose-ul:text-slate-700 prose-ol:text-slate-700"
               dangerouslySetInnerHTML={{ __html: job.description }}
+              style={{
+                // Ensure all formatting is preserved including inline styles
+                wordWrap: 'break-word',
+                overflowWrap: 'break-word'
+              }}
             />
           </div>
         </div>

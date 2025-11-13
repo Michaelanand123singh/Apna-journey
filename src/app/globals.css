@@ -251,6 +251,10 @@ html {
   word-wrap: break-word;
 }
 
+/* Ensure inline styles from pasted content are preserved */
+/* Inline styles in HTML will automatically take precedence due to CSS specificity */
+/* The prose classes provide base styling, but inline styles override them */
+
 .prose-rich-text p,
 .ProseMirror p {
   margin: 0.75rem 0;
