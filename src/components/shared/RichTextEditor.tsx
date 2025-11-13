@@ -68,7 +68,12 @@ export default function RichTextEditor({
 
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        // Configure paste rules to preserve formatting
+        heading: {
+          levels: [1, 2, 3],
+        },
+      }),
       Image.configure({
         inline: true,
         allowBase64: true,
@@ -92,11 +97,58 @@ export default function RichTextEditor({
     ],
     content,
     onUpdate: ({ editor }) => {
+      // Get the full HTML content including all formatting
+      // This ensures all formatting is preserved when saving
       onChange(editor.getHTML())
     },
     editorProps: {
       attributes: {
         class: `prose prose-sm sm:prose lg:prose-lg xl:prose-2xl focus:outline-none min-h-[${minHeight}] px-4 py-3`,
+      },
+      // Handle paste events to preserve formatting from external sources
+      handlePaste: (view, event) => {
+        const clipboardData = event.clipboardData
+        if (!clipboardData) return false
+
+        const html = clipboardData.getData('text/html')
+        
+        // If HTML is available, manually insert it to preserve all formatting
+        if (html && html.trim() && editor) {
+          event.preventDefault()
+          
+          // Clean HTML for security (remove scripts, event handlers)
+          // But preserve all formatting tags and inline styles
+          const tempDiv = document.createElement('div')
+          tempDiv.innerHTML = html
+          
+          // Remove security risks only
+          const scripts = tempDiv.querySelectorAll('script, style[type="text/javascript"]')
+          scripts.forEach(script => script.remove())
+          
+          // Remove event handlers but preserve all other attributes (including style)
+          const allElements = tempDiv.querySelectorAll('*')
+          allElements.forEach(el => {
+            Array.from(el.attributes).forEach(attr => {
+              // Remove only event handlers, preserve style and other formatting attributes
+              if (attr.name.startsWith('on')) {
+                el.removeAttribute(attr.name)
+              }
+            })
+          })
+          
+          const cleanedHTML = tempDiv.innerHTML
+          
+          // Use TipTap's command to insert HTML content
+          // TipTap will parse the HTML and convert it to its internal format
+          // This preserves all formatting that TipTap supports
+          // The HTML will be normalized to TipTap's format but visual formatting is preserved
+          editor.commands.insertContent(cleanedHTML)
+          
+          return true
+        }
+
+        // Fallback to default paste behavior for plain text
+        return false
       },
     },
     immediatelyRender: false,
@@ -105,6 +157,8 @@ export default function RichTextEditor({
   // Update editor content when prop changes
   useEffect(() => {
     if (editor && content !== editor.getHTML()) {
+      // Set content - this preserves all HTML formatting when loading existing content
+      // TipTap will parse the HTML and preserve all supported formatting
       editor.commands.setContent(content)
     }
   }, [content, editor])
