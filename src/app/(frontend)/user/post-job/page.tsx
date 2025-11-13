@@ -11,11 +11,14 @@ import {
   Plus,
   X,
   CheckCircle,
-  MapPin
+  MapPin,
+  Eye
 } from 'lucide-react'
 import { JOB_CATEGORIES, JOB_TYPES } from '@/lib/constants/categories'
 import LoadingButton from '@/components/shared/LoadingButton'
 import RichTextEditor from '@/components/shared/RichTextEditor'
+import Modal from '@/components/shared/Modal'
+import JobPreview from '@/components/shared/JobPreview'
 
 export default function PostJobPage() {
   const router = useRouter()
@@ -38,6 +41,7 @@ export default function PostJobPage() {
   const [error, setError] = useState('')
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [showPreview, setShowPreview] = useState(false)
 
   useEffect(() => {
     checkAuth()
@@ -697,6 +701,14 @@ export default function PostJobPage() {
                 >
                   Cancel
                 </button>
+                <button
+                  type="button"
+                  onClick={() => setShowPreview(true)}
+                  className="px-6 py-2 border border-primary-500 text-primary-600 rounded-md hover:bg-primary-50 transition-colors flex items-center space-x-2"
+                >
+                  <Eye className="w-4 h-4" />
+                  <span>Preview</span>
+                </button>
                 <LoadingButton
                   type="submit"
                   loading={isLoading}
@@ -709,6 +721,35 @@ export default function PostJobPage() {
           </div>
         </div>
       </div>
+
+      {/* Preview Modal */}
+      <Modal
+        isOpen={showPreview}
+        onClose={() => setShowPreview(false)}
+        title="Job Preview"
+        size="xl"
+        noPadding={true}
+      >
+        <div className="max-h-[80vh] overflow-y-auto p-6">
+          <JobPreview
+            jobData={{
+              title: formData.title,
+              company: formData.company,
+              description: formData.description,
+              category: formData.category,
+              jobType: formData.jobType as 'full-time' | 'part-time' | 'contract' | 'internship',
+              location: formData.location,
+              salary: formData.salary || undefined,
+              requirements: formData.requirements.filter(req => req.trim()),
+              contactEmail: formData.contactEmail || undefined,
+              contactPhone: formData.contactPhone || undefined,
+              expiresAt: formData.expiresAt,
+              allowApplication: formData.allowApplication,
+              allowDirectMail: formData.allowDirectMail
+            }}
+          />
+        </div>
+      </Modal>
     </div>
   )
 }

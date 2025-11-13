@@ -10,6 +10,7 @@ interface ModalProps {
   children: ReactNode
   size?: 'sm' | 'md' | 'lg' | 'xl'
   showCloseButton?: boolean
+  noPadding?: boolean
 }
 
 export default function Modal({
@@ -18,13 +19,14 @@ export default function Modal({
   title,
   children,
   size = 'md',
-  showCloseButton = true
+  showCloseButton = true,
+  noPadding = false
 }: ModalProps) {
   const sizeClasses = {
     sm: 'max-w-sm',
     md: 'max-w-md',
     lg: 'max-w-lg',
-    xl: 'max-w-2xl'
+    xl: 'max-w-6xl'
   }
 
   useEffect(() => {
@@ -92,7 +94,7 @@ export default function Modal({
           )}
           
           {/* Content */}
-          <div className="p-4">
+          <div className={noPadding ? '' : 'p-4'}>
             {children}
           </div>
         </div>
