@@ -111,7 +111,7 @@ export async function PUT(
       id,
       {
         ...validatedData,
-        expiresAt: new Date(validatedData.expiresAt),
+        expiresAt: validatedData.expiresAt ? new Date(validatedData.expiresAt) : undefined,
         status: 'pending' // Reset to pending after update
       },
       { new: true, runValidators: true }

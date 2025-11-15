@@ -16,7 +16,7 @@ export interface IJob extends Document {
   status: 'pending' | 'approved' | 'rejected'
   views: number
   applicationCount: number
-  expiresAt: Date
+  expiresAt?: Date
   allowApplication: boolean
   allowDirectMail: boolean
   createdAt: Date
@@ -107,9 +107,10 @@ const JobSchema = new Schema<IJob>({
   },
   expiresAt: { 
     type: Date, 
-    required: [true, 'Expiry date is required'],
+    required: false,
     validate: {
-      validator: function(value: Date) {
+      validator: function(value: Date | null | undefined) {
+        if (!value) return true // Optional field
         return value > new Date()
       },
       message: 'Expiry date must be in the future'

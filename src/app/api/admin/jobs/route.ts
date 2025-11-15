@@ -118,7 +118,7 @@ export async function POST(request: NextRequest) {
       ...validatedData,
       postedBy: systemUser._id,
       status: 'approved', // Admin-created jobs are auto-approved
-      expiresAt: new Date(validatedData.expiresAt)
+      expiresAt: validatedData.expiresAt ? new Date(validatedData.expiresAt) : undefined
     })
 
     // Populate postedBy for response

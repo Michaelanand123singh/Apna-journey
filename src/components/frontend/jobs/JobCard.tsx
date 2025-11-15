@@ -62,6 +62,9 @@ function JobCard({ job }: JobCardProps) {
 
   // Memoize expiry date calculation and urgency color
   const expiryInfo = useMemo(() => {
+    if (!job.expiresAt) {
+      return { daysLeft: null, formattedExpiry: null, urgencyColor: 'text-slate-600 bg-slate-50' }
+    }
     const daysLeft = Math.ceil((new Date(job.expiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))
     const formattedExpiry = new Date(job.expiresAt).toLocaleDateString('en-IN', {
       month: 'short',
@@ -156,14 +159,16 @@ function JobCard({ job }: JobCardProps) {
             </div>
           )}
           
-          <div className="hidden sm:flex items-center text-sm">
-            <div className="p-1.5 bg-orange-100 rounded-lg mr-3 flex-shrink-0">
-              <Calendar className="w-3.5 h-3.5 text-orange-600" />
+          {expiryInfo.formattedExpiry && (
+            <div className="hidden sm:flex items-center text-sm">
+              <div className="p-1.5 bg-orange-100 rounded-lg mr-3 flex-shrink-0">
+                <Calendar className="w-3.5 h-3.5 text-orange-600" />
+              </div>
+              <span className={`truncate text-xs ${expiryInfo.urgencyColor} px-2 py-1 rounded-md`}>
+                Exp: {expiryInfo.formattedExpiry}
+              </span>
             </div>
-            <span className={`truncate text-xs ${expiryInfo.urgencyColor} px-2 py-1 rounded-md`}>
-              Exp: {expiryInfo.formattedExpiry}
-            </span>
-          </div>
+          )}
           
           <div className="hidden sm:flex items-center text-sm text-slate-600">
             <div className="p-1.5 bg-green-100 rounded-lg mr-3 flex-shrink-0">

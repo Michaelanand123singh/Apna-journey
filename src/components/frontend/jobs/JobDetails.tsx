@@ -58,7 +58,7 @@ export default function JobDetails({ job }: JobDetailsProps) {
 
   const formattedDates = useMemo(() => ({
     posted: formatDate(job.createdAt),
-    expires: formatDate(job.expiresAt)
+    expires: job.expiresAt ? formatDate(job.expiresAt) : null
   }), [job.createdAt, job.expiresAt, formatDate])
 
   const jobTypeStyle = useMemo(() => {
@@ -69,9 +69,13 @@ export default function JobDetails({ job }: JobDetailsProps) {
     return CATEGORY_COLORS[job.category] || CATEGORY_COLORS['other']
   }, [job.category])
 
-  const isExpired = useMemo(() => new Date(job.expiresAt) < new Date(), [job.expiresAt])
+  const isExpired = useMemo(() => {
+    if (!job.expiresAt) return false
+    return new Date(job.expiresAt) < new Date()
+  }, [job.expiresAt])
 
   const getUrgencyBadge = () => {
+    if (!job.expiresAt) return null
     const daysLeft = Math.ceil((new Date(job.expiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))
     if (daysLeft <= 3) return { text: 'Urgent', color: 'bg-red-100 text-red-700 border-red-200' }
     if (daysLeft <= 7) return { text: 'Closing Soon', color: 'bg-orange-100 text-orange-700 border-orange-200' }
@@ -150,15 +154,17 @@ export default function JobDetails({ job }: JobDetailsProps) {
                   </div>
                 )}
 
-                <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-                  <div className="flex items-center mb-2">
-                    <div className="p-2 bg-orange-100 rounded-lg mr-3">
-                      <Calendar className="w-4 h-4 text-orange-600" />
+                {job.expiresAt && (
+                  <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="flex items-center mb-2">
+                      <div className="p-2 bg-orange-100 rounded-lg mr-3">
+                        <Calendar className="w-4 h-4 text-orange-600" />
+                      </div>
+                      <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">Expires</span>
                     </div>
-                    <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">Expires</span>
+                    <p className="text-sm font-semibold text-slate-900 ml-11">{formattedDates.expires}</p>
                   </div>
-                  <p className="text-sm font-semibold text-slate-900 ml-11">{formattedDates.expires}</p>
-                </div>
+                )}
 
                 <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
                   <div className="flex items-center mb-2">
@@ -291,9 +297,11 @@ export default function JobDetails({ job }: JobDetailsProps) {
                         <Clock className="w-8 h-8 text-red-600" />
                       </div>
                       <p className="text-red-600 font-semibold text-base mb-2">Application deadline has passed</p>
-                      <p className="text-slate-500 text-sm">
-                        This job posting expired on {formattedDates.expires}
-                      </p>
+                      {formattedDates.expires && (
+                        <p className="text-slate-500 text-sm">
+                          This job posting expired on {formattedDates.expires}
+                        </p>
+                      )}
                     </div>
                   ) : (
                     <div className="space-y-4">

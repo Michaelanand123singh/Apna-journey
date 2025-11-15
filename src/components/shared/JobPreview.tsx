@@ -26,7 +26,7 @@ interface JobPreviewData {
   requirements: string[]
   contactEmail?: string
   contactPhone?: string
-  expiresAt: string
+  expiresAt?: string
   allowApplication: boolean
   allowDirectMail: boolean
 }
@@ -69,10 +69,9 @@ export default function JobPreview({ jobData }: JobPreviewProps) {
 
   const formattedDates = useMemo(() => {
     const postedDate = new Date().toISOString() // Current date for preview
-    const expiresDate = jobData.expiresAt ? new Date(jobData.expiresAt) : new Date()
     return {
       posted: formatDate(postedDate),
-      expires: formatDate(expiresDate)
+      expires: jobData.expiresAt ? formatDate(new Date(jobData.expiresAt)) : null
     }
   }, [jobData.expiresAt, formatDate])
 
@@ -176,17 +175,19 @@ export default function JobPreview({ jobData }: JobPreviewProps) {
                   </div>
                 )}
 
-                <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-                  <div className="flex items-center mb-2">
-                    <div className="p-2 bg-orange-100 rounded-lg mr-3">
-                      <Calendar className="w-4 h-4 text-orange-600" />
+                {jobData.expiresAt && formattedDates.expires && (
+                  <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="flex items-center mb-2">
+                      <div className="p-2 bg-orange-100 rounded-lg mr-3">
+                        <Calendar className="w-4 h-4 text-orange-600" />
+                      </div>
+                      <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">Expires</span>
                     </div>
-                    <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">Expires</span>
+                    <p className="text-sm font-semibold text-slate-900 ml-11">
+                      {formattedDates.expires}
+                    </p>
                   </div>
-                  <p className="text-sm font-semibold text-slate-900 ml-11">
-                    {jobData.expiresAt ? formattedDates.expires : 'Not set'}
-                  </p>
-                </div>
+                )}
 
                 <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
                   <div className="flex items-center mb-2">
@@ -315,9 +316,11 @@ export default function JobPreview({ jobData }: JobPreviewProps) {
                         <Clock className="w-8 h-8 text-red-600" />
                       </div>
                       <p className="text-red-600 font-semibold text-base mb-2">Application deadline has passed</p>
-                      <p className="text-slate-500 text-sm">
-                        This job posting expired on {formattedDates.expires}
-                      </p>
+                      {formattedDates.expires && (
+                        <p className="text-slate-500 text-sm">
+                          This job posting expired on {formattedDates.expires}
+                        </p>
+                      )}
                     </div>
                   ) : (
                     <div className="space-y-4">

@@ -162,10 +162,8 @@ export default function PostJobPage() {
       }
     }
 
-    // Expiry date validation
-    if (!formData.expiresAt) {
-      newErrors.expiresAt = 'Expiry date is required'
-    } else {
+    // Expiry date validation (optional)
+    if (formData.expiresAt) {
       const expiryDate = new Date(formData.expiresAt)
       const today = new Date()
       today.setHours(0, 0, 0, 0)
@@ -200,7 +198,8 @@ export default function PostJobPage() {
           ...formData,
           requirements: formData.requirements.filter(req => req.trim()),
           contactEmail: formData.contactEmail.trim() || undefined,
-          contactPhone: formData.contactPhone.trim() || undefined
+          contactPhone: formData.contactPhone.trim() || undefined,
+          expiresAt: formData.expiresAt.trim() || undefined
         })
       })
 
@@ -608,8 +607,14 @@ export default function PostJobPage() {
                 <h2 className="text-lg font-semibold text-gray-800 mb-4">Job Expiry</h2>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Application Deadline *
+                    Application Deadline
+                    <span className="text-xs text-gray-500 font-normal ml-1">(Optional)</span>
                   </label>
+                  <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg mb-4">
+                    <p className="text-sm text-blue-800">
+                      <strong>Note:</strong> If no deadline is set, the job will remain open indefinitely until manually closed or removed.
+                    </p>
+                  </div>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                       <Calendar className="h-5 w-5 text-gray-400" />

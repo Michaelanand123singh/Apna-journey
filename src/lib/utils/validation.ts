@@ -64,7 +64,9 @@ export const createJobSchema = z.object({
     })
     .transform((val) => val === '' ? undefined : val),
   expiresAt: z.string()
-    .refine((date) => new Date(date) > new Date(), 'Expiry date must be in the future'),
+    .optional()
+    .refine((date) => !date || new Date(date) > new Date(), 'Expiry date must be in the future')
+    .transform((val) => val === '' ? undefined : val),
   allowApplication: z.boolean()
     .optional()
     .default(false),

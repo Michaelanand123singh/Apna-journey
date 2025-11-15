@@ -27,8 +27,8 @@ export async function POST(request: NextRequest) {
       )
     }
     
-    // Check if job has expired
-    if (new Date() > job.expiresAt) {
+    // Check if job has expired (only if expiresAt is set)
+    if (job.expiresAt && new Date() > job.expiresAt) {
       return NextResponse.json(
         { success: false, message: 'Job application deadline has passed' },
         { status: 400 }

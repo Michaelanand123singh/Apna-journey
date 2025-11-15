@@ -15,7 +15,7 @@ export interface Job {
   status: 'pending' | 'approved' | 'rejected'
   views: number
   applicationCount: number
-  expiresAt: Date
+  expiresAt?: Date
   allowApplication: boolean
   allowDirectMail: boolean
   createdAt: Date
@@ -33,7 +33,7 @@ export interface CreateJobData {
   requirements: string[]
   contactEmail?: string
   contactPhone?: string
-  expiresAt: Date
+  expiresAt?: Date | string
   allowApplication?: boolean
   allowDirectMail?: boolean
 }

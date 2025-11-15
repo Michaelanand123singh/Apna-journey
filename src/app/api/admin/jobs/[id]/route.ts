@@ -86,7 +86,7 @@ export async function PUT(
       id,
       {
         ...validatedData,
-        expiresAt: new Date(validatedData.expiresAt)
+        expiresAt: validatedData.expiresAt ? new Date(validatedData.expiresAt) : undefined
         // Note: We don't change status here - admin edits maintain current status
       },
       { new: true, runValidators: true }

@@ -128,7 +128,7 @@ export async function POST(request: NextRequest) {
     const job = await Job.create({
       ...validatedData,
       postedBy: payload.userId,
-      expiresAt: new Date(validatedData.expiresAt)
+      expiresAt: validatedData.expiresAt ? new Date(validatedData.expiresAt) : undefined
     })
     
     // Get user details separately to avoid population issues

@@ -207,10 +207,11 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
       }
     }
 
-    if (!formData.expiresAt) {
-      newErrors.expiresAt = 'Expiry date is required'
-    } else if (new Date(formData.expiresAt) <= new Date()) {
-      newErrors.expiresAt = 'Expiry date must be in the future'
+    // Expiry date validation (optional)
+    if (formData.expiresAt) {
+      if (new Date(formData.expiresAt) <= new Date()) {
+        newErrors.expiresAt = 'Expiry date must be in the future'
+      }
     }
 
     setErrors(newErrors)
@@ -239,7 +240,8 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
           ...formData,
           requirements: formData.requirements.filter(req => req.trim()),
           contactEmail: formData.contactEmail.trim() || undefined,
-          contactPhone: formData.contactPhone.trim() || undefined
+          contactPhone: formData.contactPhone.trim() || undefined,
+          expiresAt: formData.expiresAt.trim() || undefined
         })
       })
 
@@ -659,8 +661,14 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
                 <h2 className="text-lg font-semibold text-gray-800 mb-4">Job Expiry</h2>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Application Deadline *
+                    Application Deadline
+                    <span className="text-xs text-gray-500 font-normal ml-1">(Optional)</span>
                   </label>
+                  <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg mb-4">
+                    <p className="text-sm text-blue-800">
+                      <strong>Note:</strong> If no deadline is set, the job will remain open indefinitely until manually closed or removed.
+                    </p>
+                  </div>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                       <Calendar className="h-5 w-5 text-gray-400" />
