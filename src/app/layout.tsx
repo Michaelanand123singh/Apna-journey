@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter, Noto_Sans_Devanagari } from 'next/font/google'
+import Script from 'next/script'
 import './globals.css'
 import ConditionalLayout from '@/components/shared/ConditionalLayout'
 import { AuthProvider } from '@/contexts/AuthContext'
@@ -78,6 +79,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} ${notoSansDevanagari.variable}`}>
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-JSG5QHPDCF"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-JSG5QHPDCF');
+          `}
+        </Script>
         <LoadingProvider>
           <AuthProvider>
             <ConditionalLayout>
