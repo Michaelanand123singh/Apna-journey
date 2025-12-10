@@ -15,7 +15,8 @@ import {
   Menu,
   X,
   MessageSquare,
-  CheckCircle
+  CheckCircle,
+  Rss
 } from 'lucide-react'
 
 export default function AdminSidebar() {
@@ -37,6 +38,7 @@ export default function AdminSidebar() {
     { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
     { name: 'Content Approval', href: '/admin/content-approval', icon: CheckCircle },
     { name: 'News', href: '/admin/news', icon: Newspaper },
+    { name: 'RSS Feeds', href: '/admin/rss-feeds', icon: Rss },
     { name: 'Jobs', href: '/admin/jobs', icon: Briefcase },
     { name: 'Users', href: '/admin/users', icon: Users },
     { name: 'Inquiries', href: '/admin/inquiries', icon: MessageSquare },

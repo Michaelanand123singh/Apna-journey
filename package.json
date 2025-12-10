@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "seed": "tsx scripts/seed.ts",
-    "create-users": "tsx scripts/create-users.ts"
+    "create-users": "tsx scripts/create-users.ts",
+    "worker:rss": "tsx scripts/rss-worker.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -50,11 +51,13 @@
     "mongoose": "8.19.1",
     "multer": "^2.0.2",
     "next": "15.5.5",
+    "node-cron": "^4.2.1",
     "nodemailer": "^7.0.9",
     "postcss": "^8.4.49",
     "react": "^19.1.0",
     "react-dom": "19.1.0",
     "react-hook-form": "^7.65.0",
+    "rss-parser": "^3.13.0",
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^3.4.17",
     "three": "^0.180.0",
@@ -64,6 +67,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@types/node-cron": "^3.0.11",
     "eslint": "^9",
     "eslint-config-next": "15.5.5",
     "tsx": "^4.19.2"

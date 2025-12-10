@@ -129,6 +129,23 @@ export async function GET(request: NextRequest) {
       total = results[1]
       
       console.log('Query results:', { newsCount: news.length, total })
+      
+      // Populate author information for each news article
+      for (let i = 0; i < news.length; i++) {
+        const article = news[i]
+        if (article.authorModel === 'User') {
+          const User = await import('@/lib/models/User.model')
+          const user = await User.default.findById(article.author).select('name email').lean()
+          if (user) {
+            article.author = user
+          }
+        } else if (article.authorModel === 'Admin') {
+          const admin = await Admin.findById(article.author).select('name email').lean()
+          if (admin) {
+            article.author = admin
+          }
+        }
+      }
     } catch (dbError) {
       console.error('Database query error:', dbError)
       return NextResponse.json({

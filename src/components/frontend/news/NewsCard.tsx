@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { News } from '@/types'
 import { Calendar, Eye, User } from 'lucide-react'
 import ShareButton from '@/components/shared/ShareButton'
+import { sanitizeImageUrl, getDefaultNewsImageUrl } from '@/lib/utils/imageUtils'
 
 interface NewsCardProps {
   article: News
@@ -42,19 +43,30 @@ export default function NewsCard({ article }: NewsCardProps) {
       : 'bg-emerald-50 text-emerald-700 border-emerald-200'
   }
 
+  // Sanitize image URL - replace placeholder URLs with Cloudinary default
+  // Always ensure we have an image URL (use default if missing)
+  const safeImageUrl = article.featuredImage 
+    ? sanitizeImageUrl(article.featuredImage)
+    : getDefaultNewsImageUrl()
+
   return (
     <article className="group bg-white rounded-xl sm:rounded-2xl border border-slate-200 hover:border-green-300 hover:shadow-xl transition-all duration-300 overflow-hidden">
       <div className="p-4 sm:p-6">
         <div className="flex flex-col sm:flex-row gap-4">
           {/* Featured Image */}
-          <div className="w-full sm:w-48 h-48 sm:h-40 flex-shrink-0">
+          <div className="w-full sm:w-48 h-48 sm:h-40 flex-shrink-0 bg-gray-100 rounded-lg overflow-hidden">
             <Link href={`/news/${article.slug}`}>
               <Image
-                src={article.featuredImage}
+                src={safeImageUrl}
                 alt={article.title}
                 width={192}
                 height={160}
                 className="w-full h-full object-cover rounded-lg group-hover:scale-105 transition-transform duration-300"
+                onError={(e) => {
+                  // Fallback to default image on error
+                  const target = e.target as HTMLImageElement
+                  target.src = getDefaultNewsImageUrl()
+                }}
               />
             </Link>
           </div>

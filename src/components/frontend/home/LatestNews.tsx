@@ -106,18 +106,25 @@ export default function LatestNews() {
           </div>
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {news.map((article) => (
+            {news.map((article) => {
+              // Always show image - use default if missing
+              const imageUrl = article.featuredImage || 'https://res.cloudinary.com/demo/image/upload/w_800,h_400,c_fill,q_auto,f_auto/sample.jpg'
+              
+              return (
               <div key={article._id} className="group bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-gray-200 overflow-hidden">
-                {article.featuredImage && (
-                  <div className="h-32 overflow-hidden">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={article.featuredImage}
-                      alt={article.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                )}
+                <div className="h-32 overflow-hidden bg-gray-100">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={imageUrl}
+                    alt={article.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      // Fallback to default image on error
+                      const target = e.target as HTMLImageElement
+                      target.src = 'https://res.cloudinary.com/demo/image/upload/w_800,h_400,c_fill,q_auto,f_auto/sample.jpg'
+                    }}
+                  />
+                </div>
                 <div className="p-3">
                   {/* Article Meta */}
                   <div className="flex items-center flex-wrap gap-1.5 mb-2">
@@ -163,7 +170,8 @@ export default function LatestNews() {
                   </div>
                 </div>
               </div>
-            ))}
+              )
+            })}
           </div>
         )}
       </div>

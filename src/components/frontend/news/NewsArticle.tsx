@@ -11,6 +11,7 @@ import {
   Star
 } from 'lucide-react'
 import ShareButton from '@/components/shared/ShareButton'
+import { sanitizeImageUrl, getDefaultNewsImageUrl } from '@/lib/utils/imageUtils'
 
 interface NewsArticleProps {
   article: News
@@ -54,17 +55,25 @@ export default function NewsArticle({ article }: NewsArticleProps) {
   const shareUrl = typeof window !== 'undefined' ? window.location.href : ''
   const shareText = `${article.title} - Apna Journey`
 
+  // Sanitize image URL - replace placeholder URLs with Cloudinary default
+  const safeImageUrl = sanitizeImageUrl(article.featuredImage)
+
   return (
     <div className="max-w-4xl mx-auto">
       <article className="bg-white rounded-lg shadow-sm overflow-hidden">
         {/* Featured Image */}
         <div className="relative">
           <Image
-            src={article.featuredImage}
+            src={safeImageUrl}
             alt={article.title}
             width={800}
             height={400}
             className="w-full h-48 sm:h-64 md:h-96 object-cover"
+            onError={(e) => {
+              // Fallback to default image on error
+              const target = e.target as HTMLImageElement
+              target.src = getDefaultNewsImageUrl()
+            }}
           />
           {article.isFeatured && (
             <div className="absolute top-2 left-2 sm:top-4 sm:left-4">
