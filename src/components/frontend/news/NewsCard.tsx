@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { News } from '@/types'
-import { Calendar, Eye, User } from 'lucide-react'
+import { Calendar, User } from 'lucide-react'
 import ShareButton from '@/components/shared/ShareButton'
 import { sanitizeImageUrl, getDefaultNewsImageUrl } from '@/lib/utils/imageUtils'
 
@@ -38,14 +38,14 @@ export default function NewsCard({ article }: NewsCardProps) {
   }
 
   const getLanguageColor = (language: string) => {
-    return language === 'hi' 
-      ? 'bg-orange-50 text-orange-700 border-orange-200' 
+    return language === 'hi'
+      ? 'bg-orange-50 text-orange-700 border-orange-200'
       : 'bg-emerald-50 text-emerald-700 border-emerald-200'
   }
 
   // Sanitize image URL - replace placeholder URLs with Cloudinary default
   // Always ensure we have an image URL (use default if missing)
-  const safeImageUrl = article.featuredImage 
+  const safeImageUrl = article.featuredImage
     ? sanitizeImageUrl(article.featuredImage)
     : getDefaultNewsImageUrl()
 
@@ -90,8 +90,8 @@ export default function NewsCard({ article }: NewsCardProps) {
                   )}
                 </div>
               </div>
-              
-              <Link 
+
+              <Link
                 href={`/news/${article.slug}`}
                 className="block mb-2"
               >
@@ -110,10 +110,7 @@ export default function NewsCard({ article }: NewsCardProps) {
                 <Calendar className="w-4 h-4 text-slate-500 mr-2" />
                 <span>{formatDate(article.publishedAt || article.createdAt)}</span>
               </div>
-              <div className="flex items-center">
-                <Eye className="w-4 h-4 text-slate-500 mr-2" />
-                <span>{article.views} views</span>
-              </div>
+
               {article.author && (
                 <div className="flex items-center">
                   <User className="w-4 h-4 text-slate-500 mr-2" />

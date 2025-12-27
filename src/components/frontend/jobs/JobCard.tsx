@@ -2,16 +2,15 @@
 
 import Link from 'next/link'
 import { Job } from '@/types'
-import { 
-  MapPin, 
-  Building, 
-  Calendar, 
-  Eye, 
-  Bookmark, 
-  BookmarkCheck, 
-  ArrowRight, 
-  Users, 
-  CheckCircle 
+import {
+  MapPin,
+  Building,
+  Calendar,
+  Bookmark,
+  BookmarkCheck,
+  ArrowRight,
+  Users,
+  CheckCircle
 } from 'lucide-react'
 import ShareButton from '@/components/shared/ShareButton'
 import { useState, useMemo, memo } from 'react'
@@ -73,7 +72,7 @@ function JobCard({ job }: JobCardProps) {
     let urgencyColor = 'text-slate-600 bg-slate-50'
     if (daysLeft <= 3) urgencyColor = 'text-red-600 bg-red-50'
     else if (daysLeft <= 7) urgencyColor = 'text-orange-600 bg-orange-50'
-    
+
     return { daysLeft, formattedExpiry, urgencyColor }
   }, [job.expiresAt])
 
@@ -109,13 +108,13 @@ function JobCard({ job }: JobCardProps) {
                 <Building className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
               </div>
               <div className="flex-1 min-w-0">
-                <Link 
+                <Link
                   href={`/jobs/${job.slug}`}
                   className="text-sm sm:text-lg font-semibold text-slate-900 hover:text-green-600 transition-colors line-clamp-1 sm:line-clamp-2"
                 >
                   {job.title}
                 </Link>
-                
+
                 <div className="hidden sm:flex items-center mt-1 sm:mt-2 text-xs sm:text-sm text-slate-600">
                   <Building className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 flex-shrink-0" />
                   <span className="font-medium truncate">{job.company}</span>
@@ -149,7 +148,7 @@ function JobCard({ job }: JobCardProps) {
             </div>
             <span className="truncate text-[11px] sm:text-sm">{job.location}</span>
           </div>
-          
+
           {job.salary && (
             <div className="flex items-center text-[11px] sm:text-sm text-slate-600">
               <div className="p-1 sm:p-1.5 bg-green-100 rounded-md sm:rounded-lg mr-2 sm:mr-3 flex-shrink-0">
@@ -158,7 +157,7 @@ function JobCard({ job }: JobCardProps) {
               <span className="truncate text-[11px] sm:text-sm">{job.salary}</span>
             </div>
           )}
-          
+
           {expiryInfo.formattedExpiry && (
             <div className="hidden sm:flex items-center text-sm">
               <div className="p-1.5 bg-orange-100 rounded-lg mr-3 flex-shrink-0">
@@ -169,13 +168,8 @@ function JobCard({ job }: JobCardProps) {
               </span>
             </div>
           )}
-          
-          <div className="hidden sm:flex items-center text-sm text-slate-600">
-            <div className="p-1.5 bg-green-100 rounded-lg mr-3 flex-shrink-0">
-              <Eye className="w-3.5 h-3.5 text-green-600" />
-            </div>
-            <span className="text-sm">{job.views} views</span>
-          </div>
+
+
         </div>
 
         {/* Requirements */}
@@ -209,7 +203,7 @@ function JobCard({ job }: JobCardProps) {
               <span>{job.applicationCount > 0 ? `${job.applicationCount}+` : '0'} applicants</span>
             </div>
           </div>
-          
+
           <div className="flex items-center space-x-2 w-full sm:w-auto">
             <ShareButton
               url={`https://apnajourney.com/jobs/${job.slug}`}

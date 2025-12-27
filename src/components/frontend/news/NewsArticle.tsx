@@ -2,12 +2,11 @@
 
 import Image from 'next/image'
 import { News } from '@/types'
-import { 
-  Calendar, 
-  Eye, 
-  Tag, 
-  Globe, 
-  User, 
+import {
+  Calendar,
+  Tag,
+  Globe,
+  User,
   Star
 } from 'lucide-react'
 import ShareButton from '@/components/shared/ShareButton'
@@ -47,8 +46,8 @@ export default function NewsArticle({ article }: NewsArticleProps) {
   }
 
   const getLanguageColor = (language: string) => {
-    return language === 'hi' 
-      ? 'bg-orange-100 text-orange-800' 
+    return language === 'hi'
+      ? 'bg-orange-100 text-orange-800'
       : 'bg-blue-100 text-blue-800'
   }
 
@@ -112,10 +111,7 @@ export default function NewsArticle({ article }: NewsArticleProps) {
                 <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 flex-shrink-0" />
                 <span className="truncate">{formatDate(article.publishedAt || article.createdAt)}</span>
               </div>
-              <div className="flex items-center">
-                <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 flex-shrink-0" />
-                <span>{article.views} views</span>
-              </div>
+
               {article.author && (
                 <div className="flex items-center">
                   <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 flex-shrink-0" />
@@ -153,7 +149,7 @@ export default function NewsArticle({ article }: NewsArticleProps) {
 
           {/* Article Content */}
           <div className="prose prose-sm sm:prose-base max-w-none text-gray-700 leading-relaxed">
-            <div 
+            <div
               dangerouslySetInnerHTML={{ __html: article.content }}
               className="prose-rich-text text-sm sm:text-base md:text-lg"
             />

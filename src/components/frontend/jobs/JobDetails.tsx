@@ -2,18 +2,17 @@
 
 import { useState, useMemo } from 'react'
 import { Job } from '@/types'
-import { 
-  MapPin, 
-  Clock, 
-  Building, 
-  Calendar, 
-  Mail, 
-  Phone, 
+import {
+  MapPin,
+  Clock,
+  Building,
+  Calendar,
+  Mail,
+  Phone,
   Users,
   CheckCircle,
   ExternalLink,
   DollarSign,
-  Eye,
   Briefcase
 } from 'lucide-react'
 import ApplicationForm from './ApplicationForm'
@@ -189,7 +188,7 @@ export default function JobDetails({ job }: JobDetailsProps) {
               </div>
               <h2 className="text-xl sm:text-2xl font-bold text-slate-900">Job Description</h2>
             </div>
-            <div 
+            <div
               className="prose prose-slate prose-sm sm:prose-base max-w-none text-slate-700 leading-relaxed prose-headings:text-slate-900 prose-headings:font-bold prose-a:text-green-600 prose-a:no-underline hover:prose-a:underline prose-strong:text-slate-900 prose-ul:text-slate-700 prose-ol:text-slate-700"
               dangerouslySetInnerHTML={{ __html: job.description }}
               style={{
@@ -213,8 +212,8 @@ export default function JobDetails({ job }: JobDetailsProps) {
               </div>
               <div className="grid sm:grid-cols-2 gap-4">
                 {job.requirements.map((req, index) => (
-                  <div 
-                    key={index} 
+                  <div
+                    key={index}
                     className="flex items-start p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-green-300 hover:bg-green-50/50 transition-all group"
                   >
                     <CheckCircle className="w-5 h-5 text-green-600 mr-3 mt-0.5 flex-shrink-0 group-hover:scale-110 transition-transform" />
@@ -238,7 +237,7 @@ export default function JobDetails({ job }: JobDetailsProps) {
               </div>
               <div className={`grid gap-4 ${job.contactEmail && job.contactPhone ? 'sm:grid-cols-2' : 'sm:grid-cols-1'}`}>
                 {job.contactEmail && (
-                  <a 
+                  <a
                     href={`mailto:${job.contactEmail}`}
                     className="flex items-center p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-green-300 hover:bg-green-50/50 transition-all group"
                   >
@@ -254,7 +253,7 @@ export default function JobDetails({ job }: JobDetailsProps) {
                   </a>
                 )}
                 {job.contactPhone && (
-                  <a 
+                  <a
                     href={`tel:${job.contactPhone}`}
                     className="flex items-center p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-green-300 hover:bg-green-50/50 transition-all group"
                   >
@@ -290,7 +289,7 @@ export default function JobDetails({ job }: JobDetailsProps) {
                     </div>
                     <h3 className="text-lg font-bold text-slate-900">Apply for this job</h3>
                   </div>
-                  
+
                   {isExpired ? (
                     <div className="text-center py-6">
                       <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -322,7 +321,7 @@ export default function JobDetails({ job }: JobDetailsProps) {
                           </button>
                         </div>
                       )}
-                      
+
                       {/* Show "Send Email" option only if allowDirectMail is enabled and contactEmail exists */}
                       {job.allowDirectMail && job.contactEmail && (
                         <div className="text-center">
@@ -360,40 +359,7 @@ export default function JobDetails({ job }: JobDetailsProps) {
             </div>
           </div>
 
-          {/* Job Statistics Card */}
-          <div className="bg-gradient-to-br from-slate-50 to-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
-            <div className="p-6">
-              <div className="flex items-center mb-6 pb-4 border-b border-slate-200">
-                <div className="p-2 bg-gradient-to-br from-slate-600 to-slate-700 rounded-lg mr-3">
-                  <Eye className="w-5 h-5 text-white" />
-                </div>
-                <h4 className="text-lg font-bold text-slate-900">Job Statistics</h4>
-              </div>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between p-3 bg-white rounded-xl border border-slate-200">
-                  <div className="flex items-center">
-                    <Eye className="w-4 h-4 text-slate-500 mr-3" />
-                    <span className="text-sm font-medium text-slate-600">Views</span>
-                  </div>
-                  <span className="text-sm font-bold text-slate-900">{job.views.toLocaleString()}</span>
-                </div>
-                <div className="flex items-center justify-between p-3 bg-white rounded-xl border border-slate-200">
-                  <div className="flex items-center">
-                    <Users className="w-4 h-4 text-slate-500 mr-3" />
-                    <span className="text-sm font-medium text-slate-600">Applications</span>
-                  </div>
-                  <span className="text-sm font-bold text-slate-900">{job.applicationCount}</span>
-                </div>
-                <div className="flex items-center justify-between p-3 bg-white rounded-xl border border-slate-200">
-                  <div className="flex items-center">
-                    <Clock className="w-4 h-4 text-slate-500 mr-3" />
-                    <span className="text-sm font-medium text-slate-600">Posted</span>
-                  </div>
-                  <span className="text-sm font-bold text-slate-900">{formattedDates.posted.split(',')[0]}</span>
-                </div>
-              </div>
-            </div>
-          </div>
+
         </div>
       </div>
 

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Newspaper, Calendar, Eye, ArrowRight } from 'lucide-react'
+import { Newspaper, Calendar, ArrowRight } from 'lucide-react'
 import { News } from '@/types'
 
 export default function LatestNews() {
@@ -17,7 +17,7 @@ export default function LatestNews() {
     try {
       setLoading(true)
       console.log('Fetching latest news...')
-      
+
       const response = await fetch('/api/news?limit=9&status=published', {
         headers: {
           'Content-Type': 'application/json',
@@ -25,17 +25,17 @@ export default function LatestNews() {
         },
         cache: 'no-store'
       })
-      
+
       console.log('Response status:', response.status)
-      
+
       if (!response.ok) {
         console.error(`Failed to fetch news: ${response.status} ${response.statusText}`)
         return
       }
-      
+
       const data = await response.json()
       console.log('News data received:', data)
-      
+
       if (data.success) {
         console.log('Setting news data:', data.data)
         setNews(data.data)
@@ -97,7 +97,7 @@ export default function LatestNews() {
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </div>
-        
+
         {news.length === 0 ? (
           <div className="text-center py-12 bg-white rounded-xl shadow-lg">
             <Newspaper className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-4" />
@@ -109,67 +109,64 @@ export default function LatestNews() {
             {news.map((article) => {
               // Always show image - use default if missing
               const imageUrl = article.featuredImage || 'https://res.cloudinary.com/demo/image/upload/w_800,h_400,c_fill,q_auto,f_auto/sample.jpg'
-              
+
               return (
-              <div key={article._id} className="group bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-gray-200 overflow-hidden">
-                <div className="h-32 overflow-hidden bg-gray-100">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={imageUrl}
-                    alt={article.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    onError={(e) => {
-                      // Fallback to default image on error
-                      const target = e.target as HTMLImageElement
-                      target.src = 'https://res.cloudinary.com/demo/image/upload/w_800,h_400,c_fill,q_auto,f_auto/sample.jpg'
-                    }}
-                  />
-                </div>
-                <div className="p-3">
-                  {/* Article Meta */}
-                  <div className="flex items-center flex-wrap gap-1.5 mb-2">
-                    <span className="bg-green-100 text-green-800 text-[9px] font-medium px-2 py-0.5 rounded-full">
-                      {article.category}
-                    </span>
-                    {article.isFeatured && (
-                      <span className="bg-yellow-100 text-yellow-800 text-[9px] font-medium px-2 py-0.5 rounded-full">
-                        Featured
+                <div key={article._id} className="group bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-gray-200 overflow-hidden">
+                  <div className="h-32 overflow-hidden bg-gray-100">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={imageUrl}
+                      alt={article.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      onError={(e) => {
+                        // Fallback to default image on error
+                        const target = e.target as HTMLImageElement
+                        target.src = 'https://res.cloudinary.com/demo/image/upload/w_800,h_400,c_fill,q_auto,f_auto/sample.jpg'
+                      }}
+                    />
+                  </div>
+                  <div className="p-3">
+                    {/* Article Meta */}
+                    <div className="flex items-center flex-wrap gap-1.5 mb-2">
+                      <span className="bg-green-100 text-green-800 text-[9px] font-medium px-2 py-0.5 rounded-full">
+                        {article.category}
                       </span>
-                    )}
-                  </div>
-                  
-                  {/* Article Title */}
-                  <h3 className="text-sm font-semibold text-gray-900 mb-1.5 line-clamp-2 group-hover:text-green-600 transition-colors">
-                    {article.title}
-                  </h3>
-                  
-                  {/* Article Excerpt */}
-                  <p className="text-gray-600 text-xs mb-2.5 line-clamp-2">
-                    {article.excerpt}
-                  </p>
-                  
-                  {/* Article Stats */}
-                  <div className="flex items-center justify-between text-xs text-gray-500">
-                    <div className="flex items-center gap-2.5">
-                      <div className="flex items-center">
-                        <Calendar className="w-3 h-3 mr-0.5 flex-shrink-0" />
-                        <span className="text-[10px]">{formatDate(article.publishedAt || article.createdAt)}</span>
-                      </div>
-                      <div className="flex items-center">
-                        <Eye className="w-3 h-3 mr-0.5 flex-shrink-0" />
-                        <span className="text-[10px]">{article.views}</span>
-                      </div>
+                      {article.isFeatured && (
+                        <span className="bg-yellow-100 text-yellow-800 text-[9px] font-medium px-2 py-0.5 rounded-full">
+                          Featured
+                        </span>
+                      )}
                     </div>
-                  
-                    <Link
-                      href={`/news/${article.slug}`}
-                      className="text-green-600 hover:text-green-700 text-[10px] font-medium"
-                    >
-                      Read →
-                    </Link>
+
+                    {/* Article Title */}
+                    <h3 className="text-sm font-semibold text-gray-900 mb-1.5 line-clamp-2 group-hover:text-green-600 transition-colors">
+                      {article.title}
+                    </h3>
+
+                    {/* Article Excerpt */}
+                    <p className="text-gray-600 text-xs mb-2.5 line-clamp-2">
+                      {article.excerpt}
+                    </p>
+
+                    {/* Article Stats */}
+                    <div className="flex items-center justify-between text-xs text-gray-500">
+                      <div className="flex items-center gap-2.5">
+                        <div className="flex items-center">
+                          <Calendar className="w-3 h-3 mr-0.5 flex-shrink-0" />
+                          <span className="text-[10px]">{formatDate(article.publishedAt || article.createdAt)}</span>
+                        </div>
+
+                      </div>
+
+                      <Link
+                        href={`/news/${article.slug}`}
+                        className="text-green-600 hover:text-green-700 text-[10px] font-medium"
+                      >
+                        Read →
+                      </Link>
+                    </div>
                   </div>
                 </div>
-              </div>
               )
             })}
           </div>

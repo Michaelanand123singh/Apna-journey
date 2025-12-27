@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { News } from '@/types'
-import { Calendar, Eye, Star } from 'lucide-react'
+import { Calendar, Star } from 'lucide-react'
 
 export default function FeaturedNews() {
   const [featuredNews, setFeaturedNews] = useState<News[]>([])
@@ -18,7 +18,7 @@ export default function FeaturedNews() {
     try {
       setLoading(true)
       console.log('FeaturedNews: Fetching featured news...')
-      
+
       const response = await fetch('/api/news?featured=true&limit=2', {
         headers: {
           'Content-Type': 'application/json',
@@ -26,9 +26,9 @@ export default function FeaturedNews() {
         },
         cache: 'no-store'
       })
-      
+
       console.log('FeaturedNews: Response status:', response.status)
-      
+
       if (!response.ok) {
         console.error(`Failed to fetch featured news: ${response.status} ${response.statusText}`)
         return
@@ -130,28 +130,25 @@ export default function FeaturedNews() {
               </div>
             </div>
           </Link>
-          
+
           <div className="p-6">
             <Link href={`/news/${article.slug}`}>
               <h3 className="text-xl font-semibold text-gray-800 hover:text-green-600 transition-colors mb-2 line-clamp-2">
                 {article.title}
               </h3>
             </Link>
-            
+
             <p className="text-gray-600 text-sm mb-4 line-clamp-3">
               {article.excerpt}
             </p>
-            
+
             <div className="flex items-center justify-between text-sm text-gray-500">
               <div className="flex items-center space-x-4">
                 <div className="flex items-center">
                   <Calendar className="w-4 h-4 mr-1" />
                   <span>{formatDate(article.publishedAt || article.createdAt)}</span>
                 </div>
-                <div className="flex items-center">
-                  <Eye className="w-4 h-4 mr-1" />
-                  <span>{article.views}</span>
-                </div>
+
               </div>
               <Link
                 href={`/news/${article.slug}`}
