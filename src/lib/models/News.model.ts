@@ -22,34 +22,34 @@ export interface INews extends Document {
 }
 
 const NewsSchema = new Schema<INews>({
-  title: { 
-    type: String, 
-    required: [true, 'News title is required'], 
+  title: {
+    type: String,
+    required: [true, 'News title is required'],
     trim: true,
     minlength: [10, 'Title must be at least 10 characters'],
     maxlength: [200, 'Title cannot exceed 200 characters']
   },
-  slug: { 
-    type: String, 
+  slug: {
+    type: String,
     required: false, // Will be auto-generated
     lowercase: true
   },
-  excerpt: { 
-    type: String, 
+  excerpt: {
+    type: String,
     required: [true, 'Excerpt is required'],
     minlength: [20, 'Excerpt must be at least 20 characters'],
     maxlength: [500, 'Excerpt cannot exceed 500 characters']
   },
-  content: { 
-    type: String, 
+  content: {
+    type: String,
     required: [true, 'Content is required'],
     minlength: [50, 'Content must be at least 50 characters']
   },
-  featuredImage: { 
-    type: String, 
+  featuredImage: {
+    type: String,
     required: [true, 'Featured image is required'],
     validate: {
-      validator: function(v: string) {
+      validator: function (v: string) {
         // Allow any valid URL format (HTTP, HTTPS, Cloudinary, etc.)
         try {
           new URL(v)
@@ -61,55 +61,55 @@ const NewsSchema = new Schema<INews>({
       message: 'Please enter a valid image URL or upload an image'
     }
   },
-  category: { 
-    type: String, 
+  category: {
+    type: String,
     required: [true, 'Category is required'],
     enum: ['politics', 'education', 'crime', 'sports', 'business', 'local-events', 'development', 'health', 'entertainment', 'technology', 'environment', 'other']
   },
-  tags: [{ 
+  tags: [{
     type: String,
     trim: true,
     maxlength: [30, 'Each tag cannot exceed 30 characters']
   }],
-  language: { 
-    type: String, 
-    enum: ['en', 'hi'], 
+  language: {
+    type: String,
+    enum: ['en', 'hi'],
     required: [true, 'Language is required'],
     default: 'en'
   },
-  author: { 
-    type: Schema.Types.ObjectId, 
-    refPath: 'authorModel', 
-    required: true 
+  author: {
+    type: Schema.Types.ObjectId,
+    refPath: 'authorModel',
+    required: true
   },
   authorModel: {
     type: String,
     enum: ['User', 'Admin'],
     required: true
   },
-  status: { 
-    type: String, 
-    enum: ['draft', 'pending', 'published', 'rejected'], 
-    default: 'pending' 
+  status: {
+    type: String,
+    enum: ['draft', 'pending', 'published', 'rejected'],
+    default: 'pending'
   },
-  isFeatured: { 
-    type: Boolean, 
-    default: false 
+  isFeatured: {
+    type: Boolean,
+    default: false
   },
-  views: { 
-    type: Number, 
+  views: {
+    type: Number,
     default: 0,
     min: [0, 'Views cannot be negative']
   },
-  publishedAt: { 
+  publishedAt: {
     type: Date,
     default: null
   },
-  seoTitle: { 
+  seoTitle: {
     type: String,
     maxlength: [60, 'SEO title should not exceed 60 characters']
   },
-  seoDescription: { 
+  seoDescription: {
     type: String,
     maxlength: [160, 'SEO description should not exceed 160 characters']
   },
@@ -118,7 +118,7 @@ const NewsSchema = new Schema<INews>({
 })
 
 // Create slug from title before saving
-NewsSchema.pre('save', async function(next) {
+NewsSchema.pre('save', async function (next) {
   if (this.isModified('title') || !this.slug) {
     let baseSlug = this.title
       .toLowerCase()
@@ -130,24 +130,16 @@ NewsSchema.pre('save', async function(next) {
       baseSlug = 'news-' + Date.now()
     }
 
-    // Check for duplicates and add counter if needed
-    let finalSlug = baseSlug
-    let counter = 1
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const NewsModel = this.constructor as any
-    while (await NewsModel.findOne({ slug: finalSlug, _id: { $ne: this._id } })) {
-      finalSlug = `${baseSlug}-${counter}`
-      counter++
-    }
-
-    this.slug = finalSlug
+    // Use timestamp + random suffix to ensure uniqueness without database queries
+    const uniqueSuffix = Date.now().toString(36) + Math.random().toString(36).substr(2, 5)
+    this.slug = `${baseSlug}-${uniqueSuffix}`
   }
-  
+
   // Set publishedAt when status changes to published
   if (this.isModified('status') && this.status === 'published' && !this.publishedAt) {
     this.publishedAt = new Date()
   }
-  
+
   next()
 })
 
@@ -162,9 +154,9 @@ NewsSchema.index({ publishedAt: -1 })
 NewsSchema.index({ createdAt: -1 })
 
 // Text search index
-NewsSchema.index({ 
-  title: 'text', 
-  excerpt: 'text', 
+NewsSchema.index({
+  title: 'text',
+  excerpt: 'text',
   content: 'text',
   tags: 'text'
 })

@@ -16,9 +16,9 @@ export default function GovernmentJobs() {
   const fetchGovernmentJobs = async () => {
     try {
       setLoading(true)
-      const response = await fetch('/api/jobs?category=government&limit=100&status=approved')
+      const response = await fetch('/api/jobs?category=government&limit=10&status=approved')
       const data = await response.json()
-      
+
       if (data.success) {
         setJobs(data.data)
       }
@@ -71,7 +71,7 @@ export default function GovernmentJobs() {
           <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
         </Link>
       </div>
-      
+
       {jobs.length === 0 ? (
         <div className="text-center py-12 bg-gray-50 rounded-xl">
           <Award className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-4" />
@@ -80,48 +80,48 @@ export default function GovernmentJobs() {
         </div>
       ) : (
         <div className="space-y-2">
-            {jobs.map((job) => (
-              <Link 
-                key={job._id} 
-                href={`/jobs/${job.slug}`}
-                className="group block bg-gray-50 rounded-lg border border-gray-200 hover:border-green-300 hover:shadow-md transition-all duration-200"
-              >
-                <div className="p-3">
-                  <div className="flex items-start justify-between gap-3">
-                    {/* Left Content */}
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-sm font-semibold text-gray-900 line-clamp-1 group-hover:text-green-600 transition-colors mb-1">
-                        {job.title}
-                      </h3>
-                      <div className="flex items-center text-xs text-gray-600 mb-1.5">
-                        <Building className="w-3 h-3 mr-1 flex-shrink-0" />
-                        <span className="truncate">{job.company}</span>
-                      </div>
-                      <div className="flex items-center gap-3 text-xs text-gray-500">
-                        <div className="flex items-center">
-                          <MapPin className="w-3 h-3 mr-0.5" />
-                          <span className="truncate">{job.location}</span>
-                        </div>
-                        <div className="flex items-center">
-                          <Clock className="w-3 h-3 mr-0.5" />
-                          <span>{formatDate(job.createdAt)}</span>
-                        </div>
-                      </div>
+          {jobs.map((job) => (
+            <Link
+              key={job._id}
+              href={`/jobs/${job.slug}`}
+              className="group block bg-gray-50 rounded-lg border border-gray-200 hover:border-green-300 hover:shadow-md transition-all duration-200"
+            >
+              <div className="p-3">
+                <div className="flex items-start justify-between gap-3">
+                  {/* Left Content */}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-sm font-semibold text-gray-900 line-clamp-1 group-hover:text-green-600 transition-colors mb-1">
+                      {job.title}
+                    </h3>
+                    <div className="flex items-center text-xs text-gray-600 mb-1.5">
+                      <Building className="w-3 h-3 mr-1 flex-shrink-0" />
+                      <span className="truncate">{job.company}</span>
                     </div>
-                    
-                    {/* Right Badges */}
-                    <div className="flex flex-col items-end gap-1.5 flex-shrink-0">
-                      <span className="bg-gradient-to-r from-green-600 to-emerald-600 text-white text-[9px] font-medium px-2 py-0.5 rounded whitespace-nowrap">
-                        Govt.
-                      </span>
-                      {job.salary && (
-                        <span className="text-[9px] font-medium text-green-600">{job.salary}</span>
-                      )}
+                    <div className="flex items-center gap-3 text-xs text-gray-500">
+                      <div className="flex items-center">
+                        <MapPin className="w-3 h-3 mr-0.5" />
+                        <span className="truncate">{job.location}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Clock className="w-3 h-3 mr-0.5" />
+                        <span>{formatDate(job.createdAt)}</span>
+                      </div>
                     </div>
                   </div>
+
+                  {/* Right Badges */}
+                  <div className="flex flex-col items-end gap-1.5 flex-shrink-0">
+                    <span className="bg-gradient-to-r from-green-600 to-emerald-600 text-white text-[9px] font-medium px-2 py-0.5 rounded whitespace-nowrap">
+                      Govt.
+                    </span>
+                    {job.salary && (
+                      <span className="text-[9px] font-medium text-green-600">{job.salary}</span>
+                    )}
+                  </div>
                 </div>
-              </Link>
-            ))}
+              </div>
+            </Link>
+          ))}
         </div>
       )}
     </div>

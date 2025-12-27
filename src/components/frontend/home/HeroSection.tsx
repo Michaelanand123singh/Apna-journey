@@ -23,7 +23,6 @@ interface News {
 interface Stats {
   activeJobs: number
   publishedNews: number
-  totalUsers: number
   recentJobs: Job[]
   latestNews: News | null
 }
@@ -83,11 +82,11 @@ export default function HeroSection() {
           }}></div>
         </div>
       </div>
-      
+
       {/* Floating Elements */}
       <div className="absolute top-32 left-10 w-20 h-20 bg-white/10 rounded-full animate-float"></div>
-      <div className="absolute top-48 right-20 w-16 h-16 bg-secondary-500/20 rounded-full animate-float" style={{animationDelay: '1s'}}></div>
-      <div className="absolute bottom-20 left-1/4 w-12 h-12 bg-white/10 rounded-full animate-float" style={{animationDelay: '2s'}}></div>
+      <div className="absolute top-48 right-20 w-16 h-16 bg-secondary-500/20 rounded-full animate-float" style={{ animationDelay: '1s' }}></div>
+      <div className="absolute bottom-20 left-1/4 w-12 h-12 bg-white/10 rounded-full animate-float" style={{ animationDelay: '2s' }}></div>
 
       <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
         <div className="text-center">
@@ -104,34 +103,28 @@ export default function HeroSection() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
-            <Link 
-              href="/jobs" 
+              <Link
+                href="/jobs"
                 className="bg-green-600 hover:bg-green-700 text-white px-12 py-4 rounded-lg font-medium text-lg transition-colors"
-            >
+              >
                 Explore Jobs
-            </Link>
-              
-            <Link 
-              href="/news" 
+              </Link>
+
+              <Link
+                href="/news"
                 className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/30 text-white px-12 py-4 rounded-lg font-medium text-lg transition-colors"
-            >
+              >
                 Latest News
-            </Link>
+              </Link>
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-8 md:gap-12 pt-16 md:pt-20 max-w-2xl mx-auto">
+            <div className="grid grid-cols-2 gap-12 md:gap-16 pt-16 md:pt-20 max-w-xl mx-auto">
               <div>
                 <div className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2">
                   {loading ? '...' : `${stats?.activeJobs || 0}+`}
                 </div>
                 <div className="text-lg md:text-xl text-white/70">Jobs</div>
-              </div>
-              <div>
-                <div className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2">
-                  {loading ? '...' : `${Math.floor((stats?.totalUsers || 0) / 1000)}K+`}
-                </div>
-                <div className="text-lg md:text-xl text-white/70">Users</div>
               </div>
               <div>
                 <div className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2">
@@ -144,7 +137,7 @@ export default function HeroSection() {
         </div>
       </div>
 
-      
+
     </section>
   )
 }

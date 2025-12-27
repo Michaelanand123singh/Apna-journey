@@ -21,7 +21,7 @@ async function dbConnect() {
 
   if (!cached) {
     cached = { conn: null, promise: null }
-    ;(global as any).mongoose = cached as any
+      ; (global as any).mongoose = cached as any
   }
   if (cached.conn) {
     return cached.conn
@@ -30,22 +30,27 @@ async function dbConnect() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
+      maxPoolSize: 10,
+      minPoolSize: 2,
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+      family: 4
     }
 
     cached.promise = (async () => {
       const mongoose = (await import('mongoose')).default
       return mongoose.connect(MONGODB_URI, opts)
     })()
-    .then((mongoose) => {
-      console.log('✅ Connected to MongoDB')
-      return mongoose
-    })
-    .catch((error) => {
-      console.error('❌ MongoDB connection error:', error)
-      throw error
-    })
+      .then((mongoose) => {
+        console.log('✅ Connected to MongoDB')
+        return mongoose
+      })
+      .catch((error) => {
+        console.error('❌ MongoDB connection error:', error)
+        throw error
+      })
   }
-  
+
   try {
     cached.conn = await cached.promise
   } catch (e) {

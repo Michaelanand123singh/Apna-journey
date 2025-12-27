@@ -16,7 +16,7 @@ export default function ITSoftwareJobs() {
   const fetchITJobs = async () => {
     try {
       setLoading(true)
-      const response = await fetch('/api/jobs?category=it&limit=100&status=approved')
+      const response = await fetch('/api/jobs?category=it&limit=10&status=approved')
       const data = await response.json()
       if (data.success) {
         setJobs(data.data)
@@ -80,8 +80,8 @@ export default function ITSoftwareJobs() {
       ) : (
         <div className="space-y-2">
           {jobs.map((job) => (
-            <Link 
-              key={job._id} 
+            <Link
+              key={job._id}
               href={`/jobs/${job.slug}`}
               className="group block bg-gray-50 rounded-lg border border-gray-200 hover:border-green-300 hover:shadow-md transition-all duration-200"
             >
