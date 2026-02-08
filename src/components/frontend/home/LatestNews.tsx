@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Newspaper, Calendar, ArrowRight } from 'lucide-react'
 import { News } from '@/types'
 
@@ -112,12 +113,15 @@ export default function LatestNews() {
 
               return (
                 <div key={article._id} className="group bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-gray-200 overflow-hidden">
-                  <div className="h-32 overflow-hidden bg-gray-100">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
+                  <div className="h-32 overflow-hidden bg-gray-100 relative">
+                    <Image
                       src={imageUrl}
                       alt={article.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                      quality={80}
                       onError={(e) => {
                         // Fallback to default image on error
                         const target = e.target as HTMLImageElement

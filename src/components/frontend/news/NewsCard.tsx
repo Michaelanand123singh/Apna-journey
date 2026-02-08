@@ -54,14 +54,16 @@ export default function NewsCard({ article }: NewsCardProps) {
       <div className="p-4 sm:p-6">
         <div className="flex flex-col sm:flex-row gap-4">
           {/* Featured Image */}
-          <div className="w-full sm:w-48 h-48 sm:h-40 flex-shrink-0 bg-gray-100 rounded-lg overflow-hidden">
+          <div className="w-full sm:w-48 h-48 sm:h-40 flex-shrink-0 bg-gray-100 rounded-lg overflow-hidden relative">
             <Link href={`/news/${article.slug}`}>
               <Image
                 src={safeImageUrl}
                 alt={article.title}
-                width={192}
-                height={160}
-                className="w-full h-full object-cover rounded-lg group-hover:scale-105 transition-transform duration-300"
+                fill
+                sizes="(max-width: 640px) 100vw, 192px"
+                className="object-cover rounded-lg group-hover:scale-105 transition-transform duration-300"
+                loading="lazy"
+                quality={85}
                 onError={(e) => {
                   // Fallback to default image on error
                   const target = e.target as HTMLImageElement

@@ -61,13 +61,15 @@ export default function NewsArticle({ article }: NewsArticleProps) {
     <div className="max-w-4xl mx-auto">
       <article className="bg-white rounded-lg shadow-sm overflow-hidden">
         {/* Featured Image */}
-        <div className="relative">
+        <div className="relative w-full h-48 sm:h-64 md:h-96">
           <Image
             src={safeImageUrl}
             alt={article.title}
-            width={800}
-            height={400}
-            className="w-full h-48 sm:h-64 md:h-96 object-cover"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 800px, 1200px"
+            className="object-cover"
+            priority={true}
+            quality={90}
             onError={(e) => {
               // Fallback to default image on error
               const target = e.target as HTMLImageElement

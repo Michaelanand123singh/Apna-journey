@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 import Script from 'next/script'
+import Breadcrumbs from '@/components/shared/Breadcrumbs'
 import NewsArticle from '@/components/frontend/news/NewsArticle'
 import ShareButton from '@/components/shared/ShareButton'
 import { ArrowLeft } from 'lucide-react'
@@ -12,19 +13,19 @@ type NewsPageParams = { slug: string }
 async function getNewsArticle(slug: string) {
   try {
     const apiUrl = getApiUrl(`/news/${slug}`)
-    
+
     const response = await fetch(apiUrl, {
       cache: 'no-store',
       headers: {
         'Content-Type': 'application/json',
       }
     })
-    
+
     if (!response.ok) {
       console.error(`Failed to fetch news article: ${response.status} ${response.statusText}`)
       return null
     }
-    
+
     const data = await response.json()
     return data.success ? data.data : null
   } catch (error) {
@@ -104,6 +105,15 @@ export default async function NewsPage({ params }: { params: Promise<NewsPagePar
 
         {/* Article */}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+          {/* Breadcrumbs */}
+          <Breadcrumbs
+            items={[
+              { label: 'News', href: '/news' },
+              { label: article.category.replace('-', ' ').toUpperCase(), href: `/news/category/${article.category}` },
+              { label: article.title }
+            ]}
+          />
+
           <Suspense fallback={
             <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 md:p-8 animate-pulse">
               <div className="h-6 sm:h-8 bg-gray-200 rounded w-3/4 mb-3 sm:mb-4"></div>

@@ -59,28 +59,42 @@ class CloudinaryService {
     }
   }
 
-  async uploadFromUrl(url: string, folder: string = 'apna-journey') {
-    try {
-      const result = await cloudinary.uploader.upload(url, {
-        folder,
-        resource_type: 'auto',
-        quality: 'auto',
-        fetch_format: 'auto',
-      })
+  async uploadFromUrl(url: string, folder: string = 'apna-journey', retries: number = 3) {
+    for (let attempt = 1; attempt <= retries; attempt++) {
+      try {
+        const result = await cloudinary.uploader.upload(url, {
+          folder,
+          resource_type: 'auto',
+          quality: 'auto',
+          fetch_format: 'auto',
+          timeout: 60000, // 60 seconds
+        })
 
-      return {
-        success: true,
-        url: result.secure_url,
-        publicId: result.public_id,
-        width: result.width,
-        height: result.height,
+        return {
+          success: true,
+          url: result.secure_url,
+          publicId: result.public_id,
+          width: result.width,
+          height: result.height,
+        }
+      } catch (error) {
+        console.error(`Cloudinary upload attempt ${attempt}/${retries} failed:`, error)
+
+        if (attempt === retries) {
+          return {
+            success: false,
+            error: error instanceof Error ? error.message : 'Upload failed',
+          }
+        }
+
+        // Wait before retry (exponential backoff)
+        await new Promise(resolve => setTimeout(resolve, 1000 * attempt))
       }
-    } catch (error) {
-      console.error('Error uploading from URL to Cloudinary:', error)
-      return {
-        success: false,
-        error: error instanceof Error ? error.message : 'Upload failed',
-      }
+    }
+
+    return {
+      success: false,
+      error: 'Max retries exceeded',
     }
   }
 

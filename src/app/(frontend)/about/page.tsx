@@ -1,7 +1,7 @@
-import { 
-  Target, 
-  Heart, 
-  Shield, 
+import {
+  Target,
+  Heart,
+  Shield,
   Lightbulb,
   CheckCircle,
   ArrowRight,
@@ -12,6 +12,7 @@ import {
   Newspaper
 } from 'lucide-react'
 import Link from 'next/link'
+import FAQSchema from '@/components/shared/FAQSchema'
 import StructuredData from '@/components/shared/StructuredData'
 import dbConnect from '@/lib/db/mongodb'
 import mongoose from 'mongoose'
@@ -38,7 +39,7 @@ async function getStats() {
     if (!mongoose.models.News) {
       mongoose.model('News', News.schema)
     }
-    
+
     const [activeJobs, publishedNews] = await Promise.all([
       Job.countDocuments({ status: 'approved' }),
       News.countDocuments({ status: 'published' })
@@ -68,17 +69,17 @@ function formatStatValue(value: number): string {
 
 export default async function AboutPage() {
   const statsData = await getStats()
-  
+
   const stats = [
-    { 
-      label: 'Active Jobs', 
-      value: formatStatValue(statsData.activeJobs), 
+    {
+      label: 'Active Jobs',
+      value: formatStatValue(statsData.activeJobs),
       icon: Target,
       rawValue: statsData.activeJobs
     },
-    { 
-      label: 'News Articles', 
-      value: formatStatValue(statsData.publishedNews), 
+    {
+      label: 'News Articles',
+      value: formatStatValue(statsData.publishedNews),
       icon: Newspaper,
       rawValue: statsData.publishedNews
     }
@@ -99,6 +100,25 @@ export default async function AboutPage() {
       icon: Lightbulb,
       title: 'Practical Innovation',
       description: 'We evolve the product to improve matches, speed, and reliability.'
+    }
+  ]
+
+  const faqs = [
+    {
+      question: "What is Apna Journey?",
+      answer: "Apna Journey is India's platform connecting people with verified jobs and relevant news across the country. We provide reliable job listings and local updates to help Indians find opportunities and stay informed."
+    },
+    {
+      question: "How do I apply for jobs on Apna Journey?",
+      answer: "Browse our job listings, click on any job that interests you, and use the 'Apply Now' button. You can apply directly through our platform or via email if specified by the employer."
+    },
+    {
+      question: "Are all job listings verified?",
+      answer: "Yes, we review all job listings to ensure they are legitimate. We prioritize verified listings and maintain quality through editorial checks and community feedback."
+    },
+    {
+      question: "How can I contact Apna Journey?",
+      answer: "You can reach us at info@apnajourney.com or visit our Contact page. We typically respond within 24 hours to all inquiries."
     }
   ]
 

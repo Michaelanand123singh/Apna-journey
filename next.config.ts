@@ -3,12 +3,16 @@ import type { NextConfig } from 'next'
 const nextConfig: NextConfig = {
   // Enable standalone output for Docker
   output: 'standalone',
-  
+
   images: {
-    // Allow images from any domain (RSS feeds can come from anywhere)
-    // Use unoptimized mode for external images to avoid domain restrictions
-    unoptimized: true,
-    // Keep remotePatterns for specific known domains (optional optimization)
+    // Enable image optimization for better SEO and performance
+    unoptimized: false,
+    formats: ['image/webp', 'image/avif'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 60,
+    // Allow Cloudinary and external RSS feed image sources
+    // Note: External images should be migrated to Cloudinary via /api/admin/rss-feeds/migrate-images
     remotePatterns: [
       {
         protocol: 'https',
@@ -17,27 +21,37 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'images.unsplash.com',
+        hostname: '**.cloudinary.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'th-i.thgim.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.thgim.com',
         pathname: '/**',
       },
     ],
     // Keep domains for backward compatibility
-    domains: ['res.cloudinary.com', 'images.unsplash.com'],
+    domains: ['res.cloudinary.com'],
   },
-  
+
   env: {
     CUSTOM_KEY: process.env.CUSTOM_KEY,
   },
-  
+
   eslint: {
     // Speed up CI and avoid build failing on lint issues during scaffolding
     ignoreDuringBuilds: true,
   },
-  
+
   // Optimize for production
   compress: true,
   poweredByHeader: false,
-  
+
   // Security headers
   async headers() {
     return [
@@ -64,7 +78,7 @@ const nextConfig: NextConfig = {
       },
     ]
   },
-  
+
   // Redirects for better SEO
   async redirects() {
     return [

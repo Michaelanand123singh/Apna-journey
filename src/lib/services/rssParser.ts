@@ -4,6 +4,7 @@ import RssFeed from '@/lib/models/RssFeed.model'
 import News from '@/lib/models/News.model'
 import Admin from '@/lib/models/Admin.model'
 import { getDefaultNewsImageUrl } from '@/lib/utils/imageUtils'
+import cloudinaryService from '@/lib/services/cloudinary'
 
 const parser = new Parser({
   timeout: 10000, // 10 seconds timeout
@@ -47,7 +48,7 @@ function resolveUrl(url: string, baseUrl: string): string {
     if (url.startsWith('http://') || url.startsWith('https://')) {
       return url
     }
-    
+
     // Resolve relative URL
     const base = new URL(baseUrl)
     return new URL(url, base).href
@@ -162,10 +163,10 @@ function getDefaultImageUrl(): string {
  */
 function cleanHtmlContent(html: string, maxLength: number = 500): string {
   if (!html) return ''
-  
+
   // Remove HTML tags
   let text = html.replace(/<[^>]*>/g, ' ')
-  
+
   // Decode HTML entities
   text = text
     .replace(/&nbsp;/g, ' ')
@@ -174,15 +175,15 @@ function cleanHtmlContent(html: string, maxLength: number = 500): string {
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
-  
+
   // Clean up whitespace
   text = text.replace(/\s+/g, ' ').trim()
-  
+
   // Truncate if needed
   if (text.length > maxLength) {
     text = text.substring(0, maxLength).trim() + '...'
   }
-  
+
   return text
 }
 
@@ -190,16 +191,16 @@ function cleanHtmlContent(html: string, maxLength: number = 500): string {
  * Generate excerpt from content
  */
 function generateExcerpt(item: ParsedFeedItem, maxLength: number = 300): string {
-  const content = item.contentSnippet || 
-                  cleanHtmlContent(item.contentEncoded || '', maxLength) ||
-                  cleanHtmlContent(item.description || '', maxLength) ||
-                  cleanHtmlContent(item.content || '', maxLength) ||
-                  ''
-  
+  const content = item.contentSnippet ||
+    cleanHtmlContent(item.contentEncoded || '', maxLength) ||
+    cleanHtmlContent(item.description || '', maxLength) ||
+    cleanHtmlContent(item.content || '', maxLength) ||
+    ''
+
   if (content.length <= maxLength) {
     return content
   }
-  
+
   // Truncate at word boundary
   const truncated = content.substring(0, maxLength)
   const lastSpace = truncated.lastIndexOf(' ')
@@ -251,7 +252,7 @@ export async function parseRssFeed(feedId: string): Promise<{
       feed.errorCount += 1
       feed.lastFetchedAt = new Date()
       await feed.save()
-      
+
       throw new Error(`Failed to parse RSS feed: ${errorMessage}`)
     }
 
@@ -260,7 +261,7 @@ export async function parseRssFeed(feedId: string): Promise<{
       feed.errorCount += 1
       feed.lastFetchedAt = new Date()
       await feed.save()
-      
+
       return {
         success: true,
         processed: 0,
@@ -290,7 +291,7 @@ export async function parseRssFeed(feedId: string): Promise<{
     // Process each feed item
     for (const item of parsedFeed.items) {
       processed++
-      
+
       try {
         const parsedItem = item as ParsedFeedItem
 
@@ -301,7 +302,7 @@ export async function parseRssFeed(feedId: string): Promise<{
         }
 
         // Check if article already exists (by link)
-        const existingNews = await News.findOne({ 
+        const existingNews = await News.findOne({
           $or: [
             { slug: parsedItem.link.split('/').pop()?.split('?')[0] || '' },
             { content: { $regex: parsedItem.link, $options: 'i' } }
@@ -315,18 +316,44 @@ export async function parseRssFeed(feedId: string): Promise<{
 
         // Extract data
         const title = parsedItem.title.trim()
+
+        // Upload image to Cloudinary instead of using external URL
+        let imageUrl = getDefaultImageUrl()
         const extractedImageUrl = extractImageUrl(parsedItem, feed.url)
-        
-        // Use RSS feed image URL directly - RSS feeds already provide valid image URLs
-        // No need for unnecessary Cloudinary upload - just validate and use the URL
-        const validatedImageUrl = extractedImageUrl ? validateImageUrl(extractedImageUrl) : null
-        const imageUrl = validatedImageUrl || getDefaultImageUrl()
-        
+
+        if (extractedImageUrl) {
+          const validatedImageUrl = validateImageUrl(extractedImageUrl)
+          if (validatedImageUrl) {
+            try {
+              console.log(`Uploading RSS image to Cloudinary: ${validatedImageUrl}`)
+
+              // Upload to Cloudinary with retry logic
+              const uploadResult = await cloudinaryService.uploadFromUrl(
+                validatedImageUrl,
+                'apna-journey/rss-feeds'
+              )
+
+              if (uploadResult.success && uploadResult.url) {
+                imageUrl = uploadResult.url
+                console.log(`Successfully uploaded RSS image to Cloudinary: ${imageUrl}`)
+              } else {
+                console.warn(`Failed to upload RSS image to Cloudinary: ${uploadResult.error}`)
+                // Fallback to default image
+                imageUrl = getDefaultImageUrl()
+              }
+            } catch (error) {
+              console.error('Error uploading RSS image to Cloudinary:', error)
+              // Fallback to default image on error
+              imageUrl = getDefaultImageUrl()
+            }
+          }
+        }
+
         const excerpt = generateExcerpt(parsedItem, 300)
-        const content = parsedItem.contentEncoded || 
-                       parsedItem.content || 
-                       parsedItem.description || 
-                       excerpt
+        const content = parsedItem.contentEncoded ||
+          parsedItem.content ||
+          parsedItem.description ||
+          excerpt
 
         // Generate tags from categories
         const tags: string[] = []
@@ -389,7 +416,7 @@ export async function parseRssFeed(feedId: string): Promise<{
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error'
     console.error(`Error parsing RSS feed ${feedId}:`, error)
-    
+
     // Update feed with error
     try {
       await dbConnect()
@@ -464,4 +491,3 @@ export async function parseAllActiveFeeds(): Promise<{
     }
   }
 }
-
